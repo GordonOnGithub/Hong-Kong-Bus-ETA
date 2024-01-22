@@ -19,6 +19,9 @@ class BusStopDetailViewModel : ObservableObject {
     @Published
     var busETAList : [BusETAModel]? = nil
     
+    @Published
+    var lastUpdatedTimestamp : Date?
+    
     private var cancellable = Set<AnyCancellable>()
 
     init( busStop: any BusStopModel, busStopDetail: any BusStopDetailModel, apiManager: APIManagerType = APIManager.shared) {
@@ -26,7 +29,16 @@ class BusStopDetailViewModel : ObservableObject {
         self.busStopDetail = busStopDetail
         self.apiManager = apiManager
         
+        setupPublisher()
+        
         fetchETA()
+    }
+    
+    private func setupPublisher(){
+        Timer.publish(every: 30, on: .main, in: .default).autoconnect().sink { [weak self] _ in
+            self?.fetchETA()
+        }.store(in: &cancellable)
+
     }
     
     func fetchETA(){
@@ -52,16 +64,18 @@ class BusStopDetailViewModel : ObservableObject {
                 self?.busETAList = []
             default:
                 break
-                
             }
+            self?.lastUpdatedTimestamp = Date()
             
         } receiveValue: { [weak self] data in
             
             if let self, let data,
                let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data){
                     
-                print(response)
-                self.busETAList = response.data
+                self.busETAList = response.data.sorted(by: { a, b in
+                    
+                    (a.etaTimestamp?.timeIntervalSince1970 ?? 0) < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
+                })
             }
             
         }.store(in: &cancellable)
@@ -80,22 +94,31 @@ class BusStopDetailViewModel : ObservableObject {
                 self?.busETAList = []
             default:
                 break
-                
             }
+            self?.lastUpdatedTimestamp = Date()
             
         } receiveValue: { [weak self] data in
             
             if let self, let data,
                let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data){
+                self.busETAList = response.data.sorted(by: { a, b in
                     
-                print(response)
-                self.busETAList = response.data
-
+                    (a.etaTimestamp?.timeIntervalSince1970 ?? 0) < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
+                })
             }
             
-
-
         }.store(in: &cancellable)
 
     }
+
+    func getBusStopName() -> String {
+        
+        return busStopDetail.nameEn ?? ""
+        
+    }
+    
+    func getDestinationName() -> String {
+        return ""
+    }
+    
 }

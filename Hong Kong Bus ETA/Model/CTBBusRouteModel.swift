@@ -24,6 +24,10 @@ struct CTBBusRouteModel : BusRouteModel, Decodable {
 
     var id : String = UUID().uuidString
     
+    func getFullRouteName() -> String {
+        return "CTB \(route ?? "")"
+    }
+    
     func destination() -> String {
         
         if isInbound { // TODO: verify

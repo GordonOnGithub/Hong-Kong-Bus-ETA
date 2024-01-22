@@ -26,6 +26,65 @@ struct BusETAModel : Identifiable, Decodable {
     
     var id : String = UUID().uuidString
 
+    func getReadableHourAndMinute() -> String {
+        
+        guard let etaTimestamp else { return "" }
+        
+        let hour = Calendar.current.component(.hour, from: etaTimestamp)
+        let minute = Calendar.current.component(.minute, from: etaTimestamp)
+        
+        var hourString = hour >= 10 ? "\(hour)" : "0\(hour)"
+        var minuteString = minute >= 10 ? "\(minute)" : "0\(minute)"
+
+        return hourString + ":" + minuteString
+        
+    }
+    
+    enum RemainingTime {
+        case expired
+        case imminent
+        case minutes(minutes: Int)
+        
+        var description : String {
+            
+            switch self {
+            case .expired:
+                return "-"
+            case .imminent:
+                return "Less than a minute"
+            case .minutes(let minutes):
+                return "\(minutes) \( minutes > 1 ? "minutes" : "minute" )"
+            }
+        }
+        
+        
+    }
+    
+    var remainingTime : RemainingTime {
+        
+        guard let etaTimestamp else { return .expired }
+
+        let diffInSecond = etaTimestamp.timeIntervalSince1970 - Date().timeIntervalSince1970
+        
+        if diffInSecond < 1 {
+            
+            return .expired
+        }
+        
+        if diffInSecond < 60 {
+            
+            return .imminent
+            
+        } else {
+            
+            let diffInMinute = diffInSecond / 60
+            
+            return .minutes(minutes: Int(diffInMinute))
+            
+        }
+        
+        
+    }
 
     private enum CodingKeys: String, CodingKey {
         

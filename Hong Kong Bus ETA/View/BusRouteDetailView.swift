@@ -16,8 +16,13 @@ struct BusRouteDetailView : View {
     var body: some View {
         Group {
             
-            if let list = viewModel.stopList {
-                ScrollView {
+            VStack() {
+            
+                Text(viewModel.getDestinationDescription())
+                
+                if let list = viewModel.stopList {
+                    ScrollView {
+                        
                         ForEach(list, id: \.id) { stop in
                             
                             VStack(alignment: .leading, content: {
@@ -26,11 +31,14 @@ struct BusRouteDetailView : View {
                                 
                             }).padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                         }
-                    
+                        
+                    }
+                } else {
+                    ProgressView().frame(height: 80)
                 }
-            } else {
-                ProgressView().frame(height: 80)
+                
+                Spacer()
             }
-        }.navigationTitle("\(viewModel.route.route ?? "")")
+        }.navigationTitle("\(viewModel.route.getFullRouteName())")
     }
 }

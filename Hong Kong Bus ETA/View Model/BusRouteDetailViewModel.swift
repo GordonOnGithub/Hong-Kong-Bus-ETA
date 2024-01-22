@@ -103,6 +103,13 @@ class BusRouteDetailViewModel: ObservableObject {
         return vm
         
     }
+    
+    func getDestinationDescription() -> String {
+                
+        let destination = self.route.destination()
+        
+        return " To: " + destination
+    }
 }
 
 extension BusRouteDetailViewModel : BusStopRowViewModelDelegate {

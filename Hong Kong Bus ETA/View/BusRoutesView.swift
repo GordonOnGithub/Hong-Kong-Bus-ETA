@@ -32,22 +32,18 @@ struct BusRoutesView : View {
                         }, label: {
                             VStack (alignment: .leading){
                                 
-                                Text("\(route.company ?? "") \(route.route ?? "")")
+                                Text("\(route.company ?? "") \(route.route ?? "")").font(.headline)
                                 Text("To: \(route.destination())")
                             }
                         }).buttonStyle(.plain)
                             .frame(height: 80)
-                        
-                   
-                        
-                        
+                                    
                     }
                     
                 }
             }
             
         } else {
-            
             ProgressView()
         }
         

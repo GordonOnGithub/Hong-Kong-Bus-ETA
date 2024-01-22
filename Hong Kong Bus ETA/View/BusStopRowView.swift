@@ -20,9 +20,10 @@ struct BusStopRowView: View {
                 Button(action: {
                     viewModel.onBusStopSelected()
                 }, label: {
-                    VStack(alignment: .leading) {
+                    HStack(alignment: .center) {
                         
                         Text(detail.nameEn ?? "")
+                        Spacer()
                          
                     }.frame(height: 80)
                 }).buttonStyle(.plain)
@@ -36,7 +37,7 @@ struct BusStopRowView: View {
             })
             
         } else {
-            ProgressView()
+            ProgressView().frame(height: 80)
         }
         
     }

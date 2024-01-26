@@ -14,6 +14,7 @@ protocol BusStopModel : Identifiable {
     var route : String? { get }
     var isInbound : Bool { get }
     var id: String { get }
+    var company: BusCompany { get }
     
     func getFullRouteName() -> String
 }
@@ -27,6 +28,8 @@ struct KMBBusStopModel: BusStopModel, Decodable {
     let serviceType: String?
     
     var id: String = UUID().uuidString
+    
+    var company: BusCompany { .KMB }
     
     func getFullRouteName() -> String {
         return "KMB \(route ?? "")"

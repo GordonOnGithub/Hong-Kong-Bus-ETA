@@ -1,5 +1,5 @@
 //
-//  ETAStorage.swift
+//  DataStorage.swift
 //  Hong Kong Bus ETA
 //
 //  Created by Ka Chun Wong on 24/1/2024.
@@ -11,13 +11,14 @@ import Combine
 
 protocol DataStorageType {
     
-    associatedtype T : PersistentModel
+    associatedtype PersistentModelType : PersistentModel
     
-    var cache : [T.ID: T] { get }
+    var cache : CurrentValueSubject<[PersistentModelType.ID: PersistentModelType], Never> { get }
     
-    func fetch() -> AnyPublisher<[T],Error>
-    func insert(data: T) -> AnyPublisher<Bool, Never>
-    func delete(data : T) -> AnyPublisher<Bool, Never>
+    func fetch() -> AnyPublisher<[PersistentModelType],Error>
+    func insert(data: PersistentModelType) -> AnyPublisher<Bool, Never>
+    func delete(data : PersistentModelType) -> AnyPublisher<Bool, Never>
+    
 }
 
 class BusETAStorage {
@@ -32,36 +33,48 @@ class BusETAStorage {
 
 class DataStorage<U: PersistentModel> : DataStorageType {
     
-    typealias T = U
+    typealias PersistentModelType = U
     
     private let container : ModelContainer
 
-    var cache : [T.ID: T] = [:]
+    var cache : CurrentValueSubject<[PersistentModelType.ID: PersistentModelType], Never> = CurrentValueSubject([:])
+
     
+    private var cancellable = Set<AnyCancellable>()
+
     init(){
-        self.container = try! ModelContainer(for: T.self)
+        
+        let schema = Schema([
+            PersistentModelType.self,
+        ])
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        
+        self.container = try! ModelContainer(for: schema, configurations: [modelConfiguration])
         
         Task {
             let container = await container.mainContext
             container.autosaveEnabled = true
         }
     }
-    
-    func fetch() -> AnyPublisher<[T],Error> {
+        
+    func fetch() -> AnyPublisher<[PersistentModelType],Error> {
         
         return Future { block in
-            
             Task {
                 let context = await self.container.mainContext
                 
                 do {
-                    let result = try context.fetch(FetchDescriptor<T>())
+                    let result = try context.fetch(FetchDescriptor<PersistentModelType>())
                     
-                    self.cache.removeAll()
+                    
+                    var updatedCache : [PersistentModelType.ID: PersistentModelType] = [:]
                     
                     for data in result {
-                        self.cache[data.id] = data
+                        updatedCache[data.id] = data
                     }
+                    
+                    self.cache.value = updatedCache
                                             
                     block(.success(result))
                 } catch {
@@ -74,7 +87,7 @@ class DataStorage<U: PersistentModel> : DataStorageType {
         
     }
     
-    func insert(data: T) -> AnyPublisher<Bool, Never> {
+    func insert(data: PersistentModelType) -> AnyPublisher<Bool, Never> {
         
         return Future<Bool, Never> { block in
             
@@ -83,7 +96,11 @@ class DataStorage<U: PersistentModel> : DataStorageType {
                 
                 context.insert(data)
                 
-                self.cache[data.id] = data
+                var updatedCache = self.cache.value
+                
+                updatedCache[data.id] = data
+                
+                self.cache.value = updatedCache
                 
                 block(.success(true))
 
@@ -94,17 +111,21 @@ class DataStorage<U: PersistentModel> : DataStorageType {
         .eraseToAnyPublisher()
     }
     
-    func delete(data : T) -> AnyPublisher<Bool, Never> {
+    func delete(data : PersistentModelType) -> AnyPublisher<Bool, Never> {
         
         return Future<Bool, Never> { block in
             
             Task {
                 
                 let context = await self.container.mainContext
+            
+                var updatedCache = self.cache.value
+                
+                updatedCache.removeValue(forKey: data.id)
+            
+                self.cache.value = updatedCache
                 
                 context.delete(data)
-                
-                self.cache.removeValue(forKey: data.id)
             
                 block(.success(true))
             }

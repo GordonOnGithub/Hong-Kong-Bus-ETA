@@ -13,15 +13,17 @@ struct BusStopDetailView : View {
     @Environment(\.dismiss) var dismiss
     
     @StateObject
-    var viewModel: BusStopDetailViewModel
+    var viewModel: BusStopDetailViewModel<DataStorage<BusStopETA>>
     
     var body: some View {
         NavigationView {
             VStack (spacing: 20){
                 
-                Text(viewModel.getBusStopName()).font(.headline)
+                if viewModel.busStopDetail != nil {
+                    Text(viewModel.getBusStopName()).font(.headline)
+                }
                 
-                Text(viewModel.busStop.getFullRouteName())
+                Text("\(viewModel.busStopETA.company) \(viewModel.busStopETA.route)")
                 // TODO: show destination
 
                 if let busETAList = viewModel.busETAList {
@@ -32,27 +34,7 @@ struct BusStopDetailView : View {
                     
                     List(busETAList) { eta in
                         
-                        HStack {
-                            
-                            switch eta.remainingTime {
-                            case .expired:
-                                Text(eta.getReadableHourAndMinute()).foregroundStyle(.gray)
-                                Spacer()
-                                Text(eta.remainingTime.description).foregroundStyle(.gray)
-                                
-                            case .imminent:
-                                Text(eta.getReadableHourAndMinute()).bold()
-                                Spacer()
-                                
-                                Text(eta.remainingTime.description).bold()
-                                
-                            case .minutes:
-                                Text(eta.getReadableHourAndMinute())
-                                Spacer()
-                                Text(eta.remainingTime.description)
-                            }
-                            
-                        }
+                        ETARowView(eta: eta)
                     }
                 } else {
                     
@@ -78,9 +60,14 @@ struct BusStopDetailView : View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
-                        
+                        viewModel.onSaveButtonClicked()
                     }, label: {
-                        Text("Save")
+                        
+                        if viewModel.isSaved {
+                            Text("Unbookmark")
+                        } else {
+                            Text("Bookmark")
+                        }
                     })
                 }
             }

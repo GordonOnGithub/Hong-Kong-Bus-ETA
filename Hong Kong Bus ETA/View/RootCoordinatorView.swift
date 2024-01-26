@@ -17,16 +17,24 @@ struct RootCoordinatorView: View {
             
         NavigationStack(path: $coordinator.path) {
             
-            TabView {
+            TabView (selection: $coordinator.tab){
                 
-                coordinator.buildETAListView().tabItem {
+                BusStopETAListView(viewModel: coordinator.buildETAListViewModel()).tabItem {
                     Text("ETA")
-                }
+                }.tag(Tab.ETA)
                 
-                coordinator.buildRouteListView().tabItem {
-                    Text("Routes")
-                }
-            }.navigationDestination(for: RootCoordinatorNavigationPath.self) { path in
+                BusRoutesView(viewModel: coordinator.buildCTBRouteListViewModel())
+                    .tabItem {
+                        Text("CTB")
+                    }.tag(Tab.CTB)
+               
+                BusRoutesView(viewModel: coordinator.buildKMBRouteListViewModel())
+                    .tabItem {
+                        Text("KMB")
+                    }.tag(Tab.KMB)
+                
+            }
+            .navigationDestination(for: RootCoordinatorNavigationPath.self) { path in
                 switch path {
                 case .routeDetail(let route):
                     coordinator.buildRouteDetailView(route: route)
@@ -36,8 +44,8 @@ struct RootCoordinatorView: View {
         }.sheet(item: $coordinator.sheetRoute) { sheet in
             
             switch sheet {
-                case .busStopDetail(let busStop, let detail):
-                coordinator.buildBusStopDetailView(busStop: busStop, detail: detail)
+                case .busStopDetail(let route, let company, let stopId, let serviceType, let detail):
+                coordinator.buildBusStopDetailView(route: route, company: company, stopId: stopId, serviceType: serviceType, detail: detail)
             }
             
         }

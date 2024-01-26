@@ -60,9 +60,7 @@ class BusRouteDetailViewModel: ObservableObject {
         } receiveValue: { [weak self] data in
             
             if let self, let data, let response = try? JSONDecoder().decode(APIResponseModel<[KMBBusStopModel]>.self, from: data) {
-                
-                print(response)
-                
+                                
                 self.stopList = response.data
             }
             
@@ -86,7 +84,6 @@ class BusRouteDetailViewModel: ObservableObject {
             
             if let self, let data, let response = try? JSONDecoder().decode(APIResponseModel<[CTBBusStopModel]>.self, from: data) {
                 
-                print(response)
                 self.stopList = response.data
             }
             

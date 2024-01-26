@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum BusCompany : String {
+    case CTB = "CTB"
+    case KMB = "KMB"
+    
+}
+
 protocol BusRouteModel : Identifiable {
     
     var originTC : String? { get }
@@ -18,7 +24,7 @@ protocol BusRouteModel : Identifiable {
     var destinationEn : String? { get }
     
     var route : String? { get }
-    var company: String? { get }
+    var company: BusCompany? { get }
     var isInbound : Bool { get }
     var id : String { get }
     
@@ -37,7 +43,7 @@ struct KMBBusRouteModel : BusRouteModel, Decodable {
     let destinationSC : String?
     let destinationEn : String?
     
-    let company: String?
+    let company: BusCompany?
     let isInbound : Bool
     let route : String?
     let serviceType : String? // TODO: figure out what the heck service type is
@@ -82,7 +88,7 @@ struct KMBBusRouteModel : BusRouteModel, Decodable {
         let inbound = try? container.decode(String.self, forKey: .bound)
         self.serviceType =  try? container.decode(String.self, forKey: .serviceType)
         
-        self.company = "KMB"
+        self.company = .KMB
         
         self.isInbound = inbound == "I"
 

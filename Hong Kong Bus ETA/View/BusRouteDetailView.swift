@@ -21,7 +21,7 @@ struct BusRouteDetailView : View {
                 Text(viewModel.getDestinationDescription())
                 
                 if let list = viewModel.stopList {
-                    ScrollView {
+                    List {
                         
                         ForEach(list, id: \.id) { stop in
                             
@@ -29,7 +29,7 @@ struct BusRouteDetailView : View {
                                 
                                 BusStopRowView(viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
                                 
-                            }).padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                            })
                         }
                         
                     }

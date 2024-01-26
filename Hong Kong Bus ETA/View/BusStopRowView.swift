@@ -25,7 +25,8 @@ struct BusStopRowView: View {
                         Text(detail.nameEn ?? "")
                         Spacer()
                          
-                    }.frame(height: 80)
+                    }.frame(height: 50)
+                        .contentShape(Rectangle())
                 }).buttonStyle(.plain)
             
         } else if let error = viewModel.error {
@@ -37,7 +38,7 @@ struct BusStopRowView: View {
             })
             
         } else {
-            ProgressView().frame(height: 80)
+            ProgressView().frame(height: 50)
         }
         
     }

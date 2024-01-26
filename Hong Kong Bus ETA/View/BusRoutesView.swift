@@ -17,12 +17,13 @@ struct BusRoutesView : View {
         
         
         if let list = viewModel.displayedList {
-            VStack {
+            VStack(spacing: 20) {
+                
+                Text(viewModel.busRoutesListSource.title).font(.headline).padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
                 TextField("Search", text: $viewModel.filter)
-                
-                Spacer().frame(height: 20)
-                
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                    
                 List {
                     
                     ForEach(list, id: \.id) { route in
@@ -30,13 +31,16 @@ struct BusRoutesView : View {
                         Button(action: {
                             viewModel.onRouteSelected(route)
                         }, label: {
-                            VStack (alignment: .leading){
-                                
-                                Text("\(route.company ?? "") \(route.route ?? "")").font(.headline)
-                                Text("To: \(route.destination())")
-                            }
+                            HStack {
+                                VStack (alignment: .leading){
+                                    
+                                    Text("\(route.company?.rawValue ?? "") \(route.route ?? "")").font(.headline)
+                                    Text("To: \(route.destination())")
+                                }
+                                    Spacer()
+                            }.frame(height: 80)
+                            .contentShape(Rectangle())
                         }).buttonStyle(.plain)
-                            .frame(height: 80)
                                     
                     }
                     

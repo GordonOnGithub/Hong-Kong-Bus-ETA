@@ -18,8 +18,10 @@ struct CTBBusStopModel: BusStopModel, Decodable {
     var id: String = UUID().uuidString
     
     func getFullRouteName() -> String {
-        return "CTB \(route ?? "")"
+        return "\(company.rawValue) \(route ?? "")"
     }
+    
+    var company: BusCompany { .CTB }
     
     private enum CodingKeys: String, CodingKey {
         case stopId = "stop"

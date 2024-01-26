@@ -14,6 +14,57 @@ protocol BusRoutesViewModelDelegate : AnyObject {
     
 }
 
+enum BusRoutesListSource {
+    
+    case ctb
+    case kmb
+    
+    var title : String {
+        switch self {
+        case .ctb:
+            return "CTB"
+        case .kmb:
+            return "KMB"
+        }
+    }
+    
+    func getRoutesListPublisher (busRouteProvider: BusRoutesDataProviderType = BusRoutesDataProvider.shared) -> AnyPublisher<[any BusRouteModel]?, Never> {
+        
+        switch self {
+        case .ctb:
+            
+            return busRouteProvider.ctbRouteDict.map { dict in
+                return dict?.values.map({ value in
+                    value
+                }).sorted(by: { a, b in
+                    (a.route ?? "") < (b.route ?? "")
+                })
+            }.eraseToAnyPublisher()
+            
+        case .kmb:
+            return busRouteProvider.kmbRouteDict.map { dict in
+                return dict?.values.map({ value in
+                    value
+                }).sorted(by: { a, b in
+                    (a.route ?? "") < (b.route ?? "")
+                })
+            }.eraseToAnyPublisher()
+        }
+        
+    }
+    
+    func fetchData(busRoutesDataProvider : BusRoutesDataProviderType = BusRoutesDataProvider.shared){
+        switch self {
+        case .ctb:
+            busRoutesDataProvider.fetchCTBRoutes()
+        case .kmb:
+            busRoutesDataProvider.fetchKMBRoutes()
+        }
+        
+    }
+    
+}
+
 class BusRoutesViewModel : ObservableObject {
     
     var apiManager : APIManagerType
@@ -22,159 +73,51 @@ class BusRoutesViewModel : ObservableObject {
     var filter : String = ""
     
     @Published
-    var ctbRouteList : [any BusRouteModel]?
-    
-    @Published
-    var kmbRouteList : [any BusRouteModel]?
+    var routeList : [any BusRouteModel]?
     
     @Published
     var displayedList : [any BusRouteModel]? = nil
+    
+    let busRoutesListSource : BusRoutesListSource
     
     weak var delegate: BusRoutesViewModelDelegate?
     
     private var cancellable = Set<AnyCancellable>()
     
-    init(apiManager: APIManagerType = APIManager.shared) {
+    init(apiManager: APIManagerType = APIManager.shared,
+         busRoutesListSource: BusRoutesListSource) {
         self.apiManager = apiManager
+        self.busRoutesListSource = busRoutesListSource
         
         setupPublisher()
         
-        fetchCTBRoutes()
-        
-        fetchKMBRoutes()
-        
+        busRoutesListSource.fetchData()
     }
+    
     
     func setupPublisher(){
         
+        self.busRoutesListSource.getRoutesListPublisher().map({ routeList in
+            
+            routeList
+            
+        }).assign(to: &$routeList)
+        
         $filter.debounce(for: 0.3, scheduler: DispatchQueue.main)
-            .combineLatest($kmbRouteList, $ctbRouteList).sink { [weak self] filter, kmb, ctb in
-            
-            guard let self else { return }
-            
-            var list :[any BusRouteModel]? = nil
-            
-            if let kmb {
-                if list == nil { list = [] }
-                list?.append(contentsOf: kmb)
+            .combineLatest($routeList).sink { filter, routeList in
                 
-            }
-            
-            if let ctb {
-                if list == nil { list = [] }
-                list?.append(contentsOf: ctb)
-            }
-            
-                let filterList = filter.lowercased().split(separator: " ")
-            
-            if  filterList.count > 0 {
-                
-                list = list?.filter({ busRoute in
-                    
-                    guard
-                          let route = busRoute.route?.lowercased(),
-                          let originTC = busRoute.originTC,
-                          let originSC = busRoute.originSC,
-                          let originEn = busRoute.originEn?.lowercased(),
-                          let destinationTC = busRoute.destinationTC,
-                          let destinationSC = busRoute.destinationSC,
-                          let destinationEn = busRoute.destinationEn?.lowercased() else {
-                              
-                              return false
-                          }
-                    
-                    for filter in filterList {
-                        
-                        if route.contains(filter) ||
-                            originEn.contains(filter) ||
-                            originSC.contains(filter) ||
-                            originTC.contains(filter) ||
-                            destinationEn.contains(filter) ||
-                            destinationSC.contains(filter) ||
-                            destinationTC.contains(filter) {
-                            return true
-                        }
-                        
-                    }
-                    
-                    return false
-                })
-                
-            }
-            
-            self.displayedList = list?.sorted(by: { a, b in
-                (a.route ?? "" ) > (b.route ?? "")
-            })
-            
-        }.store(in: &cancellable)
-    }
     
-    func fetchCTBRoutes(){
-        
-        apiManager.call(api: .CTBRoutes).sink { [weak self] completion in
-            
-            switch completion {
-                case .failure(let error):
-                    print(error)
-                self?.ctbRouteList = []
-                default:
-                    break
-                
-            }
-            
-        } receiveValue: { [weak self] data in
-            
-            guard let self, let data else { return }
-            
-            let decoder = JSONDecoder()
-
-            
-            if let response = try? decoder.decode(APIResponseModel<[CTBBusRouteModel]>.self, from: data) {
-                
-                self.ctbRouteList = response.data
-                
-                self.ctbRouteList?.append(contentsOf: response.data.map({ route in
-                    
-                    CTBBusRouteModel(originTC: route.originTC, originSC: route.originSC, originEn: route.originEn, destinationTC: route.destinationTC, destinationSC: route.destinationSC, destinationEn: route.destinationEn, route: route.route, company: route.company, timestamp: route.timestamp,
-                                     isInbound: !route.isInbound)
-                    
-                }))
-                
-            }
-            
-            
-        }.store(in: &cancellable)
-
-        
-    }
+                let filterList = filter.lowercased().split(separator: " ").map { s in
+                    String(s)
+                }
     
-    func fetchKMBRoutes(){
-        
-        apiManager.call(api: .KMBRoutes).sink { completion in
-            
-            switch completion {
-                case .failure(let error):
-                print(error)
-                    break
+                if  filterList.count > 0 {
+                    self.displayedList = routeList?.filterByKeywords(filterList)
+                } else {
+                    self.displayedList = routeList
+                }
                 
-            default:
-                break
-            }
-            
-        } receiveValue: { [weak self] data in
-            
-            guard let self, let data else { return }
-            
-            let decoder = JSONDecoder()
-
-            
-            if let response = try? decoder.decode(APIResponseModel<[KMBBusRouteModel]>.self, from: data) {
-                
-                self.kmbRouteList = response.data
-                
-            }
-            
-        }.store(in: &cancellable)
+            }.store(in: &cancellable)
 
     }
     

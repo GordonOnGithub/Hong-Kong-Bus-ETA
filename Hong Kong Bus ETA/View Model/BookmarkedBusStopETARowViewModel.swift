@@ -1,52 +1,50 @@
 //
-//  BusStopDetailViewModel.swift
+//  BookmarkedBusStopETARowViewModel.swift
 //  Hong Kong Bus ETA
 //
-//  Created by Ka Chun Wong on 22/1/2024.
+//  Created by Ka Chun Wong on 26/1/2024.
 //
 
 import Foundation
 import Combine
 
-class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.PersistentModelType : BusStopETA {
-        
+protocol BookmarkedBusStopETARowViewModelDelegate : AnyObject {
+    
+    func bookmarkedBusStopETARowViewModel(_ viewModel: BookmarkedBusStopETARowViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String , serviceType: String?, detail: (any BusStopDetailModel)?)
+}
+
+class BookmarkedBusStopETARowViewModel: ObservableObject {
+    
     @Published
     var busStopDetail : (any BusStopDetailModel)?
-    
-    let busStopETA : T.PersistentModelType
-    
-    let apiManager: APIManagerType
+
+    @Published
+    var busRoute: (any BusRouteModel)?
     
     @Published
     var busETAList : [BusETAModel]? = nil
-    
-    @Published
-    var lastUpdatedTimestamp : Date?
-    
-    @Published
-    var isSaved: Bool = false
-    
-    let busETAStorage : T
-        
-    private var cancellable = Set<AnyCancellable>()
 
-    init( busStopETA: T.PersistentModelType, apiManager: APIManagerType = APIManager.shared, busETAStorage : T = BusETAStorage.shared) {
+    let busStopETA : BusStopETA
+
+    let apiManager: APIManagerType
     
+    let busRoutesDataProvider : BusRoutesDataProviderType
+
+    weak var delegate: BookmarkedBusStopETARowViewModelDelegate?
+    
+    private var cancellable = Set<AnyCancellable>()
+    
+    init(busStopETA : BusStopETA, apiManager: APIManagerType = APIManager.shared,  busRoutesDataProvider : BusRoutesDataProviderType = BusRoutesDataProvider.shared) {
         
         self.busStopETA = busStopETA
-        self.busETAStorage = busETAStorage
         self.apiManager = apiManager
+        self.busRoutesDataProvider = busRoutesDataProvider
         
-        isSaved = busETAStorage.cache.value[self.busStopETA.id] != nil
-        
-        setupPublisher()
+        fetchBusStopDetailIfNeeded()
         
         fetchETA()
         
-        //TEST
-        busETAStorage.fetch()
-        
-        fetchBusStopDetailIfNeeded()
+        setupPublisher()
     }
     
     func fetchBusStopDetailIfNeeded(){
@@ -92,9 +90,39 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
         Timer.publish(every: 30, on: .main, in: .default).autoconnect().sink { [weak self] _ in
             self?.fetchETA()
         }.store(in: &cancellable)
-
+        
+        
+        switch BusCompany(rawValue: busStopETA.company) {
+        case .CTB:
+            busRoutesDataProvider.ctbRouteDict.sink { [weak self] cache in
+                
+                guard let self, let cache else { return }
+                
+                let key = busRoutesDataProvider.getCacheKey(company: .CTB, route: self.busStopETA.route, serviceType: nil)
+                
+                
+                if let route = cache[key] {
+                    self.busRoute = route
+                }
+                
+            }.store(in: &cancellable)
+        case .KMB:
+            busRoutesDataProvider.kmbRouteDict.sink { [weak self] cache in
+                
+                guard let self, let cache else { return }
+                
+                let key = busRoutesDataProvider.getCacheKey(company: .KMB, route: self.busStopETA.route, serviceType: self.busStopETA.serviceType)
+                
+                
+                if let route = cache[key] {
+                    self.busRoute = route
+                }
+                
+            }.store(in: &cancellable)
+        default:
+            break
+        }
     }
-    
     func fetchETA(){
         
         
@@ -121,7 +149,6 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
             default:
                 break
             }
-            self?.lastUpdatedTimestamp = Date()
             
         } receiveValue: { [weak self] data in
             
@@ -148,7 +175,6 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
             default:
                 break
             }
-            self?.lastUpdatedTimestamp = Date()
             
         } receiveValue: { [weak self] data in
             
@@ -170,31 +196,15 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
         
     }
     
-    func getDestinationName() -> String {
-        return ""
+    func getDestinationDescription() -> String {
+        return "To: " + (busRoute?.destination() ?? "")
     }
     
-    func onSaveButtonClicked() {
-        if isSaved {
-            
-            busETAStorage.delete(data: busStopETA)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] success in
-                if success {
-                    self?.isSaved = false
-                }
-            }.store(in: &cancellable)
-            
-        } else {
-            busETAStorage.insert(data: busStopETA)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] success in
-                if success {
-                    self?.isSaved = true
-                }
-            }.store(in: &cancellable)
-            
+    func onRowClicked(){
+        if let busRoute, let delegate, let company = BusCompany(rawValue: busStopETA.company) {
+         
+            delegate.bookmarkedBusStopETARowViewModel(self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company, stopId: busStopETA.stopId , serviceType: busStopETA.serviceType, detail: self.busStopDetail)
         }
+        
     }
-    
 }

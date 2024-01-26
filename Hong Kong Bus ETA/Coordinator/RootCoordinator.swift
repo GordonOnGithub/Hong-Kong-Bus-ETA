@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum RootCoordinatorSheetRoute : Identifiable {
-    case busStopDetail(busStop : any BusStopModel, detail: any BusStopDetailModel)
+    case busStopDetail(route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?)
     
     var id : String {
         
@@ -49,7 +49,16 @@ enum RootCoordinatorNavigationPath : Identifiable, Hashable {
     }
 }
 
+enum Tab : String, Hashable {
+    case ETA = "eta"
+    case CTB = "ct"
+    case KMB = "kmb"
+}
+
 class RootCoordinator: ObservableObject {
+    
+    @Published
+    var tab : Tab = .ETA
     
     @Published
     var path = NavigationPath()
@@ -57,10 +66,34 @@ class RootCoordinator: ObservableObject {
     @Published
     var sheetRoute : RootCoordinatorSheetRoute?
     
-    func buildRouteListView() -> some View {
-        let vm = BusRoutesViewModel()
-        vm.delegate = self
-        return BusRoutesView(viewModel: vm)
+    private weak var busStopETAListViewModel: BusStopETAListViewModel<DataStorage<BusStopETA>>?
+    private weak var ctbBusRoutesViewModel: BusRoutesViewModel?
+    private weak var kmbBusRoutesViewModel: BusRoutesViewModel?
+    
+    func buildCTBRouteListViewModel() -> BusRoutesViewModel {
+        
+        guard let ctbBusRoutesViewModel else {
+            
+            let vm = BusRoutesViewModel( busRoutesListSource: .ctb)
+            vm.delegate = self
+            ctbBusRoutesViewModel = vm
+            return vm
+        }
+        
+        return ctbBusRoutesViewModel
+    }
+    
+    func buildKMBRouteListViewModel() -> BusRoutesViewModel {
+        
+        guard let kmbBusRoutesViewModel else {
+            
+            let vm = BusRoutesViewModel( busRoutesListSource: .kmb)
+            vm.delegate = self
+            kmbBusRoutesViewModel = vm
+            return vm
+        }
+        
+        return kmbBusRoutesViewModel
     }
     
     func buildRouteDetailView(route: any BusRouteModel) -> some View {
@@ -71,14 +104,25 @@ class RootCoordinator: ObservableObject {
         
     }
     
-    func buildETAListView() -> some View {
+    func buildETAListViewModel() -> BusStopETAListViewModel<DataStorage<BusStopETA>> {
         
-        Text("Implement ETA List View")
+        guard let busStopETAListViewModel else {
+            let vm = BusStopETAListViewModel()
+            vm.delegate = self
+            busStopETAListViewModel = vm
+            return vm
+        }
+        
+        return busStopETAListViewModel
     }
     
-    func buildBusStopDetailView(busStop : any BusStopModel, detail: any BusStopDetailModel) -> some View {
-
-        let vm = BusStopDetailViewModel(busStop: busStop, busStopDetail: detail)
+    func buildBusStopDetailView(route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?) -> some View {
+   
+        let storage = BusETAStorage.shared
+        
+        let vm = BusStopDetailViewModel(busStopETA: BusStopETA(stopId: stopId, route: route, company: company.rawValue, serviceType: serviceType))
+        
+        vm.busStopDetail = detail
         
         return BusStopDetailView(viewModel: vm)
 
@@ -95,9 +139,32 @@ extension RootCoordinator: BusRoutesViewModelDelegate {
 extension RootCoordinator: BusRouteDetailViewModelDelegate {
     func busRouteDetailViewModel(_ viewModel: BusRouteDetailViewModel, didRequestDisplayBusStop busStop: any BusStopModel, withDetails details: any BusStopDetailModel) {
         
-        sheetRoute = .busStopDetail(busStop: busStop, detail: details)
+        guard let routeCode =  busStop.route, let stopId = busStop.stopId else { return }
+        
+        var serviceType : String? = ""
+        
+        if let busStop = busStop as? KMBBusStopModel {
+            serviceType = busStop.serviceType
+        }
+        
+        sheetRoute = .busStopDetail(route: routeCode, company: busStop.company, stopId: stopId, serviceType: serviceType, detail: details)
     }
     
   
 
+}
+
+extension RootCoordinator: BusStopETAListViewModelDelegate {
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?) {
+        
+        sheetRoute = .busStopDetail(route: route, company: company, stopId: stopId, serviceType: serviceType, detail: detail)
+
+        
+    }
+    
+
+    
+    
+    
+    
 }

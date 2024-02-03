@@ -17,35 +17,33 @@ struct BusRoutesView : View {
         
         
         if let list = viewModel.displayedList {
-            VStack(spacing: 20) {
-                
-                Text(viewModel.busRoutesListSource.title).font(.headline).padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                
-                TextField("Search", text: $viewModel.filter)
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+            NavigationView {
+                VStack(spacing: 20) {
                     
-                List {
-                    
-                    ForEach(list, id: \.id) { route in
+                    List {
                         
-                        Button(action: {
-                            viewModel.onRouteSelected(route)
-                        }, label: {
-                            HStack {
-                                VStack (alignment: .leading){
-                                    
-                                    Text("\(route.company?.rawValue ?? "") \(route.route ?? "")").font(.headline)
-                                    Text("To: \(route.destination())")
-                                }
+                        ForEach(list, id: \.id) { route in
+                            
+                            Button(action: {
+                                viewModel.onRouteSelected(route)
+                            }, label: {
+                                HStack {
+                                    VStack (alignment: .leading){
+                                        
+                                        Text(route.getFullRouteName()).font(.title)
+                                        Text("To: \(route.destination())")
+                                    }
                                     Spacer()
-                            }.frame(height: 80)
-                            .contentShape(Rectangle())
-                        }).buttonStyle(.plain)
-                                    
+                                }.frame(height: 80)
+                                    .contentShape(Rectangle())
+                            }).buttonStyle(.plain)
+                            
+                        }
+                        
                     }
-                    
                 }
             }
+            .searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always) ,prompt: Text("Search"))
             
         } else {
             ProgressView()

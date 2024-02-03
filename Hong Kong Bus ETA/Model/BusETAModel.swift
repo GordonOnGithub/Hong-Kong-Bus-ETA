@@ -7,6 +7,25 @@
 
 import Foundation
 
+enum RemainingTime {
+    case expired
+    case imminent
+    case minutes(minutes: Int)
+    
+    var description : String {
+        
+        switch self {
+        case .expired:
+            return "-"
+        case .imminent:
+            return "Less than a minute"
+        case .minutes(let minutes):
+            return "\(minutes) \( minutes > 1 ? "minutes" : "minute" )"
+        }
+    }
+    
+}
+
 struct BusETAModel : Identifiable, Decodable {
     
     let destinationTC : String?
@@ -37,26 +56,6 @@ struct BusETAModel : Identifiable, Decodable {
         var minuteString = minute >= 10 ? "\(minute)" : "0\(minute)"
 
         return hourString + ":" + minuteString
-        
-    }
-    
-    enum RemainingTime {
-        case expired
-        case imminent
-        case minutes(minutes: Int)
-        
-        var description : String {
-            
-            switch self {
-            case .expired:
-                return "-"
-            case .imminent:
-                return "Less than a minute"
-            case .minutes(let minutes):
-                return "\(minutes) \( minutes > 1 ? "minutes" : "minute" )"
-            }
-        }
-        
         
     }
     
@@ -98,9 +97,9 @@ struct BusETAModel : Identifiable, Decodable {
         case stop = "stop"
         case inbound = "dir"
         
-        case remarkEn = "rmk_tc"
-        case remarkTC = "rmk_sc"
-        case remarkSC = "rmk_en"
+        case remarkEn = "rmk_en"
+        case remarkTC = "rmk_tc"
+        case remarkSC = "rmk_sc"
         case sequence = "seq"
     }
     

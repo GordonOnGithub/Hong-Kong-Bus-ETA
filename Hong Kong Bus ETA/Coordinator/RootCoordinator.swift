@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum RootCoordinatorSheetRoute : Identifiable {
-    case busStopDetail(route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?)
+    case busStopDetail(route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
     
     var id : String {
         
@@ -116,11 +116,11 @@ class RootCoordinator: ObservableObject {
         return busStopETAListViewModel
     }
     
-    func buildBusStopDetailView(route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?) -> some View {
+    func buildBusStopDetailView(route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?) -> some View {
    
         let storage = BusETAStorage.shared
         
-        let vm = BusStopDetailViewModel(busStopETA: BusStopETA(stopId: stopId, route: route, company: company.rawValue, serviceType: serviceType))
+        let vm = BusStopDetailViewModel(busStopETA: BusStopETA(stopId: stopId, route: route, company: company.rawValue, serviceType: serviceType, isInbound: isInbound ))
         
         vm.busStopDetail = detail
         
@@ -137,7 +137,7 @@ extension RootCoordinator: BusRoutesViewModelDelegate {
 }
 
 extension RootCoordinator: BusRouteDetailViewModelDelegate {
-    func busRouteDetailViewModel(_ viewModel: BusRouteDetailViewModel, didRequestDisplayBusStop busStop: any BusStopModel, withDetails details: any BusStopDetailModel) {
+    func busRouteDetailViewModel(_ viewModel: BusRouteDetailViewModel, didRequestDisplayBusStop busStop: any BusStopModel, isInbound: Bool, withDetails details: any BusStopDetailModel) {
         
         guard let routeCode =  busStop.route, let stopId = busStop.stopId else { return }
         
@@ -147,7 +147,7 @@ extension RootCoordinator: BusRouteDetailViewModelDelegate {
             serviceType = busStop.serviceType
         }
         
-        sheetRoute = .busStopDetail(route: routeCode, company: busStop.company, stopId: stopId, serviceType: serviceType, detail: details)
+        sheetRoute = .busStopDetail(route: routeCode, company: busStop.company, stopId: stopId, serviceType: serviceType, isInbound: isInbound, detail: details)
     }
     
   
@@ -155,9 +155,9 @@ extension RootCoordinator: BusRouteDetailViewModelDelegate {
 }
 
 extension RootCoordinator: BusStopETAListViewModelDelegate {
-    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?) {
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?) {
         
-        sheetRoute = .busStopDetail(route: route, company: company, stopId: stopId, serviceType: serviceType, detail: detail)
+        sheetRoute = .busStopDetail(route: route, company: company, stopId: stopId, serviceType: serviceType, isInbound: isInbound, detail: detail)
 
         
     }

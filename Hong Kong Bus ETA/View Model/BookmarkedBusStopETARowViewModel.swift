@@ -10,7 +10,7 @@ import Combine
 
 protocol BookmarkedBusStopETARowViewModelDelegate : AnyObject {
     
-    func bookmarkedBusStopETARowViewModel(_ viewModel: BookmarkedBusStopETARowViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String , serviceType: String?, detail: (any BusStopDetailModel)?)
+    func bookmarkedBusStopETARowViewModel(_ viewModel: BookmarkedBusStopETARowViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String , serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
 }
 
 class BookmarkedBusStopETARowViewModel: ObservableObject {
@@ -98,7 +98,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
                 
                 guard let self, let cache else { return }
                 
-                let key = busRoutesDataProvider.getCacheKey(company: .CTB, route: self.busStopETA.route, serviceType: nil)
+                let key = busRoutesDataProvider.getCacheKey(company: .CTB, route: self.busStopETA.route, serviceType: nil, isInbound: self.busStopETA.isInbound)
                 
                 
                 if let route = cache[key] {
@@ -111,7 +111,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
                 
                 guard let self, let cache else { return }
                 
-                let key = busRoutesDataProvider.getCacheKey(company: .KMB, route: self.busStopETA.route, serviceType: self.busStopETA.serviceType)
+                let key = busRoutesDataProvider.getCacheKey(company: .KMB, route: self.busStopETA.route, serviceType: self.busStopETA.serviceType, isInbound: self.busStopETA.isInbound)
                 
                 
                 if let route = cache[key] {
@@ -203,7 +203,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
     func onRowClicked(){
         if let busRoute, let delegate, let company = BusCompany(rawValue: busStopETA.company) {
          
-            delegate.bookmarkedBusStopETARowViewModel(self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company, stopId: busStopETA.stopId , serviceType: busStopETA.serviceType, detail: self.busStopDetail)
+            delegate.bookmarkedBusStopETARowViewModel(self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company, stopId: busStopETA.stopId , serviceType: busStopETA.serviceType, isInbound: busStopETA.isInbound, detail: self.busStopDetail)
         }
         
     }

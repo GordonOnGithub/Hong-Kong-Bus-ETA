@@ -10,7 +10,7 @@ import Combine
 
 protocol BusStopETAListViewModelDelegate : AnyObject {
     
-    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, detail: (any BusStopDetailModel)?)
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
 }
 
 class BusStopETAListViewModel<T>: ObservableObject where T : DataStorageType, T.PersistentModelType : BusStopETA {
@@ -58,9 +58,9 @@ class BusStopETAListViewModel<T>: ObservableObject where T : DataStorageType, T.
 }
 
 extension BusStopETAListViewModel : BookmarkedBusStopETARowViewModelDelegate {
-    func bookmarkedBusStopETARowViewModel(_ viewModel: BookmarkedBusStopETARowViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String , serviceType: String?, detail: (any BusStopDetailModel)?) {
+    func bookmarkedBusStopETARowViewModel(_ viewModel: BookmarkedBusStopETARowViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String , serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?) {
         
-        delegate?.busStopETAListViewModelModel(self, didRequestDisplayBusStopDetailForRoute: route, company: company,stopId: stopId, serviceType: serviceType, detail: detail)
+        delegate?.busStopETAListViewModelModel(self, didRequestDisplayBusStopDetailForRoute: route, company: company,stopId: stopId, serviceType: serviceType, isInbound: isInbound, detail: detail)
         
     }
     

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol BusRouteDetailViewModelDelegate : AnyObject {
-    func busRouteDetailViewModel(_ viewModel: BusRouteDetailViewModel, didRequestDisplayBusStop busStop: any BusStopModel ,withDetails details: any BusStopDetailModel )
+    func busRouteDetailViewModel(_ viewModel: BusRouteDetailViewModel, didRequestDisplayBusStop busStop: any BusStopModel ,isInbound: Bool, withDetails details: any BusStopDetailModel )
     
 }
 
@@ -111,7 +111,7 @@ class BusRouteDetailViewModel: ObservableObject {
 
 extension BusRouteDetailViewModel : BusStopRowViewModelDelegate {
     func busStopRowViewModel(_ viewModel: BusStopRowViewModel, didRequestDisplayBusStop busStop: any BusStopModel, withDetails details: any BusStopDetailModel) {
-        delegate?.busRouteDetailViewModel(self, didRequestDisplayBusStop: busStop, withDetails: details)
+        delegate?.busRouteDetailViewModel(self, didRequestDisplayBusStop: busStop, isInbound: busStop.isInbound, withDetails: details)
     }
     
     

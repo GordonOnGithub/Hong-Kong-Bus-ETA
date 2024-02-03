@@ -16,25 +16,38 @@ struct BookmarkedBusStopETARowView : View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10, content: {
             
-            if viewModel.busStopDetail != nil {
-                Text(viewModel.getBusStopName()).font(.headline)
-            }
             
-            Text("\(viewModel.busStopETA.company) \(viewModel.busStopETA.route)")
+            Text(viewModel.busStopETA.getFullRouteName()).font(.title)
             
             if viewModel.busRoute != nil {
-                Text(viewModel.getDestinationDescription())
+                Text(viewModel.getDestinationDescription()).font(.headline)
+            }
+            
+            if viewModel.busStopDetail != nil {
+                Text(viewModel.getBusStopName())
             }
             
             if let busETAList = viewModel.busETAList {
                     
-                if let latest = busETAList.first {
+                if let latest = busETAList.first(where: { eta in
+                    
+                    switch eta.remainingTime {
+                    case .expired:
+                        return false
+                    default:
+                        return true
+                    }
+                    
+                }) {
                     
                     ETARowView(eta: latest)
                     
                 } else {
-                    
-                    Text("-- : --").foregroundStyle(.gray)
+                    HStack{
+                        Text("-- : --").foregroundStyle(.gray)
+                        Spacer()
+                        Text(" - ").foregroundStyle(.gray)
+                    }
                 }
                 
                 
@@ -43,6 +56,7 @@ struct BookmarkedBusStopETARowView : View {
             }
             
         })
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
         .contentShape(Rectangle())
         .onTapGesture {
             viewModel.onRowClicked()

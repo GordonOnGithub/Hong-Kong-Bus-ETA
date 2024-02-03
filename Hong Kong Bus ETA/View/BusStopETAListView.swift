@@ -15,17 +15,18 @@ struct BusStopETAListView: View {
     var viewModel : BusStopETAListViewModel<DataStorage<BusStopETA>>
     
     var body: some View {
-        
-        if !viewModel.busStopETAList.isEmpty {
-            List(viewModel.busStopETAList) { eta in
-                
-                BookmarkedBusStopETARowView(viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta))
-                    .frame(height: 150)
+        NavigationView {
+            if !viewModel.busStopETAList.isEmpty {
+                List(viewModel.busStopETAList) { eta in
+                    
+                    BookmarkedBusStopETARowView(viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta))
+                        .frame(height: 180)
+                    
+                }
+            } else {
+                Text("No bus stop is bookmarked")
                 
             }
-        } else {
-            Text("No bus stop is bookmarked")
-            
         }
     }
 }

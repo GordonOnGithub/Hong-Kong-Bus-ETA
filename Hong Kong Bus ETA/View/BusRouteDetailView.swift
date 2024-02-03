@@ -18,7 +18,7 @@ struct BusRouteDetailView : View {
             
             VStack() {
             
-                Text(viewModel.getDestinationDescription())
+                Text(viewModel.getDestinationDescription()).padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
                 if let list = viewModel.stopList {
                     List {

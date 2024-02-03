@@ -13,6 +13,9 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
     @Published
     var busStopDetail : (any BusStopDetailModel)?
     
+    @Published
+    var busRoute: (any BusRouteModel)?
+    
     let busStopETA : T.PersistentModelType
     
     let apiManager: APIManagerType
@@ -27,25 +30,26 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
     var isSaved: Bool = false
     
     let busETAStorage : T
+    
+    let busRoutesDataProvider : BusRoutesDataProviderType
         
     private var cancellable = Set<AnyCancellable>()
 
-    init( busStopETA: T.PersistentModelType, apiManager: APIManagerType = APIManager.shared, busETAStorage : T = BusETAStorage.shared) {
+    init( busStopETA: T.PersistentModelType, apiManager: APIManagerType = APIManager.shared, busETAStorage : T = BusETAStorage.shared,
+          busRoutesDataProvider : BusRoutesDataProviderType = BusRoutesDataProvider.shared) {
     
         
         self.busStopETA = busStopETA
         self.busETAStorage = busETAStorage
         self.apiManager = apiManager
+        self.busRoutesDataProvider = busRoutesDataProvider
         
         isSaved = busETAStorage.cache.value[self.busStopETA.id] != nil
         
         setupPublisher()
         
         fetchETA()
-        
-        //TEST
-        busETAStorage.fetch()
-        
+                
         fetchBusStopDetailIfNeeded()
     }
     
@@ -93,6 +97,37 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
             self?.fetchETA()
         }.store(in: &cancellable)
 
+        switch BusCompany(rawValue: busStopETA.company) {
+        case .CTB:
+            busRoutesDataProvider.ctbRouteDict.sink { [weak self] cache in
+                
+                guard let self, let cache else { return }
+                
+                let key = busRoutesDataProvider.getCacheKey(company: .CTB, route: self.busStopETA.route, serviceType: nil, isInbound: self.busStopETA.isInbound)
+                
+                
+                if let route = cache[key] {
+                    self.busRoute = route
+                }
+                
+            }.store(in: &cancellable)
+        case .KMB:
+            busRoutesDataProvider.kmbRouteDict.sink { [weak self] cache in
+                
+                guard let self, let cache else { return }
+                
+                let key = busRoutesDataProvider.getCacheKey(company: .KMB, route: self.busStopETA.route, serviceType: self.busStopETA.serviceType, isInbound: self.busStopETA.isInbound)
+                
+                
+                if let route = cache[key] {
+                    self.busRoute = route
+                }
+                
+            }.store(in: &cancellable)
+        default:
+            break
+        }
+        
     }
     
     func fetchETA(){
@@ -170,10 +205,6 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
         
     }
     
-    func getDestinationName() -> String {
-        return ""
-    }
-    
     func onSaveButtonClicked() {
         if isSaved {
             
@@ -195,6 +226,10 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
             }.store(in: &cancellable)
             
         }
+    }
+    
+    func getDestinationDescription() -> String {
+        return "To: " + (busRoute?.destination() ?? "")
     }
     
 }

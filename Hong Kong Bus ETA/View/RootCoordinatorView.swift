@@ -10,6 +10,10 @@ import SwiftUI
 
 struct RootCoordinatorView: View {
     
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.black
+    }
+    
     @StateObject
     private var coordinator : RootCoordinator = RootCoordinator()
     
@@ -44,8 +48,8 @@ struct RootCoordinatorView: View {
         }.sheet(item: $coordinator.sheetRoute) { sheet in
             
             switch sheet {
-                case .busStopDetail(let route, let company, let stopId, let serviceType, let detail):
-                coordinator.buildBusStopDetailView(route: route, company: company, stopId: stopId, serviceType: serviceType, detail: detail)
+                case .busStopDetail(let route, let company, let stopId, let serviceType, let isInbound, let detail):
+                coordinator.buildBusStopDetailView(route: route, company: company, stopId: stopId, serviceType: serviceType, isInbound: isInbound, detail: detail)
             }
             
         }

@@ -11,6 +11,8 @@ import Combine
 protocol BusStopRowViewModelDelegate : AnyObject {
     
     func busStopRowViewModel(_ viewModel: BusStopRowViewModel, didRequestDisplayBusStop busStop: any BusStopModel ,withDetails details: any BusStopDetailModel )
+    
+    func busStopRowViewModel(_ viewModel: BusStopRowViewModel, didUpdateBusStop busStop: any BusStopModel ,withDetails details: (any BusStopDetailModel)? )
 }
 
 class BusStopRowViewModel : ObservableObject {
@@ -68,6 +70,7 @@ class BusStopRowViewModel : ObservableObject {
             
             if let self, let data, let response = try? JSONDecoder().decode(APIResponseModel<CTBBusStopDetailModel>.self, from: data) {
                 busStopDetail = response.data
+                self.delegate?.busStopRowViewModel(self, didUpdateBusStop: self.busStop, withDetails: busStopDetail)
             }
             
         }.store(in: &cancellable)
@@ -93,6 +96,9 @@ class BusStopRowViewModel : ObservableObject {
             
             if let self, let data, let response = try? JSONDecoder().decode(APIResponseModel<KMBBusStopDetailModel>.self, from: data) {
                 busStopDetail = response.data
+                
+                self.delegate?.busStopRowViewModel(self, didUpdateBusStop: self.busStop, withDetails: busStopDetail)
+
             }
             
         }.store(in: &cancellable)

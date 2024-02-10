@@ -25,11 +25,20 @@ struct BusStopDetailView : View {
                     Text(viewModel.getBusStopName()).font(.title)
                 }
                 
-                Text("\(viewModel.busStopETA.company) \(viewModel.busStopETA.route)").font(.headline)
+                Group {
+                    Text("\(viewModel.busStopETA.company) \(viewModel.busStopETA.route)").font(.headline)
+                        .underline()
+                    
+                    if viewModel.busRoute != nil {
+                        Text(viewModel.getDestinationDescription()).font(.subheadline)
+                            .underline()
+                    }
+                }.contentShape(Rectangle())
+                    .onTapGesture {
+                        viewModel.showBusRouteDetail()
+                    }
                 
-                if viewModel.busRoute != nil {
-                    Text(viewModel.getDestinationDescription()).font(.subheadline)
-                }
+                Spacer().frame(height: 10)
                 if let busETAList = viewModel.busETAList {
                     
                     List {
@@ -48,7 +57,7 @@ struct BusStopDetailView : View {
                         } footer: {
                             if let lastUpdatedTimestamp = viewModel.lastUpdatedTimestamp {
                                 Section {
-                                    Text("Last update: \(lastUpdatedTimestamp.ISO8601Format())").listRowInsets(EdgeInsets())
+                                    Text("Last update: \(lastUpdatedTimestamp.ISO8601Format(.iso8601(timeZone: TimeZone.current)))").listRowInsets(EdgeInsets())
                                 }
                             }
                         }
@@ -70,6 +79,21 @@ struct BusStopDetailView : View {
                             span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
                         )
                     )
+                    Spacer().frame(height: 10)
+
+                    HStack{
+                        
+                        Text("Location").font(.headline)
+                        Spacer()
+                        Button(action: {
+                            
+                            viewModel.openMapApp()
+                            
+                        }, label: {
+                            Text("Open in Map app")
+                        })
+                        
+                    }
                     
                     Map(initialPosition: position) {
                         Marker(viewModel.getBusStopName(), coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))

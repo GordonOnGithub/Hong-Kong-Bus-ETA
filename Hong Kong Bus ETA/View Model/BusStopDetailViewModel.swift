@@ -7,6 +7,13 @@
 
 import Foundation
 import Combine
+import UIKit
+
+protocol BusStopDetailViewModelDelegate : AnyObject  {
+    
+    func busStopDetailViewModel(_ viewModel:  BusStopDetailViewModel<some DataStorageType>, didRequestBusRouteDetail route: (any BusRouteModel)?)
+    
+}
 
 class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.PersistentModelType : BusStopETA {
         
@@ -29,20 +36,26 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
     @Published
     var isSaved: Bool = false
     
+    weak var delegate: (any  BusStopDetailViewModelDelegate)?
+    
     let busETAStorage : T
     
     let busRoutesDataProvider : BusRoutesDataProviderType
+    
+    let application :UIApplicationType
         
     private var cancellable = Set<AnyCancellable>()
 
     init( busStopETA: T.PersistentModelType, apiManager: APIManagerType = APIManager.shared, busETAStorage : T = BusETAStorage.shared,
-          busRoutesDataProvider : BusRoutesDataProviderType = BusRoutesDataProvider.shared) {
+          busRoutesDataProvider : BusRoutesDataProviderType = BusRoutesDataProvider.shared,
+          application : UIApplicationType = UIApplication.shared) {
     
         
         self.busStopETA = busStopETA
         self.busETAStorage = busETAStorage
         self.apiManager = apiManager
         self.busRoutesDataProvider = busRoutesDataProvider
+        self.application = application
         
         isSaved = busETAStorage.cache.value[self.busStopETA.id] != nil
         
@@ -232,4 +245,26 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
         return "To: " + (busRoute?.destination() ?? "")
     }
     
+    func openMapApp(){
+        
+        
+        guard let  busStopDetail ,
+              let latitude = Double(busStopDetail.position?.0 ?? ""),
+              let longitude = Double(busStopDetail.position?.1 ?? "") else { return }
+        
+        if let url = URL(string: "comgooglemaps://?saddr=&daddr=\(latitude),\(longitude)"),
+           application.canOpenURL(url)
+        {
+            application.openURL(url)
+        } else if let url = URL(string: "maps://?saddr=&daddr=\(latitude),\(longitude)"),
+            application.canOpenURL(url)
+        {
+            application.openURL(url)
+        }
+        
+    }
+    
+    func showBusRouteDetail(){
+        delegate?.busStopDetailViewModel(self, didRequestBusRouteDetail: self.busRoute)
+    }
 }

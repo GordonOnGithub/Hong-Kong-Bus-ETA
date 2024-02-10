@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 
 struct BusRouteDetailView : View {
     
@@ -14,24 +15,54 @@ struct BusRouteDetailView : View {
     var viewModel : BusRouteDetailViewModel
     
     var body: some View {
-        Group {
+        NavigationView {
             
             VStack() {
-            
-                Text(viewModel.getDestinationDescription()).padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
-                if let list = viewModel.stopList {
-                    List {
-                        
-                        ForEach(list, id: \.id) { stop in
+                if let list = viewModel.displayedList {
+                    if viewModel.showMap {
+                        Spacer().frame(height: 20)
+                        Map(initialPosition:MapCameraPosition.positionOfHongKong, bounds: MapCameraBounds.boundsOfHongKong ) {
                             
-                            VStack(alignment: .leading, content: {
+                            if let list = viewModel.stopList {
                                 
-                                BusStopRowView(viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
                                 
-                            })
+                                ForEach(list, id: \.id) { stop in
+                                    
+                                    if let stopId = stop.stopId,
+                                       let busStopDetail = viewModel.busStopDetailsDict[stopId],
+                                       let name = busStopDetail.nameEn,
+                                       let latitude = Double(busStopDetail.position?.0 ?? ""),
+                                       let longitude = Double(busStopDetail.position?.1 ?? "")
+                                    {
+                                        
+                                        Marker(name, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                                        
+                                    }
+                                }
+                            }
+                            
                         }
                         
+                        
+                    } else {
+                        List {
+                            Section {
+                                ForEach(list, id: \.id) { stop in
+                                    
+                                    VStack(alignment: .leading, content: {
+                                        
+                                        BusStopRowView(viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
+                                        
+                                    })
+                                }
+                            } header: {
+                                Text("Origin")
+                            } footer: {
+                                Text("Destination")
+                            }
+                        }.searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always) ,prompt: Text("Search")).keyboardType(.alphabet)
+
                     }
                 } else {
                     ProgressView().frame(height: 80)
@@ -39,6 +70,18 @@ struct BusRouteDetailView : View {
                 
                 Spacer()
             }
-        }.navigationTitle("\(viewModel.route.getFullRouteName())")
+        }
+        .navigationTitle("\(viewModel.route.getFullRouteName()), \(viewModel.getDestinationDescription())")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button( action: {
+                    viewModel.showMap.toggle()
+                }, label: {
+                    
+                    Text( viewModel.showMap ? "Show List":"Show Map")
+
+                })
+            }
+        }
     }
 }

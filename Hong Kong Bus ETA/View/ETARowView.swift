@@ -18,15 +18,22 @@ struct ETARowView : View {
             
             switch eta.remainingTime {
             case .expired:
-                Text(eta.getReadableHourAndMinute()).foregroundStyle(.gray)
+                Text(eta.getReadableHourAndMinute())
+                    .font(.system(size: 20))
+                    .foregroundStyle(.gray)
                 Spacer()
-                Text(eta.remainingTime.description).foregroundStyle(.gray)
+                Text(eta.remainingTime.description)
+                    .font(.system(size: 20))
+                    .foregroundStyle(.gray)
                 
             case .imminent:
-                Text(eta.getReadableHourAndMinute()).bold()
+                Text(eta.getReadableHourAndMinute())
+                    .font(.system(size: 20))
+                    .bold()
                 Spacer()
                 
-                Text(eta.remainingTime.description).bold()
+                Text(eta.remainingTime.description)           .font(.system(size: 20))
+                    .bold()
                 
             case .minutes:
                 Text(eta.getReadableHourAndMinute())

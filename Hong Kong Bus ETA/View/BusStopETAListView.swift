@@ -15,12 +15,15 @@ struct BusStopETAListView: View {
     var viewModel : BusStopETAListViewModel<DataStorage<BusStopETA>>
     
     var body: some View {
-        NavigationView {
+        
+        VStack {
+            Text("Estimated Time of Arrival (ETA)").font(.headline)
+            
             if !viewModel.busStopETAList.isEmpty {
                 List(viewModel.busStopETAList) { eta in
                     
                     BookmarkedBusStopETARowView(viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta))
-                        .frame(height: 180)
+                        .frame(height: 200)
                     
                 }
             } else {

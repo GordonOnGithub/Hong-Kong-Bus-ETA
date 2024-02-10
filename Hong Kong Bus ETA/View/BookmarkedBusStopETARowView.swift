@@ -19,13 +19,20 @@ struct BookmarkedBusStopETARowView : View {
             
             Text(viewModel.busStopETA.getFullRouteName()).font(.title)
             
+            
             if viewModel.busRoute != nil {
                 Text(viewModel.getDestinationDescription()).font(.headline)
+            } else {
+                Spacer().frame(height: 30)
             }
             
             if viewModel.busStopDetail != nil {
                 Text(viewModel.getBusStopName())
+            } else {
+                Spacer().frame(height: 30)
             }
+            
+            Spacer().frame(height: 10)
             
             if let busETAList = viewModel.busETAList {
                     
@@ -43,11 +50,8 @@ struct BookmarkedBusStopETARowView : View {
                     ETARowView(eta: latest)
                     
                 } else {
-                    HStack{
-                        Text("-- : --").foregroundStyle(.gray)
-                        Spacer()
-                        Text(" - ").foregroundStyle(.gray)
-                    }
+                    Text("No information of ETA is available.").foregroundStyle(.gray)
+
                 }
                 
                 

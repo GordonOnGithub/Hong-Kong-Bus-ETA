@@ -18,7 +18,7 @@ struct BusRoutesView : View {
         
         if let list = viewModel.displayedList {
             NavigationView {
-                VStack(spacing: 20) {
+                VStack {
                     
                     List {
                         
@@ -43,7 +43,7 @@ struct BusRoutesView : View {
                     }
                 }
             }
-            .searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always) ,prompt: Text("Search"))
+            .searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always) ,prompt: Text("Search")).keyboardType(.namePhonePad)
             
         } else {
             ProgressView()

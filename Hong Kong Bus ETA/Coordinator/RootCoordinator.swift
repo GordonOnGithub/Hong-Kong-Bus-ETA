@@ -122,6 +122,8 @@ class RootCoordinator: ObservableObject {
         
         let vm = BusStopDetailViewModel(busStopETA: BusStopETA(stopId: stopId, route: route, company: company.rawValue, serviceType: serviceType, isInbound: isInbound ))
         
+        vm.delegate = self
+        
         vm.busStopDetail = detail
         
         return BusStopDetailView(viewModel: vm)
@@ -161,10 +163,20 @@ extension RootCoordinator: BusStopETAListViewModelDelegate {
 
         
     }
-    
 
+}
+
+extension RootCoordinator: BusStopDetailViewModelDelegate {
     
-    
-    
+    func busStopDetailViewModel(_ viewModel:  BusStopDetailViewModel<some DataStorageType>, didRequestBusRouteDetail route:  (any BusRouteModel)?) {
+        
+        sheetRoute = .none
+        
+        if path.count == 0, let route {
+            path.append(RootCoordinatorNavigationPath.routeDetail(route: route))
+            
+        }
+        
+    }
     
 }

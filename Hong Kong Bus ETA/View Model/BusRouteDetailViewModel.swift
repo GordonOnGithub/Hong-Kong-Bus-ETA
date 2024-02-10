@@ -20,7 +20,30 @@ class BusRouteDetailViewModel: ObservableObject {
     var apiManager : APIManagerType
     
     @Published
-    var stopList : [any BusStopModel]? = nil
+    var stopList : [any BusStopModel]? = nil {
+        didSet {
+            if  let stopList {
+                for busStop in stopList {
+                    let vm = makeBusStopRowViewModel(busStop: busStop)
+                    // make sure all bus stop details are loaded at the beginning for the map
+                }
+            }
+        }
+        
+    }
+    
+    @Published
+    var displayedList : [any BusStopModel]? = nil
+    
+    @Published
+    var filter : String = ""
+    
+    @Published
+    var showMap : Bool = false
+
+    
+    @Published
+    var busStopDetailsDict : [String: any BusStopDetailModel] = [:]
     
     weak var delegate: BusRouteDetailViewModelDelegate?
     
@@ -30,9 +53,45 @@ class BusRouteDetailViewModel: ObservableObject {
         self.route = route
         self.apiManager = apiManager
         
+        setupPublisher()
         fetch()
     }
     
+    func setupPublisher(){
+        $filter.debounce(for: 0.3, scheduler: DispatchQueue.main)
+            .combineLatest($stopList).sink { filter, stopList in
+                
+    
+                let filterList = filter.lowercased().split(separator: " ").map { s in
+                    String(s)
+                }
+    
+                if  filterList.count > 0 {
+                    self.displayedList = stopList?.filter({ busStop in
+                        
+                        guard let stopId = busStop.stopId ,let detail = self.busStopDetailsDict[stopId] else {
+                            return false
+                        }
+                        
+                        for keyword in filterList {
+                            
+                            if (detail.nameEn?.lowercased().contains(keyword.lowercased()) ?? false) ||
+                                (detail.nameTC?.contains(keyword) ?? false) ||
+                                (detail.nameSC?.contains(keyword) ?? false){
+                                continue
+                            }
+                            return false
+                        }
+                        
+                        return true
+                        
+                    })
+                } else {
+                    self.displayedList = stopList
+                }
+                
+            }.store(in: &cancellable)
+    }
     
     func fetch(){
         if let ctbRoute = route as? CTBBusRouteModel {
@@ -91,11 +150,21 @@ class BusRouteDetailViewModel: ObservableObject {
 
     }
     
+    private var busStopRowViewModeDict : [String: BusStopRowViewModel] = [:]
+    
     func makeBusStopRowViewModel(busStop : any BusStopModel) -> BusStopRowViewModel {
         
-        let vm = BusStopRowViewModel(busStop: busStop)
         
-        vm.delegate = self
+        guard let stopId = busStop.stopId,
+              let vm = busStopRowViewModeDict[stopId] else {
+            let vm = BusStopRowViewModel(busStop: busStop)
+            
+            vm.delegate = self
+            
+            busStopRowViewModeDict[busStop.stopId ?? ""] = vm
+            
+            return vm
+        }
         
         return vm
         
@@ -114,5 +183,9 @@ extension BusRouteDetailViewModel : BusStopRowViewModelDelegate {
         delegate?.busRouteDetailViewModel(self, didRequestDisplayBusStop: busStop, isInbound: busStop.isInbound, withDetails: details)
     }
     
-    
+    func busStopRowViewModel(_ viewModel: BusStopRowViewModel, didUpdateBusStop busStop: any BusStopModel ,withDetails details: (any BusStopDetailModel)? ) {
+        if let stopId = busStop.stopId, let details {
+            busStopDetailsDict[stopId] = details
+        }
+    }
 }

@@ -9,11 +9,7 @@ import Foundation
 import SwiftUI
 
 struct RootCoordinatorView: View {
-    
-    init() {
-        UITabBar.appearance().backgroundColor = UIColor.black
-    }
-    
+        
     @StateObject
     private var coordinator : RootCoordinator = RootCoordinator()
     

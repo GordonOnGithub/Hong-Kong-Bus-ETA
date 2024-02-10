@@ -11,6 +11,8 @@ import Combine
 protocol BusStopETAListViewModelDelegate : AnyObject {
     
     func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
+    
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusRoutes company: BusCompany)
 }
 
 class BusStopETAListViewModel<T>: ObservableObject where T : DataStorageType, T.PersistentModelType : BusStopETA {
@@ -54,6 +56,14 @@ class BusStopETAListViewModel<T>: ObservableObject where T : DataStorageType, T.
         
         return vm
         
+    }
+    
+    func onSearchCTBRoutesButtonClicked(){
+        delegate?.busStopETAListViewModelModel(self, didRequestDisplayBusRoutes: .CTB)
+    }
+    
+    func onSearchKMBRoutesButtonClicked(){
+        delegate?.busStopETAListViewModelModel(self, didRequestDisplayBusRoutes: .KMB)
     }
 }
 

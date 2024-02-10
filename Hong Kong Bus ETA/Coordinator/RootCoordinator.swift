@@ -163,6 +163,16 @@ extension RootCoordinator: BusStopETAListViewModelDelegate {
 
         
     }
+    
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusRoutes company: BusCompany) {
+        
+        switch company {
+        case .CTB:
+            tab = .CTB
+        case .KMB:
+            tab = .KMB
+        }
+    }
 
 }
 

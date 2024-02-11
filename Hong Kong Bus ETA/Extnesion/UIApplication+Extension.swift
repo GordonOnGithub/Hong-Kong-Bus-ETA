@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 protocol UIApplicationType {
-    func canOpenURL(_ url: URL) -> Bool
-    func openURL(_ url: URL) -> Bool
+  func canOpenURL(_ url: URL) -> Bool
+  func openURL(_ url: URL) -> Bool
 
 }
 
 extension UIApplication: UIApplicationType {
-    
+
 }

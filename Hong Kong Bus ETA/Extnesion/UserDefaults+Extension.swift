@@ -8,14 +8,14 @@
 import Foundation
 
 protocol UserDefaultsType {
-    
-    func string(forKey: String) -> String?
-    
-    func object(forKey defaultName: String) -> Any?
-    
-    func setValue(_ value: Any?, forKey key: String)
+
+  func string(forKey: String) -> String?
+
+  func object(forKey defaultName: String) -> Any?
+
+  func setValue(_ value: Any?, forKey key: String)
 }
 
 extension UserDefaults: UserDefaultsType {
-    
+
 }

@@ -9,66 +9,47 @@ import Foundation
 import SwiftData
 import Combine
 
-protocol DataStorageType {
+protocol BusETAStorageType {
     
-    associatedtype PersistentModelType : PersistentModel
+    var cache : CurrentValueSubject<[BusStopETA.ID: BusStopETA], Never> { get }
     
-    var cache : CurrentValueSubject<[PersistentModelType.ID: PersistentModelType], Never> { get }
-    
-    func fetch() -> AnyPublisher<[PersistentModelType],Error>
-    func insert(data: PersistentModelType) -> AnyPublisher<Bool, Never>
-    func delete(data : PersistentModelType) -> AnyPublisher<Bool, Never>
-    
+    func fetch() -> AnyPublisher<[BusStopETA],Error>
+    func insert(data: BusStopETA) -> AnyPublisher<Bool, Never>
+    func delete(data : BusStopETA) -> AnyPublisher<Bool, Never>
+
 }
 
-class BusETAStorage {
+class BusETAStorage : BusETAStorageType {
     
-    
-    static var shared : DataStorage<BusStopETA> = DataStorage<BusStopETA>()
-    
-    private init(){
-        
-    }
-}
+    static var shared  = BusETAStorage()
 
-class DataStorage<U: PersistentModel> : DataStorageType {
-    
-    typealias PersistentModelType = U
-    
     private let container : ModelContainer
 
-    var cache : CurrentValueSubject<[PersistentModelType.ID: PersistentModelType], Never> = CurrentValueSubject([:])
+    var cache : CurrentValueSubject<[BusStopETA.ID: BusStopETA], Never> = CurrentValueSubject([:])
 
     
     private var cancellable = Set<AnyCancellable>()
 
-    init(){
+    private init(){
         
         let schema = Schema([
-            PersistentModelType.self,
+            BusStopETA.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
         
-        self.container = try! ModelContainer(for: schema, configurations: [modelConfiguration])
+        self.container = try! ModelContainer(for: schema)
         
-        Task {
-            let container = await container.mainContext
-            container.autosaveEnabled = true
-        }
     }
         
-    func fetch() -> AnyPublisher<[PersistentModelType],Error> {
+    func fetch() -> AnyPublisher<[BusStopETA],Error> {
         
         return Future { block in
             Task {
                 let context = await self.container.mainContext
                 
                 do {
-                    let result = try context.fetch(FetchDescriptor<PersistentModelType>())
+                    let result = try context.fetch(FetchDescriptor<BusStopETA>())
                     
-                    
-                    var updatedCache : [PersistentModelType.ID: PersistentModelType] = [:]
+                    var updatedCache : [BusStopETA.ID: BusStopETA] = [:]
                     
                     for data in result {
                         updatedCache[data.id] = data
@@ -87,22 +68,28 @@ class DataStorage<U: PersistentModel> : DataStorageType {
         
     }
     
-    func insert(data: PersistentModelType) -> AnyPublisher<Bool, Never> {
+    func insert(data: BusStopETA) -> AnyPublisher<Bool, Never> {
         
         return Future<Bool, Never> { block in
             
             Task {
-                let context = await self.container.mainContext
-                
-                context.insert(data)
-                
-                var updatedCache = self.cache.value
-                
-                updatedCache[data.id] = data
-                
-                self.cache.value = updatedCache
-                
-                block(.success(true))
+                do {
+                    let context = await self.container.mainContext
+                    
+                    context.insert(data)
+                    
+                    try context.save()
+                    
+                    var updatedCache = self.cache.value
+                    
+                    updatedCache[data.id] = data
+                    
+                    self.cache.value = updatedCache
+                    
+                    block(.success(true))
+                }catch {
+                    block(.success(false))
+                }
 
             }
             
@@ -111,23 +98,34 @@ class DataStorage<U: PersistentModel> : DataStorageType {
         .eraseToAnyPublisher()
     }
     
-    func delete(data : PersistentModelType) -> AnyPublisher<Bool, Never> {
+    func delete(data : BusStopETA) -> AnyPublisher<Bool, Never> {
         
         return Future<Bool, Never> { block in
             
             Task {
-                
-                let context = await self.container.mainContext
-            
-                var updatedCache = self.cache.value
-                
-                updatedCache.removeValue(forKey: data.id)
-            
-                self.cache.value = updatedCache
-                
-                context.delete(data)
-            
-                block(.success(true))
+                do {
+                    let context = await self.container.mainContext
+                    
+                    var updatedCache = self.cache.value
+                    
+                    updatedCache.removeValue(forKey: data.id)
+                    
+                    self.cache.value = updatedCache
+                                        
+                    
+                    let key = data.id
+                    
+                    let predicate = #Predicate<BusStopETA> { d in
+                        d.id == key
+                    }
+                    
+                    try context.delete(model: BusStopETA.self, where: predicate)
+                    try context.save()
+                    
+                    block(.success(true))
+                } catch {
+                    block(.success(false))
+                }
             }
             
             
@@ -135,6 +133,6 @@ class DataStorage<U: PersistentModel> : DataStorageType {
         .eraseToAnyPublisher()
         
     }
-    
+        
 }
 

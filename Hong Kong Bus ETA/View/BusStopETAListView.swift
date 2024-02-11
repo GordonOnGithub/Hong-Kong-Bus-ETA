@@ -12,7 +12,7 @@ import SwiftUI
 struct BusStopETAListView: View {
     
     @StateObject
-    var viewModel : BusStopETAListViewModel<DataStorage<BusStopETA>>
+    var viewModel : BusStopETAListViewModel
     
     var body: some View {
         

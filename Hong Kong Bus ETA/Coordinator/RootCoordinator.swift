@@ -66,7 +66,7 @@ class RootCoordinator: ObservableObject {
     @Published
     var sheetRoute : RootCoordinatorSheetRoute?
     
-    private weak var busStopETAListViewModel: BusStopETAListViewModel<DataStorage<BusStopETA>>?
+    private weak var busStopETAListViewModel: BusStopETAListViewModel?
     private weak var ctbBusRoutesViewModel: BusRoutesViewModel?
     private weak var kmbBusRoutesViewModel: BusRoutesViewModel?
     
@@ -104,7 +104,7 @@ class RootCoordinator: ObservableObject {
         
     }
     
-    func buildETAListViewModel() -> BusStopETAListViewModel<DataStorage<BusStopETA>> {
+    func buildETAListViewModel() -> BusStopETAListViewModel {
         
         guard let busStopETAListViewModel else {
             let vm = BusStopETAListViewModel()
@@ -157,14 +157,14 @@ extension RootCoordinator: BusRouteDetailViewModelDelegate {
 }
 
 extension RootCoordinator: BusStopETAListViewModelDelegate {
-    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?) {
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?) {
         
         sheetRoute = .busStopDetail(route: route, company: company, stopId: stopId, serviceType: serviceType, isInbound: isInbound, detail: detail)
 
         
     }
     
-    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusRoutes company: BusCompany) {
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel, didRequestDisplayBusRoutes company: BusCompany) {
         
         switch company {
         case .CTB:
@@ -178,7 +178,7 @@ extension RootCoordinator: BusStopETAListViewModelDelegate {
 
 extension RootCoordinator: BusStopDetailViewModelDelegate {
     
-    func busStopDetailViewModel(_ viewModel:  BusStopDetailViewModel<some DataStorageType>, didRequestBusRouteDetail route:  (any BusRouteModel)?) {
+    func busStopDetailViewModel(_ viewModel:  BusStopDetailViewModel, didRequestBusRouteDetail route:  (any BusRouteModel)?) {
         
         sheetRoute = .none
         

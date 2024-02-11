@@ -15,7 +15,7 @@ struct BusStopDetailView : View {
     @Environment(\.dismiss) var dismiss
     
     @StateObject
-    var viewModel: BusStopDetailViewModel<DataStorage<BusStopETA>>
+    var viewModel: BusStopDetailViewModel
     
     var body: some View {
         NavigationView {

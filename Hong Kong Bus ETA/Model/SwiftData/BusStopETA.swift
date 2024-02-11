@@ -22,9 +22,7 @@ class BusStopETA : Identifiable {
     let isInbound: Bool
     
     @Attribute(.unique)
-    var id : String {
-        company + route + stopId + (serviceType ?? "") + (isInbound ? "I" : "O")
-    }
+    var id : String 
     
     init(stopId: String, route: String, company: String, serviceType: String?, isInbound: Bool) {
         self.stopId = stopId
@@ -32,6 +30,9 @@ class BusStopETA : Identifiable {
         self.company = company
         self.serviceType = serviceType
         self.isInbound = isInbound
+        
+        self.id = company + route + stopId + (serviceType ?? "") + (isInbound ? "I" : "O")
+
     }
     
     func getFullRouteName() -> String {

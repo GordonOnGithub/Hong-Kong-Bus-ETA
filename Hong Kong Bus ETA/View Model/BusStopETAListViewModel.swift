@@ -10,23 +10,23 @@ import Combine
 
 protocol BusStopETAListViewModelDelegate : AnyObject {
     
-    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel, didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
     
-    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel<some DataStorageType>, didRequestDisplayBusRoutes company: BusCompany)
+    func busStopETAListViewModelModel(_ viewModel: BusStopETAListViewModel, didRequestDisplayBusRoutes company: BusCompany)
 }
 
-class BusStopETAListViewModel<T>: ObservableObject where T : DataStorageType, T.PersistentModelType : BusStopETA {
+class BusStopETAListViewModel: ObservableObject {
     
     @Published
-    var busStopETAList: [T.PersistentModelType] = []
+    var busStopETAList: [BusStopETA] = []
     
-    let busETAStorage : T
+    let busETAStorage : BusETAStorageType
     
     weak var delegate: BusStopETAListViewModelDelegate?
 
     private var cancellable = Set<AnyCancellable>()
 
-    init( busETAStorage: T = BusETAStorage.shared) {
+    init( busETAStorage: BusETAStorageType = BusETAStorage.shared) {
         self.busETAStorage = busETAStorage
                 
         busETAStorage.fetch()

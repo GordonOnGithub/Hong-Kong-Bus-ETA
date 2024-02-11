@@ -11,11 +11,11 @@ import UIKit
 
 protocol BusStopDetailViewModelDelegate : AnyObject  {
     
-    func busStopDetailViewModel(_ viewModel:  BusStopDetailViewModel<some DataStorageType>, didRequestBusRouteDetail route: (any BusRouteModel)?)
+    func busStopDetailViewModel(_ viewModel:  BusStopDetailViewModel, didRequestBusRouteDetail route: (any BusRouteModel)?)
     
 }
 
-class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.PersistentModelType : BusStopETA {
+class BusStopDetailViewModel : ObservableObject {
         
     @Published
     var busStopDetail : (any BusStopDetailModel)?
@@ -23,7 +23,7 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
     @Published
     var busRoute: (any BusRouteModel)?
     
-    let busStopETA : T.PersistentModelType
+    let busStopETA : BusStopETA
     
     let apiManager: APIManagerType
     
@@ -38,15 +38,15 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
     
     weak var delegate: (any  BusStopDetailViewModelDelegate)?
     
-    let busETAStorage : T
+    let busETAStorage : BusETAStorageType
     
     let busRoutesDataProvider : BusRoutesDataProviderType
     
     let application :UIApplicationType
         
     private var cancellable = Set<AnyCancellable>()
-
-    init( busStopETA: T.PersistentModelType, apiManager: APIManagerType = APIManager.shared, busETAStorage : T = BusETAStorage.shared,
+    
+    init( busStopETA: BusStopETA, apiManager: APIManagerType = APIManager.shared, busETAStorage : BusETAStorageType = BusETAStorage.shared,
           busRoutesDataProvider : BusRoutesDataProviderType = BusRoutesDataProvider.shared,
           application : UIApplicationType = UIApplication.shared) {
     
@@ -226,9 +226,10 @@ class BusStopDetailViewModel<T> : ObservableObject where T : DataStorageType, T.
                 .sink { [weak self] success in
                 if success {
                     self?.isSaved = false
+
                 }
             }.store(in: &cancellable)
-            
+                        
         } else {
             busETAStorage.insert(data: busStopETA)
                 .receive(on: DispatchQueue.main)

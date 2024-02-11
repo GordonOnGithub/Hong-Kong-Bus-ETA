@@ -20,14 +20,14 @@ struct BusRoutesView: View {
         VStack(spacing: 20) {
           if list.isEmpty {
 
-            Text("Failed to fetch data.")
+            Text(String(localized: "failed_to_fetch"))
 
             Button(
               action: {
                 viewModel.fetch()
               },
               label: {
-                Text("Retry")
+                Text(String(localized: "retry"))
               })
 
           } else {
@@ -44,7 +44,8 @@ struct BusRoutesView: View {
                       VStack(alignment: .leading) {
 
                         Text(route.getFullRouteName()).font(.title)
-                        Text("To: \(route.destination())")
+                          
+                        Text(String(localized: "to")) + Text( route.destination())
                       }
                       Spacer()
                     }.frame(height: 80)
@@ -60,7 +61,7 @@ struct BusRoutesView: View {
       }
       .searchable(
         text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
-        prompt: Text("Search")
+        prompt: Text(String(localized: "search"))
       ).keyboardType(.namePhonePad)
 
     } else {

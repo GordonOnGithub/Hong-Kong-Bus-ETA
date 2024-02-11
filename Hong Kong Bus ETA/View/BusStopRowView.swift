@@ -24,7 +24,7 @@ struct BusStopRowView: View {
         label: {
           HStack(alignment: .center) {
 
-            Text(detail.nameEn ?? "")
+            Text(detail.localizedName() ?? "")
             Spacer()
 
           }.frame(height: 50)
@@ -39,7 +39,7 @@ struct BusStopRowView: View {
           viewModel.fetch()
         },
         label: {
-          Text("Reload")
+          Text(String(localized: "retry"))
         })
 
     } else {

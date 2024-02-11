@@ -26,7 +26,7 @@ struct BusRouteDetailView: View {
             Button {
               viewModel.fetch()
             } label: {
-              Text("Failed to fetch data.")
+                Text(String(localized: "failed_to_fetch"))
             }
 
           } else if viewModel.showMap {
@@ -42,7 +42,7 @@ struct BusRouteDetailView: View {
 
                   if let stopId = stop.stopId,
                     let busStopDetail = viewModel.busStopDetailsDict[stopId],
-                    let name = busStopDetail.nameEn,
+                    let name = busStopDetail.localizedName(),
                     let latitude = Double(busStopDetail.position?.0 ?? ""),
                     let longitude = Double(busStopDetail.position?.1 ?? "")
                   {
@@ -71,13 +71,13 @@ struct BusRouteDetailView: View {
                     })
                 }
               } header: {
-                Text("Origin")
+                Text(String(localized: "origin"))
               } footer: {
-                Text("Destination")
+                Text(String(localized: "destination"))
               }
             }.searchable(
               text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
-              prompt: Text("Search")
+              prompt: Text(String(localized: "search"))
             ).keyboardType(.alphabet)
 
           }
@@ -98,9 +98,10 @@ struct BusRouteDetailView: View {
             viewModel.showMap.toggle()
           },
           label: {
-
-            Text(viewModel.showMap ? "Show List" : "Show Map")
-
+              Image(viewModel.showMap ? "list" : "map", bundle: .main)
+                  .renderingMode(.template)
+                  .resizable().scaledToFit().frame(height: 25)
+                  .foregroundStyle(.blue)
           })
       }
     }

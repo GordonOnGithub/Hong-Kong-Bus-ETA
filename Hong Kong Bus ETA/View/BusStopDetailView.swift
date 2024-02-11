@@ -22,7 +22,7 @@ struct BusStopDetailView: View {
 
         if viewModel.showNetworkUnavailableWarning {
           VStack {
-            Text("Network is not reachable.")
+            Text(String(localized: "network_not_reachable"))
               .foregroundStyle(.black)
               .font(.system(size: 16, weight: .semibold))
               .frame(maxWidth: .infinity)
@@ -37,18 +37,16 @@ struct BusStopDetailView: View {
             Text(viewModel.getBusStopName()).font(.title)
           }
 
-          Group {
-            Text("\(viewModel.busStopETA.company) \(viewModel.busStopETA.route)").font(.headline)
-              .underline()
+            Button(action: {
+                viewModel.showBusRouteDetail()
+            }, label: {
+                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(.white)
+            }).buttonStyle(.borderedProminent).tint(viewModel.busStopETA.company == "KMB" ? .red : .blue )
 
-            if viewModel.busRoute != nil {
-              Text(viewModel.getDestinationDescription()).font(.subheadline)
-                .underline()
-            }
-          }.contentShape(Rectangle())
-            .onTapGesture {
-              viewModel.showBusRouteDetail()
-            }
+              if viewModel.busRoute != nil {
+                Text(viewModel.getDestinationDescription()).font(.subheadline)
+              }
+            
 
           Spacer().frame(height: 10)
           if let busETAList = viewModel.busETAList {
@@ -62,15 +60,16 @@ struct BusStopDetailView: View {
 
               } header: {
                 if busETAList.isEmpty {
-                  Text("No information on estimated time of arrival.").listRowInsets(EdgeInsets())
+                    // No information on estimated time of arrival.
+                  Text(String(localized: "no_eta_info")).listRowInsets(EdgeInsets())
                 } else {
-                  Text("Estimated Time of Arrival: ").listRowInsets(EdgeInsets())
+                  Text(String(localized: "estimated_time_of_arrival")).listRowInsets(EdgeInsets())
                 }
               } footer: {
                 if let lastUpdatedTimestamp = viewModel.lastUpdatedTimestamp {
                   Section {
                     Text(
-                      "Last update: \(lastUpdatedTimestamp.ISO8601Format(.iso8601(timeZone: TimeZone.current)))"
+                       String(localized: "last_update") + " \(lastUpdatedTimestamp.ISO8601Format(.iso8601(timeZone: TimeZone.current)))"
                     ).listRowInsets(EdgeInsets())
                   }
                 }
@@ -98,7 +97,7 @@ struct BusStopDetailView: View {
 
             HStack {
 
-              Text("Location").font(.headline)
+                Text(String(localized: "location")).font(.headline)
               Spacer()
               Button(
                 action: {
@@ -107,7 +106,7 @@ struct BusStopDetailView: View {
 
                 },
                 label: {
-                  Text("Open in Map app")
+                    Text(String(localized: "open_in_map_app"))
                 })
 
             }
@@ -130,7 +129,7 @@ struct BusStopDetailView: View {
               dismiss()
             },
             label: {
-              Text("Dismiss")
+                Text(String(localized: "dismiss"))
             })
         }
 
@@ -142,9 +141,9 @@ struct BusStopDetailView: View {
             label: {
 
               if viewModel.isSaved {
-                Text("Unbookmark")
+                  Text(String(localized: "unbookmark"))
               } else {
-                Text("Bookmark")
+                Text(String(localized: "bookmark"))
               }
             })
         }

@@ -15,7 +15,11 @@ struct ETARowView: View {
   var body: some View {
 
     HStack {
-
+        
+        Image("clock", bundle: .main)
+            .renderingMode(.template).resizable().scaledToFit().frame(height: 20)
+            .foregroundColor(.white)
+        
       switch eta.remainingTime {
       case .expired:
         Text(eta.getReadableHourAndMinute())

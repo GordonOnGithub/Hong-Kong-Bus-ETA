@@ -36,7 +36,7 @@ class BusStopETA: Identifiable {
   }
 
   func getFullRouteName() -> String {
-    return company + " " + route
+      return (company == "KMB" ? BusCompany.KMB.localizedName() : BusCompany.CTB.localizedName() ) + " " + route
   }
 
 }

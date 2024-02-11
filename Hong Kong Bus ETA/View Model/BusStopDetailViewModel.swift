@@ -243,10 +243,14 @@ class BusStopDetailViewModel: ObservableObject {
 
   }
 
+    func getRouteName() -> String {
+        
+        return (busStopETA.company == "KMB" ? BusCompany.KMB.localizedName() : BusCompany.CTB.localizedName() ) + " " + busStopETA.route
+    }
+    
   func getBusStopName() -> String {
 
-    return busStopDetail?.nameEn ?? ""
-
+    return busStopDetail?.localizedName() ?? ""
   }
 
   func onSaveButtonClicked() {
@@ -274,7 +278,7 @@ class BusStopDetailViewModel: ObservableObject {
   }
 
   func getDestinationDescription() -> String {
-    return "To: " + (busRoute?.destination() ?? "")
+    return String(localized: "to") + (busRoute?.destination() ?? "")
   }
 
   func openMapApp() {

@@ -18,7 +18,7 @@ struct RootCoordinatorView: View {
     VStack {
       if coordinator.showNetworkUnavailableWarning {
         VStack {
-          Text("Network is not reachable.")
+          Text(String(localized: "network_not_reachable"))
             .foregroundStyle(.black)
             .font(.system(size: 16, weight: .semibold))
             .frame(maxWidth: .infinity)
@@ -30,18 +30,21 @@ struct RootCoordinatorView: View {
 
         TabView(selection: $coordinator.tab) {
 
-          BusStopETAListView(viewModel: coordinator.buildETAListViewModel()).tabItem {
-            Text("ETA")
+            BusStopETAListView(viewModel: coordinator.buildETAListViewModel()).tabItem {
+                Label(String(localized: "ETA"), systemImage: "clock")
+            
           }.tag(Tab.ETA)
 
           BusRoutesView(viewModel: coordinator.buildCTBRouteListViewModel())
             .tabItem {
-              Text("CTB")
+                Label(BusCompany.CTB.localizedName(), systemImage: "bus")
+                
             }.tag(Tab.CTB)
 
           BusRoutesView(viewModel: coordinator.buildKMBRouteListViewModel())
             .tabItem {
-              Text("KMB")
+                Label(BusCompany.KMB.localizedName(), systemImage: "bus")
+                
             }.tag(Tab.KMB)
 
         }

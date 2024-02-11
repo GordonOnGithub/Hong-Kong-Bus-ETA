@@ -19,7 +19,7 @@ struct BusStopETAListView: View {
       if !viewModel.busStopETAList.isEmpty {
         Spacer().frame(height: 10)
 
-        Text("Estimated Time of Arrival (ETA)").font(.headline)
+        Text(String(localized: "estimated_time_of_arrival")).font(.headline)
 
         List(viewModel.busStopETAList) { eta in
 
@@ -31,15 +31,16 @@ struct BusStopETAListView: View {
         }
       } else {
         VStack(spacing: 20) {
-          Text("No bus stop is bookmarked.").font(.headline)
-          Text("Bookmark bus stops to see their estimated time of arrival").font(.subheadline)
+          Text(String(localized: "empty_eta_list_title")).font(.headline)
+                .multilineTextAlignment(.center)
+            Text(String(localized: "empty_eta_list_message")).font(.subheadline).multilineTextAlignment(.center)
 
           Button(
             action: {
               viewModel.onSearchCTBRoutesButtonClicked()
             },
             label: {
-              Text("Search for CTB routes")
+                Text(String(localized: "search_ctb_routes"))
             }
           ).buttonStyle(.bordered).tint(.blue)
 
@@ -48,7 +49,7 @@ struct BusStopETAListView: View {
               viewModel.onSearchKMBRoutesButtonClicked()
             },
             label: {
-              Text("Search for KMB routes")
+              Text(String(localized: "search_kmb_routes"))
             }
           ).buttonStyle(.bordered).tint(.red)
         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))

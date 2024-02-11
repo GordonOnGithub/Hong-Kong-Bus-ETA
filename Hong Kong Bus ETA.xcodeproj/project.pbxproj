@@ -14,6 +14,7 @@
 		7D3E72802B5D31C6009C57F5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E727F2B5D31C6009C57F5 /* Preview Assets.xcassets */; };
 		7D3E72872B5D48C4009C57F5 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E72862B5D48C4009C57F5 /* RootCoordinator.swift */; };
 		7D3E72892B5D48CD009C57F5 /* RootCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E72882B5D48CD009C57F5 /* RootCoordinatorView.swift */; };
+		7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */; };
 		7D8CD0552B637EBC00C15741 /* BookmarkedBusStopETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */; };
 		7D8CD0572B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */; };
 		7D8CD0592B638FCC00C15741 /* ETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0582B638FCC00C15741 /* ETARowView.swift */; };
@@ -55,6 +56,7 @@
 		7D3E727F2B5D31C6009C57F5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7D3E72862B5D48C4009C57F5 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		7D3E72882B5D48CD009C57F5 /* RootCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinatorView.swift; sourceTree = "<group>"; };
+		7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowView.swift; sourceTree = "<group>"; };
 		7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0582B638FCC00C15741 /* ETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETARowView.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				7DE9AF642B5D4BC9009B7EF7 /* APIManager.swift */,
 				7DE9AF8D2B5EC352009B7EF7 /* BusRoutesDataProvider.swift */,
 				7DE9AF8F2B615427009B7EF7 /* DataStorage.swift */,
+				7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */,
 			);
 			path = "Hong Kong Bus ETA";
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = 7D3E72692B5D31C4009C57F5;
 			productRefGroup = 7D3E72732B5D31C4009C57F5 /* Products */;
@@ -298,6 +302,7 @@
 			files = (
 				7D3E72802B5D31C6009C57F5 /* Preview Assets.xcassets in Resources */,
 				7D3E727C2B5D31C6009C57F5 /* Assets.xcassets in Resources */,
+				7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

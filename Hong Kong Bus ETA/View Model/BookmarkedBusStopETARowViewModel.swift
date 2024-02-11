@@ -217,12 +217,12 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
   func getBusStopName() -> String {
 
-    return busStopDetail?.nameEn ?? ""
+    return busStopDetail?.localizedName() ?? ""
 
   }
 
   func getDestinationDescription() -> String {
-    return "To: " + (busRoute?.destination() ?? "")
+    return String(localized: "to") + (busRoute?.destination() ?? "")
   }
 
   func onRowClicked() {

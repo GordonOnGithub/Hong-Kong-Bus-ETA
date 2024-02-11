@@ -193,7 +193,7 @@ class BusRouteDetailViewModel: ObservableObject {
 
     let destination = self.route.destination()
 
-    return " To: " + destination
+    return String(localized: "to") + destination
   }
 }
 

@@ -17,6 +17,8 @@ struct BusStopETAListView: View {
 
     VStack {
       if !viewModel.busStopETAList.isEmpty {
+        Spacer().frame(height: 10)
+
         Text("Estimated Time of Arrival (ETA)").font(.headline)
 
         List(viewModel.busStopETAList) { eta in

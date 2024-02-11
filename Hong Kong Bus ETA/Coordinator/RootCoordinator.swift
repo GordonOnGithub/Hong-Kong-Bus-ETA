@@ -5,6 +5,7 @@
 //  Created by Ka Chun Wong on 21/1/2024.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
@@ -68,9 +69,21 @@ class RootCoordinator: ObservableObject {
   @Published
   var sheetRoute: RootCoordinatorSheetRoute?
 
+  @Published
+  var showNetworkUnavailableWarning = false
+
   private weak var busStopETAListViewModel: BusStopETAListViewModel?
   private weak var ctbBusRoutesViewModel: BusRoutesViewModel?
   private weak var kmbBusRoutesViewModel: BusRoutesViewModel?
+
+  private var cancellable: Set<AnyCancellable> = Set()
+
+  init(apiManager: APIManagerType = APIManager.shared) {
+
+    apiManager.isReachable.map({ isReachable in
+      return !isReachable
+    }).assign(to: &$showNetworkUnavailableWarning)
+  }
 
   func buildCTBRouteListViewModel() -> BusRoutesViewModel {
 

@@ -17,31 +17,44 @@ struct BusRoutesView: View {
 
     if let list = viewModel.displayedList {
       NavigationView {
-        VStack {
+        VStack(spacing: 20) {
+          if list.isEmpty {
 
-          List {
+            Text("Failed to fetch data.")
 
-            ForEach(list, id: \.id) { route in
+            Button(
+              action: {
+                viewModel.fetch()
+              },
+              label: {
+                Text("Retry")
+              })
 
-              Button(
-                action: {
-                  viewModel.onRouteSelected(route)
-                },
-                label: {
-                  HStack {
-                    VStack(alignment: .leading) {
+          } else {
+            List {
 
-                      Text(route.getFullRouteName()).font(.title)
-                      Text("To: \(route.destination())")
-                    }
-                    Spacer()
-                  }.frame(height: 80)
-                    .contentShape(Rectangle())
-                }
-              ).buttonStyle(.plain)
+              ForEach(list, id: \.id) { route in
+
+                Button(
+                  action: {
+                    viewModel.onRouteSelected(route)
+                  },
+                  label: {
+                    HStack {
+                      VStack(alignment: .leading) {
+
+                        Text(route.getFullRouteName()).font(.title)
+                        Text("To: \(route.destination())")
+                      }
+                      Spacer()
+                    }.frame(height: 80)
+                      .contentShape(Rectangle())
+                  }
+                ).buttonStyle(.plain)
+
+              }
 
             }
-
           }
         }
       }

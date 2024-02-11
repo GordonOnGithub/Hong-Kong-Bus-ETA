@@ -121,6 +121,16 @@ class BusRoutesViewModel: ObservableObject {
 
       }.store(in: &cancellable)
 
+    apiManager.isReachable.dropFirst().sink { [weak self] reachable in
+      if reachable {
+        self?.fetch()
+      }
+    }.store(in: &cancellable)
+  }
+
+  func fetch() {
+    routeList = nil
+    busRoutesListSource.fetchData()
   }
 
   func onRouteSelected(_ route: any BusRouteModel) {

@@ -134,6 +134,12 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
     default:
       break
     }
+
+    apiManager.isReachable.dropFirst().sink { [weak self] reachable in
+      if reachable {
+        self?.fetchETA()
+      }
+    }.store(in: &cancellable)
   }
   func fetchETA() {
 

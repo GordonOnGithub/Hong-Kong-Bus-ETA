@@ -37,6 +37,9 @@ class BusStopDetailViewModel: ObservableObject {
   @Published
   var isSaved: Bool = false
 
+  @Published
+  var showNetworkUnavailableWarning = false
+
   weak var delegate: (any BusStopDetailViewModelDelegate)?
 
   let busETAStorage: BusETAStorageType
@@ -114,6 +117,17 @@ class BusStopDetailViewModel: ObservableObject {
   }
 
   private func setupPublisher() {
+
+    apiManager.isReachable.map({ isReachable in
+      return !isReachable
+    }).assign(to: &$showNetworkUnavailableWarning)
+
+    apiManager.isReachable.dropFirst().sink { [weak self] reachable in
+      if reachable {
+        self?.fetchETA()
+      }
+    }.store(in: &cancellable)
+
     Timer.publish(every: 30, on: .main, in: .default).autoconnect().sink { [weak self] _ in
       self?.fetchETA()
     }.store(in: &cancellable)

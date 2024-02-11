@@ -11,6 +11,7 @@ import Foundation
 
 protocol APIManagerType {
   static var shared: APIManagerType { get }
+  var isReachable: CurrentValueSubject<Bool, Never> { get }
   func call(api: API) -> AnyPublisher<Data?, Error>
 }
 
@@ -88,8 +89,21 @@ class APIManager: APIManagerType {
 
   static var shared: APIManagerType = APIManager()
 
-  private init() {
+  var isReachable: CurrentValueSubject<Bool, Never> = CurrentValueSubject(true)
 
+  private init() {
+    NetworkReachabilityManager.default?.startListening(
+      onQueue: .main,
+      onUpdatePerforming: { status in
+
+        switch status {
+        case .reachable:
+          self.isReachable.value = true
+        default:
+          self.isReachable.value = false
+        }
+
+      })
   }
 
   func call(api: API) -> AnyPublisher<Data?, Error> {

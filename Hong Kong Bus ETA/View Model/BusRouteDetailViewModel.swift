@@ -44,6 +44,9 @@ class BusRouteDetailViewModel: ObservableObject {
   var showMap: Bool = false
 
   @Published
+  var hasError: Bool = false
+
+  @Published
   var busStopDetailsDict: [String: any BusStopDetailModel] = [:]
 
   weak var delegate: BusRouteDetailViewModelDelegate?
@@ -95,6 +98,9 @@ class BusRouteDetailViewModel: ObservableObject {
   }
 
   func fetch() {
+
+    stopList = nil
+
     if let ctbRoute = route as? CTBBusRouteModel {
 
       fetchCTBRouteData(route: ctbRoute)
@@ -114,8 +120,10 @@ class BusRouteDetailViewModel: ObservableObject {
       switch completion {
       case .failure(let error):
         self?.stopList = []
+        self?.hasError = true
         break
       default:
+        self?.hasError = false
         break
 
       }

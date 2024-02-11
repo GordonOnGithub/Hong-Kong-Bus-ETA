@@ -20,7 +20,16 @@ struct BusRouteDetailView: View {
       VStack {
 
         if let list = viewModel.displayedList {
-          if viewModel.showMap {
+
+          if viewModel.hasError {
+
+            Button {
+              viewModel.fetch()
+            } label: {
+              Text("Failed to fetch data.")
+            }
+
+          } else if viewModel.showMap {
             Spacer().frame(height: 20)
             Map(
               initialPosition: MapCameraPosition.positionOfHongKong,

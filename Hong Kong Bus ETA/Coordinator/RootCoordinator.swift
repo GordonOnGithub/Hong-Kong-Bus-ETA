@@ -14,11 +14,15 @@ enum RootCoordinatorSheetRoute: Identifiable {
     route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool,
     detail: (any BusStopDetailModel)?)
 
+  case sortingPref
+
   var id: String {
 
     switch self {
     case .busStopDetail:
       return "busStopDetail"
+    case .sortingPref:
+      return "sortingPref"
     }
   }
 
@@ -151,6 +155,17 @@ class RootCoordinator: ObservableObject {
     return BusStopDetailView(viewModel: vm)
 
   }
+
+  func buildETASortingPreferenceView() -> some View {
+
+    let vm = ETASortingPreferenceViewModel()
+
+    vm.delegate = self
+
+    return ETASortingPreferenceView(viewModel: vm)
+
+  }
+
 }
 
 extension RootCoordinator: BusRoutesViewModelDelegate {
@@ -183,6 +198,10 @@ extension RootCoordinator: BusRouteDetailViewModelDelegate {
 }
 
 extension RootCoordinator: BusStopETAListViewModelDelegate {
+  func busStopETAListViewModelModelDidOpenSortingView(_ viewModel: BusStopETAListViewModel) {
+    sheetRoute = .sortingPref
+  }
+
   func busStopETAListViewModelModel(
     _ viewModel: BusStopETAListViewModel, didRequestDisplayBusStopDetailForRoute route: String,
     company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool,
@@ -233,4 +252,12 @@ extension RootCoordinator: BusStopDetailViewModelDelegate {
 
   }
 
+}
+
+extension RootCoordinator: ETASortingPreferenceViewModelDelegate {
+  func ETASortingPreferenceViewModelDidUpdateSorting(_ viewModel: ETASortingPreferenceViewModel) {
+    busStopETAListViewModel?.sorting = viewModel.sorting
+
+    sheetRoute = nil
+  }
 }

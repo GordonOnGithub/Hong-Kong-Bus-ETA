@@ -21,6 +21,8 @@ class BusStopETA: Identifiable {
 
   let isInbound: Bool
 
+  let addDate: Date
+
   @Attribute(.unique)
   var id: String
 
@@ -32,6 +34,8 @@ class BusStopETA: Identifiable {
     self.isInbound = isInbound
 
     self.id = company + route + stopId + (serviceType ?? "") + (isInbound ? "I" : "O")
+
+    self.addDate = Date()
 
   }
 

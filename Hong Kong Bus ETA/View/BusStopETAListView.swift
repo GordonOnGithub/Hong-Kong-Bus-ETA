@@ -19,8 +19,24 @@ struct BusStopETAListView: View {
       if !viewModel.busStopETAList.isEmpty {
         Spacer().frame(height: 10)
 
-        Text(String(localized: "estimated_time_of_arrival")).font(.headline)
+        HStack {
+          Spacer().frame(width: 50)
 
+          Text(String(localized: "estimated_time_of_arrival")).font(.headline).frame(
+            maxWidth: .infinity)
+
+          Button(
+            action: {
+
+              viewModel.onSortingButtonClicked()
+
+            },
+            label: {
+              Label("", systemImage: "arrow.up.and.down.text.horizontal")
+            }
+          ).frame(width: 50)
+
+        }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         List(viewModel.busStopETAList) { eta in
 
           BookmarkedBusStopETARowView(

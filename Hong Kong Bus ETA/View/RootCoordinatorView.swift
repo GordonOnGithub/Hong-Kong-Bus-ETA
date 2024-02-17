@@ -68,6 +68,9 @@ struct RootCoordinatorView: View {
           coordinator.buildBusStopDetailView(
             route: route, company: company, stopId: stopId, serviceType: serviceType,
             isInbound: isInbound, detail: detail)
+
+        case .sortingPref:
+          coordinator.buildETASortingPreferenceView()
         }
 
       }

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%@, %@" : {
       "localizations" : {
         "en" : {
@@ -75,6 +78,22 @@
         }
       }
     },
+    "earliest_added_first" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First Added First"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最早加入"
+          }
+        }
+      }
+    },
     "empty_eta_list_message" : {
       "localizations" : {
         "en" : {
@@ -134,6 +153,22 @@
         }
       }
     },
+    "eta_sorting_pref" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorting"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序"
+          }
+        }
+      }
+    },
     "failed_to_fetch" : {
       "localizations" : {
         "en" : {
@@ -166,6 +201,22 @@
         }
       }
     },
+    "large_route_number_first" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large Route Number First"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "路線號碼 （大至小）"
+          }
+        }
+      }
+    },
     "last_update" : {
       "localizations" : {
         "en" : {
@@ -178,6 +229,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最近更新"
+          }
+        }
+      }
+    },
+    "latest_added_first" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recently Added First"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近加入"
           }
         }
       }
@@ -421,6 +488,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此應用程式是一個開源項目，資料來自 data.gov.hk"
+          }
+        }
+      }
+    },
+    "small_route_number_first" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Small Route Number First"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "路線號碼 （小至大）"
           }
         }
       }

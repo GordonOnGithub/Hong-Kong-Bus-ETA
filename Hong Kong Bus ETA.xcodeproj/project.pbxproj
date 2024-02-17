@@ -17,6 +17,8 @@
 		7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */; };
 		7D6C33B32B809CB900BA8820 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B22B809CB900BA8820 /* InfoView.swift */; };
 		7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */; };
+		7D6C33B72B80DDCF00BA8820 /* ETASortingPreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B62B80DDCF00BA8820 /* ETASortingPreferenceView.swift */; };
+		7D6C33B92B80DDEC00BA8820 /* ETASortingPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B82B80DDEC00BA8820 /* ETASortingPreferenceViewModel.swift */; };
 		7D8CD0552B637EBC00C15741 /* BookmarkedBusStopETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */; };
 		7D8CD0572B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */; };
 		7D8CD0592B638FCC00C15741 /* ETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0582B638FCC00C15741 /* ETARowView.swift */; };
@@ -61,6 +63,8 @@
 		7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7D6C33B22B809CB900BA8820 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
+		7D6C33B62B80DDCF00BA8820 /* ETASortingPreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETASortingPreferenceView.swift; sourceTree = "<group>"; };
+		7D6C33B82B80DDEC00BA8820 /* ETASortingPreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETASortingPreferenceViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowView.swift; sourceTree = "<group>"; };
 		7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0582B638FCC00C15741 /* ETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETARowView.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				7DE9AF962B635E88009B7EF7 /* BusStopETAListViewModel.swift */,
 				7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */,
 				7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */,
+				7D6C33B82B80DDEC00BA8820 /* ETASortingPreferenceViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */,
 				7D8CD0582B638FCC00C15741 /* ETARowView.swift */,
 				7D6C33B22B809CB900BA8820 /* InfoView.swift */,
+				7D6C33B62B80DDCF00BA8820 /* ETASortingPreferenceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -363,6 +369,7 @@
 			files = (
 				7DE9AF952B635E7A009B7EF7 /* BusStopETAListView.swift in Sources */,
 				7DE9AF832B5E34AF009B7EF7 /* KMBBusStopDetailModel.swift in Sources */,
+				7D6C33B92B80DDEC00BA8820 /* ETASortingPreferenceViewModel.swift in Sources */,
 				7DE9AF692B5D5122009B7EF7 /* BusRoutesView.swift in Sources */,
 				7DE9AF652B5D4BC9009B7EF7 /* APIManager.swift in Sources */,
 				7DE9AF7D2B5E2AF5009B7EF7 /* BusStopRowView.swift in Sources */,
@@ -396,6 +403,7 @@
 				7D3E72762B5D31C4009C57F5 /* HongKongBusETAApp.swift in Sources */,
 				7DE9AF972B635E88009B7EF7 /* BusStopETAListViewModel.swift in Sources */,
 				7DE9AF8E2B5EC352009B7EF7 /* BusRoutesDataProvider.swift in Sources */,
+				7D6C33B72B80DDCF00BA8820 /* ETASortingPreferenceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

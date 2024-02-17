@@ -17,6 +17,16 @@ protocol BusStopETAListViewModelDelegate: AnyObject {
 
   func busStopETAListViewModelModel(
     _ viewModel: BusStopETAListViewModel, didRequestDisplayBusRoutes company: BusCompany)
+
+  func busStopETAListViewModelModelDidOpenSortingView(
+    _ viewModel: BusStopETAListViewModel)
+}
+
+enum Sorting: Int {
+  case routeNumber = 0
+  case routeNumberInverse = 1
+  case addDateEarliest = 2
+  case addDateLatest = 3
 }
 
 class BusStopETAListViewModel: ObservableObject {
@@ -24,31 +34,63 @@ class BusStopETAListViewModel: ObservableObject {
   @Published
   var busStopETAList: [BusStopETA] = []
 
+  @Published
+  var sorting: Sorting = .addDateLatest
+
   let busETAStorage: BusETAStorageType
+
+  let userDefaults: UserDefaultsType
 
   weak var delegate: BusStopETAListViewModelDelegate?
 
   private var cancellable = Set<AnyCancellable>()
 
-  init(busETAStorage: BusETAStorageType = BusETAStorage.shared) {
+  init(
+    busETAStorage: BusETAStorageType = BusETAStorage.shared,
+    userDefaults: UserDefaultsType = UserDefaults.standard
+  ) {
     self.busETAStorage = busETAStorage
+    self.userDefaults = userDefaults
 
     busETAStorage.fetch()
+
+    if let sortingPref = userDefaults.object(forKey: "etaSorting") as? Int {
+      self.sorting = Sorting(rawValue: sortingPref) ?? .addDateLatest
+    }
 
     setupPublisher()
   }
 
   private func setupPublisher() {
 
-    busETAStorage.cache.map { cache in
+    busETAStorage.cache.combineLatest($sorting).sink { _, sorting in
 
-      cache.values.sorted { a, b in
-        a.route > b.route
+      self.busETAStorage.cache.map { cache in
+
+        cache.values.sorted { a, b in
+
+          switch sorting {
+          case .routeNumber:
+            return a.route > b.route
+
+          case .routeNumberInverse:
+            return a.route < b.route
+
+          case .addDateEarliest:
+            return a.addDate.timeIntervalSince1970 < b.addDate.timeIntervalSince1970
+
+          case .addDateLatest:
+            return a.addDate.timeIntervalSince1970 > b.addDate.timeIntervalSince1970
+
+          }
+
+        }
+
       }
+      .receive(on: DispatchQueue.main)
+      .assign(to: &self.$busStopETAList)
 
-    }
-    .receive(on: DispatchQueue.main)
-    .assign(to: &$busStopETAList)
+    }.store(in: &cancellable)
 
   }
 
@@ -70,6 +112,10 @@ class BusStopETAListViewModel: ObservableObject {
 
   func onSearchKMBRoutesButtonClicked() {
     delegate?.busStopETAListViewModelModel(self, didRequestDisplayBusRoutes: .KMB)
+  }
+
+  func onSortingButtonClicked() {
+    delegate?.busStopETAListViewModelModelDidOpenSortingView(self)
   }
 }
 

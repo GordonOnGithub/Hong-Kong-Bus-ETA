@@ -21,24 +21,23 @@ struct BookmarkedBusStopETARowView: View {
         Text(viewModel.busStopETA.getFullRouteName()).font(.title)
 
         if viewModel.busRoute != nil {
-           
 
-            Text(viewModel.getDestinationDescription()).font(.headline)
-           
+          Text(viewModel.getDestinationDescription()).font(.headline)
+
         } else {
           Spacer().frame(height: 30)
         }
 
         if viewModel.busStopDetail != nil {
-            HStack {
-                Image("location", bundle: .main)
-                    .renderingMode(.template)
-                    .resizable().scaledToFit()
-                    .foregroundStyle(.primary)
-                    .frame(height: 20)
-                Text(viewModel.getBusStopName())
-                Spacer()
-            }
+          HStack {
+            Image("location", bundle: .main)
+              .renderingMode(.template)
+              .resizable().scaledToFit()
+              .foregroundStyle(.primary)
+              .frame(height: 20)
+            Text(viewModel.getBusStopName())
+            Spacer()
+          }
         } else {
           Spacer().frame(height: 30)
         }

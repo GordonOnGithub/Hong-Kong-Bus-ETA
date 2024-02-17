@@ -6,42 +6,44 @@
 //
 
 import Foundation
-import UIKit
 import StoreKit
+import UIKit
 
-class InfoViewModel : ObservableObject {
-    
-    
-    let uiApplication : UIApplicationType
-    
-    init(uiApplication: UIApplicationType = UIApplication.shared) {
-        self.uiApplication = uiApplication
-    }
-    
-    func onCheckRepositoryButtonClicked(){
-        if let repoURL = URL(string: "https://github.com/GordonOnGithub/Hong-Kong-Bus-ETA"),  uiApplication.canOpenURL(repoURL) {
-            uiApplication.openURL(repoURL)
-        }
-    }
-    
-    func onRateThisAppClicked(){
-        if let scene = uiApplication.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
-        }
-    }
-    
-    lazy var headerString : String = {
-      
-        String(localized: "setting_header")
-                
-    }()
-    
-    lazy var versionString : String = {
-      
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+class InfoViewModel: ObservableObject {
 
-        return "v" + (appVersion ?? "")
-    }()
-    
-    
+  let uiApplication: UIApplicationType
+
+  init(uiApplication: UIApplicationType = UIApplication.shared) {
+    self.uiApplication = uiApplication
+  }
+
+  func onCheckRepositoryButtonClicked() {
+    if let repoURL = URL(string: "https://github.com/GordonOnGithub/Hong-Kong-Bus-ETA"),
+      uiApplication.canOpenURL(repoURL)
+    {
+      uiApplication.openURL(repoURL)
+    }
+  }
+
+  func onRateThisAppClicked() {
+    if let scene = uiApplication.connectedScenes.first(where: {
+      $0.activationState == .foregroundActive
+    }) as? UIWindowScene {
+      SKStoreReviewController.requestReview(in: scene)
+    }
+  }
+
+  lazy var headerString: String = {
+
+    String(localized: "setting_header")
+
+  }()
+
+  lazy var versionString: String = {
+
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+
+    return "v" + (appVersion ?? "")
+  }()
+
 }

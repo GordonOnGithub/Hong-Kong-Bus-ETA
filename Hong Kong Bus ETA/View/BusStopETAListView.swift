@@ -32,15 +32,16 @@ struct BusStopETAListView: View {
       } else {
         VStack(spacing: 20) {
           Text(String(localized: "empty_eta_list_title")).font(.headline)
-                .multilineTextAlignment(.center)
-            Text(String(localized: "empty_eta_list_message")).font(.subheadline).multilineTextAlignment(.center)
+            .multilineTextAlignment(.center)
+          Text(String(localized: "empty_eta_list_message")).font(.subheadline)
+            .multilineTextAlignment(.center)
 
           Button(
             action: {
               viewModel.onSearchCTBRoutesButtonClicked()
             },
             label: {
-                Text(String(localized: "search_ctb_routes"))
+              Text(String(localized: "search_ctb_routes"))
             }
           ).buttonStyle(.bordered).tint(.blue)
 

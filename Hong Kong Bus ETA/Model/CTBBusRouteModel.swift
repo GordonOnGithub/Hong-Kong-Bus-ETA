@@ -25,7 +25,7 @@ struct CTBBusRouteModel: BusRouteModel, Decodable {
   var id: String = UUID().uuidString
 
   func getFullRouteName() -> String {
-      return "\(BusCompany.CTB.localizedName() ?? "") \(route ?? "")"
+    return "\(BusCompany.CTB.localizedName() ?? "") \(route ?? "")"
   }
 
   func destination() -> String {
@@ -37,8 +37,7 @@ struct CTBBusRouteModel: BusRouteModel, Decodable {
 
     }
   }
-    
-    
+
   private enum CodingKeys: String, CodingKey {
     case originTC = "orig_tc"
     case originSC = "orig_sc"

@@ -10,23 +10,23 @@ import Foundation
 enum BusCompany: String {
   case CTB = "CTB"
   case KMB = "KMB"
-    
-    func localizedName(locale: String? = Locale.preferredLanguages.first) -> String {
-        switch self {
-        case .CTB:
-            if let locale, locale.contains("zh") {
-                return "城巴"
-            }
-            return "CTB"
-            
-        case .KMB:
-            if let locale, locale.contains("zh") {
-                return "九巴"
-            }
-            return "KMB"
-        }
 
+  func localizedName(locale: String? = Locale.preferredLanguages.first) -> String {
+    switch self {
+    case .CTB:
+      if let locale, locale.contains("zh") {
+        return "城巴"
+      }
+      return "CTB"
+
+    case .KMB:
+      if let locale, locale.contains("zh") {
+        return "九巴"
+      }
+      return "KMB"
     }
+
+  }
 
 }
 
@@ -50,22 +50,22 @@ protocol BusRouteModel: Identifiable {
 }
 
 extension BusRouteModel {
-    func localizedOrigin(locale: String? = Locale.preferredLanguages.first) -> String? {
-        
-        if let locale, locale.contains("zh") {
-            return originTC
-        }
-        return originEn
-    }
+  func localizedOrigin(locale: String? = Locale.preferredLanguages.first) -> String? {
 
-    func localizedDestination(locale: String? = Locale.preferredLanguages.first) -> String? {
-        
-        if let locale, locale.contains("zh") {
-            return destinationTC
-        }
-        return destinationEn
+    if let locale, locale.contains("zh") {
+      return originTC
     }
-    
+    return originEn
+  }
+
+  func localizedDestination(locale: String? = Locale.preferredLanguages.first) -> String? {
+
+    if let locale, locale.contains("zh") {
+      return destinationTC
+    }
+    return destinationEn
+  }
+
 }
 
 struct KMBBusRouteModel: BusRouteModel, Decodable {
@@ -86,7 +86,7 @@ struct KMBBusRouteModel: BusRouteModel, Decodable {
   var id: String = UUID().uuidString
 
   func getFullRouteName() -> String {
-      return "\(BusCompany.KMB.localizedName() ?? "") \(route ?? "")"
+    return "\(BusCompany.KMB.localizedName() ?? "") \(route ?? "")"
   }
 
   func destination() -> String {

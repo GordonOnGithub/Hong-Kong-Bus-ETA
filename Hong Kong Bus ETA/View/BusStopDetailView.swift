@@ -33,39 +33,42 @@ struct BusStopDetailView: View {
 
         VStack(alignment: .leading, spacing: 10) {
 
-            if viewModel.showBookmarkReminder {
-                Group {
-                    HStack{
-                        Spacer().frame(width: 10)
-                        Image("info", bundle: .main)
-                            .renderingMode(.template)
-                            .resizable().scaledToFit().frame(height: 20)
-                            .foregroundStyle(.primary)
-                        Text(String(localized: "bookmark_reminder"))
-                            .foregroundStyle(.primary)
-                            .font(.system(size: 12))
-                        Spacer()
-                    }
-                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                }.background(.green)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                
-            }
-            
+          if viewModel.showBookmarkReminder {
+            Group {
+              HStack {
+                Spacer().frame(width: 10)
+                Image("info", bundle: .main)
+                  .renderingMode(.template)
+                  .resizable().scaledToFit().frame(height: 20)
+                  .foregroundStyle(.primary)
+                Text(String(localized: "bookmark_reminder"))
+                  .foregroundStyle(.primary)
+                  .font(.system(size: 12))
+                Spacer()
+              }
+              .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            }.background(.green)
+              .clipShape(RoundedRectangle(cornerRadius: 5))
+
+          }
+
           if viewModel.busStopDetail != nil {
             Text(viewModel.getBusStopName()).font(.title)
           }
 
-            Button(action: {
-                viewModel.showBusRouteDetail()
-            }, label: {
-                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(.white)
-            }).buttonStyle(.borderedProminent).tint(viewModel.busStopETA.company == "KMB" ? .red : .blue )
+          Button(
+            action: {
+              viewModel.showBusRouteDetail()
+            },
+            label: {
+              Text(viewModel.getRouteName()).font(.headline).foregroundStyle(.white)
+            }
+          ).buttonStyle(.borderedProminent).tint(
+            viewModel.busStopETA.company == "KMB" ? .red : .blue)
 
-              if viewModel.busRoute != nil {
-                Text(viewModel.getDestinationDescription()).font(.subheadline)
-              }
-            
+          if viewModel.busRoute != nil {
+            Text(viewModel.getDestinationDescription()).font(.subheadline)
+          }
 
           Spacer().frame(height: 10)
           if let busETAList = viewModel.busETAList {
@@ -79,7 +82,7 @@ struct BusStopDetailView: View {
 
               } header: {
                 if busETAList.isEmpty {
-                    // No information on estimated time of arrival.
+                  // No information on estimated time of arrival.
                   Text(String(localized: "no_eta_info")).listRowInsets(EdgeInsets())
                 } else {
                   Text(String(localized: "estimated_time_of_arrival")).listRowInsets(EdgeInsets())
@@ -88,7 +91,8 @@ struct BusStopDetailView: View {
                 if let lastUpdatedTimestamp = viewModel.lastUpdatedTimestamp {
                   Section {
                     Text(
-                       String(localized: "last_update") + " \(lastUpdatedTimestamp.ISO8601Format(.iso8601(timeZone: TimeZone.current)))"
+                      String(localized: "last_update")
+                        + " \(lastUpdatedTimestamp.ISO8601Format(.iso8601(timeZone: TimeZone.current)))"
                     ).listRowInsets(EdgeInsets())
                   }
                 }
@@ -116,7 +120,7 @@ struct BusStopDetailView: View {
 
             HStack {
 
-                Text(String(localized: "location")).font(.headline)
+              Text(String(localized: "location")).font(.headline)
               Spacer()
               Button(
                 action: {
@@ -125,7 +129,7 @@ struct BusStopDetailView: View {
 
                 },
                 label: {
-                    Text(String(localized: "open_in_map_app"))
+                  Text(String(localized: "open_in_map_app"))
                 })
 
             }
@@ -148,7 +152,7 @@ struct BusStopDetailView: View {
               dismiss()
             },
             label: {
-                Text(String(localized: "dismiss"))
+              Text(String(localized: "dismiss"))
             })
         }
 
@@ -160,9 +164,9 @@ struct BusStopDetailView: View {
             label: {
 
               if viewModel.isSaved {
-                  Text(String(localized: "unbookmark")).fontWeight(.semibold).foregroundStyle(.red)
+                Text(String(localized: "unbookmark")).fontWeight(.semibold).foregroundStyle(.red)
               } else {
-                  Text(String(localized: "bookmark")).fontWeight(.semibold)
+                Text(String(localized: "bookmark")).fontWeight(.semibold)
               }
             })
         }

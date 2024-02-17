@@ -13,8 +13,8 @@ protocol BusStopDetailViewModelDelegate: AnyObject {
 
   func busStopDetailViewModel(
     _ viewModel: BusStopDetailViewModel, didRequestBusRouteDetail route: (any BusRouteModel)?)
-    func busStopDetailViewModelDidRequestReturnToETAList(
-      _ viewModel: BusStopDetailViewModel)
+  func busStopDetailViewModelDidRequestReturnToETAList(
+    _ viewModel: BusStopDetailViewModel)
 
 }
 
@@ -41,7 +41,7 @@ class BusStopDetailViewModel: ObservableObject {
 
   @Published
   var showNetworkUnavailableWarning = false
-    
+
   @Published
   var showBookmarkReminder = false
 
@@ -52,11 +52,11 @@ class BusStopDetailViewModel: ObservableObject {
   let busRoutesDataProvider: BusRoutesDataProviderType
 
   let application: UIApplicationType
-    
+
   let userDefaults: UserDefaultsType
 
   private let showBookmarkReminderKey = "showBookmarkReminder"
-    
+
   private var cancellable = Set<AnyCancellable>()
 
   init(
@@ -77,7 +77,7 @@ class BusStopDetailViewModel: ObservableObject {
     isSaved = busETAStorage.cache.value[self.busStopETA.id] != nil
 
     showBookmarkReminder = userDefaults.object(forKey: showBookmarkReminderKey) as? Bool ?? true
-      
+
     setupPublisher()
 
     fetchETA()
@@ -256,11 +256,13 @@ class BusStopDetailViewModel: ObservableObject {
 
   }
 
-    func getRouteName() -> String {
-        
-        return (busStopETA.company == "KMB" ? BusCompany.KMB.localizedName() : BusCompany.CTB.localizedName() ) + " " + busStopETA.route
-    }
-    
+  func getRouteName() -> String {
+
+    return
+      (busStopETA.company == "KMB"
+      ? BusCompany.KMB.localizedName() : BusCompany.CTB.localizedName()) + " " + busStopETA.route
+  }
+
   func getBusStopName() -> String {
 
     return busStopDetail?.localizedName() ?? ""
@@ -282,13 +284,13 @@ class BusStopDetailViewModel: ObservableObject {
       busETAStorage.insert(data: busStopETA)
         .receive(on: DispatchQueue.main)
         .sink { [weak self] success in
-            
-            guard let self else { return }
-            
+
+          guard let self else { return }
+
           if success {
             self.isSaved = true
-              self.delegate?.busStopDetailViewModelDidRequestReturnToETAList(self)
-              self.userDefaults.setValue(false, forKey: self.showBookmarkReminderKey)
+            self.delegate?.busStopDetailViewModelDidRequestReturnToETAList(self)
+            self.userDefaults.setValue(false, forKey: self.showBookmarkReminderKey)
           }
         }.store(in: &cancellable)
 

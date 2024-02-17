@@ -30,28 +30,28 @@ struct RootCoordinatorView: View {
 
         TabView(selection: $coordinator.tab) {
 
-            BusStopETAListView(viewModel: coordinator.buildETAListViewModel()).tabItem {
-                Label(String(localized: "ETA"), systemImage: "clock.fill")
-            
+          BusStopETAListView(viewModel: coordinator.buildETAListViewModel()).tabItem {
+            Label(String(localized: "ETA"), systemImage: "clock.fill")
+
           }.tag(Tab.ETA)
 
           BusRoutesView(viewModel: coordinator.buildCTBRouteListViewModel())
             .tabItem {
-                Label(BusCompany.CTB.localizedName(), systemImage: "bus.doubledecker.fill")
-                
+              Label(BusCompany.CTB.localizedName(), systemImage: "bus.doubledecker.fill")
+
             }.tag(Tab.CTB)
 
           BusRoutesView(viewModel: coordinator.buildKMBRouteListViewModel())
             .tabItem {
-                Label(BusCompany.KMB.localizedName(), systemImage: "bus.doubledecker.fill")
-                
+              Label(BusCompany.KMB.localizedName(), systemImage: "bus.doubledecker.fill")
+
             }.tag(Tab.KMB)
 
-            InfoView(viewModel: InfoViewModel())
-                .tabItem {
-                    Label(String(localized: "info_tab"), systemImage: "info.circle")
-                    
-                }.tag(Tab.info)
+          InfoView(viewModel: InfoViewModel())
+            .tabItem {
+              Label(String(localized: "info_tab"), systemImage: "info.circle")
+
+            }.tag(Tab.info)
         }
         .navigationDestination(for: RootCoordinatorNavigationPath.self) { path in
           switch path {

@@ -15,11 +15,11 @@ struct ETARowView: View {
   var body: some View {
 
     HStack {
-        
-        Image("clock", bundle: .main)
-            .renderingMode(.template).resizable().scaledToFit().frame(height: 20)
-            .foregroundColor(.primary)
-        
+
+      Image("clock", bundle: .main)
+        .renderingMode(.template).resizable().scaledToFit().frame(height: 20)
+        .foregroundColor(.primary)
+
       switch eta.remainingTime {
       case .expired:
         Text(eta.getReadableHourAndMinute())
@@ -27,7 +27,7 @@ struct ETARowView: View {
           .foregroundStyle(.gray)
         Spacer()
         Text(eta.remainingTime.description)
-            .font(.system(size: 18))
+          .font(.system(size: 18))
           .foregroundStyle(.gray)
 
       case .imminent:
@@ -42,10 +42,10 @@ struct ETARowView: View {
 
       case .minutes:
         Text(eta.getReadableHourAndMinute())
-              .font(.system(size: 18))
+          .font(.system(size: 18))
         Spacer()
         Text(eta.remainingTime.description)
-              .font(.system(size: 18))
+          .font(.system(size: 18))
       }
 
     }

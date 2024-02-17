@@ -26,7 +26,7 @@ struct BusRouteDetailView: View {
             Button {
               viewModel.fetch()
             } label: {
-                Text(String(localized: "failed_to_fetch"))
+              Text(String(localized: "failed_to_fetch"))
             }
 
           } else if viewModel.showMap {
@@ -97,10 +97,10 @@ struct BusRouteDetailView: View {
             viewModel.showMap.toggle()
           },
           label: {
-              Image(viewModel.showMap ? "list" : "map", bundle: .main)
-                  .renderingMode(.template)
-                  .resizable().scaledToFit().frame(height: 25)
-                  .foregroundStyle(.blue)
+            Image(viewModel.showMap ? "list" : "map", bundle: .main)
+              .renderingMode(.template)
+              .resizable().scaledToFit().frame(height: 25)
+              .foregroundStyle(.blue)
           })
       }
     }

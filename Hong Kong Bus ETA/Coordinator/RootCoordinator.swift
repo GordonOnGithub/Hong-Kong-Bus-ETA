@@ -210,16 +210,15 @@ extension RootCoordinator: BusStopETAListViewModelDelegate {
 }
 
 extension RootCoordinator: BusStopDetailViewModelDelegate {
-    func busStopDetailViewModelDidRequestReturnToETAList(_ viewModel: BusStopDetailViewModel) {
-        sheetRoute = nil
-        
-        while path.count > 0 {
-            path.removeLast()
-        }
-        
-        tab = .ETA
+  func busStopDetailViewModelDidRequestReturnToETAList(_ viewModel: BusStopDetailViewModel) {
+    sheetRoute = nil
+
+    while path.count > 0 {
+      path.removeLast()
     }
-    
+
+    tab = .ETA
+  }
 
   func busStopDetailViewModel(
     _ viewModel: BusStopDetailViewModel, didRequestBusRouteDetail route: (any BusRouteModel)?

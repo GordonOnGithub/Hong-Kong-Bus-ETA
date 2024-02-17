@@ -18,14 +18,14 @@ protocol BusStopDetailModel {
 }
 
 extension BusStopDetailModel {
-    
-    func localizedName(locale: String? = Locale.preferredLanguages.first) -> String? {
-        
-        if let locale, locale.contains("zh") {
-            return nameTC
-        }
-        return nameEn
+
+  func localizedName(locale: String? = Locale.preferredLanguages.first) -> String? {
+
+    if let locale, locale.contains("zh") {
+      return nameTC
     }
+    return nameEn
+  }
 }
 
 struct KMBBusStopDetailModel: BusStopDetailModel, Decodable {

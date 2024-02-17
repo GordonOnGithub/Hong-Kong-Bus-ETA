@@ -23,10 +23,13 @@ struct BusRouteDetailView: View {
 
           if viewModel.hasError {
 
+            Text(String(localized: "failed_to_fetch")).font(.headline)
+            Spacer().frame(height: 10)
+
             Button {
               viewModel.fetch()
             } label: {
-              Text(String(localized: "failed_to_fetch"))
+              Text(String(localized: "retry"))
             }
 
           } else if viewModel.showMap {

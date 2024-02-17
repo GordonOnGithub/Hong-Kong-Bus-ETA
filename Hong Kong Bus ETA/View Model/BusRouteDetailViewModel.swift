@@ -62,6 +62,13 @@ class BusRouteDetailViewModel: ObservableObject {
   }
 
   func setupPublisher() {
+
+    apiManager.isReachable.dropFirst().sink { [weak self] reachable in
+      if reachable {
+        self?.fetch()
+      }
+    }.store(in: &cancellable)
+
     $filter.debounce(for: 0.3, scheduler: DispatchQueue.main)
       .combineLatest($stopList).sink { filter, stopList in
 
@@ -149,8 +156,10 @@ class BusRouteDetailViewModel: ObservableObject {
       switch completion {
       case .failure(let error):
         self?.stopList = []
+        self?.hasError = true
         break
       default:
+        self?.hasError = false
         break
 
       }

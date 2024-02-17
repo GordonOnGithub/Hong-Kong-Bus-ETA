@@ -35,7 +35,7 @@ struct BookmarkedBusStopETARowView: View {
               .resizable().scaledToFit()
               .foregroundStyle(.primary)
               .frame(height: 20)
-            Text(viewModel.getBusStopName())
+            Text(viewModel.getBusStopName()).lineLimit(2)
             Spacer()
           }
         } else {
@@ -70,7 +70,7 @@ struct BookmarkedBusStopETARowView: View {
 
       }
     )
-    .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+    .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
     .contentShape(Rectangle())
     .onTapGesture {
       viewModel.onRowClicked()

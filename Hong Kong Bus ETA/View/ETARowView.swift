@@ -18,31 +18,34 @@ struct ETARowView: View {
         
         Image("clock", bundle: .main)
             .renderingMode(.template).resizable().scaledToFit().frame(height: 20)
-            .foregroundColor(.white)
+            .foregroundColor(.primary)
         
       switch eta.remainingTime {
       case .expired:
         Text(eta.getReadableHourAndMinute())
-          .font(.system(size: 20))
+          .font(.system(size: 18))
           .foregroundStyle(.gray)
         Spacer()
         Text(eta.remainingTime.description)
-          .font(.system(size: 20))
+            .font(.system(size: 18))
           .foregroundStyle(.gray)
 
       case .imminent:
         Text(eta.getReadableHourAndMinute())
-          .font(.system(size: 20))
+          .font(.system(size: 18))
           .bold()
         Spacer()
 
-        Text(eta.remainingTime.description).font(.system(size: 20))
+        Text(eta.remainingTime.description)
+          .font(.system(size: 18))
           .bold()
 
       case .minutes:
         Text(eta.getReadableHourAndMinute())
+              .font(.system(size: 18))
         Spacer()
         Text(eta.remainingTime.description)
+              .font(.system(size: 18))
       }
 
     }

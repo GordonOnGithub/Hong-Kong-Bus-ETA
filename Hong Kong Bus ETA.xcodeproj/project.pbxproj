@@ -15,6 +15,8 @@
 		7D3E72872B5D48C4009C57F5 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E72862B5D48C4009C57F5 /* RootCoordinator.swift */; };
 		7D3E72892B5D48CD009C57F5 /* RootCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E72882B5D48CD009C57F5 /* RootCoordinatorView.swift */; };
 		7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */; };
+		7D6C33B32B809CB900BA8820 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B22B809CB900BA8820 /* InfoView.swift */; };
+		7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */; };
 		7D8CD0552B637EBC00C15741 /* BookmarkedBusStopETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */; };
 		7D8CD0572B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */; };
 		7D8CD0592B638FCC00C15741 /* ETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0582B638FCC00C15741 /* ETARowView.swift */; };
@@ -57,6 +59,8 @@
 		7D3E72862B5D48C4009C57F5 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		7D3E72882B5D48CD009C57F5 /* RootCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinatorView.swift; sourceTree = "<group>"; };
 		7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		7D6C33B22B809CB900BA8820 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowView.swift; sourceTree = "<group>"; };
 		7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0582B638FCC00C15741 /* ETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETARowView.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				7DE9AF862B5E41F2009B7EF7 /* BusStopDetailViewModel.swift */,
 				7DE9AF962B635E88009B7EF7 /* BusStopETAListViewModel.swift */,
 				7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */,
+				7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 				7DE9AF942B635E7A009B7EF7 /* BusStopETAListView.swift */,
 				7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */,
 				7D8CD0582B638FCC00C15741 /* ETARowView.swift */,
+				7D6C33B22B809CB900BA8820 /* InfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -360,6 +366,7 @@
 				7DE9AF692B5D5122009B7EF7 /* BusRoutesView.swift in Sources */,
 				7DE9AF652B5D4BC9009B7EF7 /* APIManager.swift in Sources */,
 				7DE9AF7D2B5E2AF5009B7EF7 /* BusStopRowView.swift in Sources */,
+				7D6C33B32B809CB900BA8820 /* InfoView.swift in Sources */,
 				7DE9AF902B615427009B7EF7 /* DataStorage.swift in Sources */,
 				7DE9AF852B5E41E6009B7EF7 /* BusStopDetailView.swift in Sources */,
 				7D8CD0602B774EB100C15741 /* MapKit+Extension.swift in Sources */,
@@ -374,6 +381,7 @@
 				7DE9AF712B5D572E009B7EF7 /* APIResponseModel.swift in Sources */,
 				7DE9AF932B61611B009B7EF7 /* BusStopETA.swift in Sources */,
 				7DE9AF6F2B5D5408009B7EF7 /* CTBBusRouteModel.swift in Sources */,
+				7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */,
 				7DE9AF8C2B5EC0DA009B7EF7 /* Array+Extension.swift in Sources */,
 				7D8CD05E2B6DEEAB00C15741 /* UIApplication+Extension.swift in Sources */,
 				7DE9AF872B5E41F2009B7EF7 /* BusStopDetailViewModel.swift in Sources */,

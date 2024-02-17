@@ -80,6 +80,9 @@ class BusRoutesViewModel: ObservableObject {
   @Published
   var displayedList: [any BusRouteModel]? = nil
 
+    @Published
+    var hasError: Bool = false
+    
   let busRoutesListSource: BusRoutesListSource
 
   weak var delegate: BusRoutesViewModelDelegate?

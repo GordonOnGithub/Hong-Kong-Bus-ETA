@@ -26,7 +26,7 @@ struct BusStopETAListView: View {
           BookmarkedBusStopETARowView(
             viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta)
           )
-          .frame(height: 200)
+          .frame(height: 180)
 
         }
       } else {

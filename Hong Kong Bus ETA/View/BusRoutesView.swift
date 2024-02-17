@@ -18,7 +18,7 @@ struct BusRoutesView: View {
     if let list = viewModel.displayedList {
       NavigationView {
         VStack(spacing: 20) {
-          if list.isEmpty {
+            if list.isEmpty, viewModel.filter.isEmpty {
 
             Text(String(localized: "failed_to_fetch"))
 

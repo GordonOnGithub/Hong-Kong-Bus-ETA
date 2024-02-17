@@ -33,6 +33,25 @@ struct BusStopDetailView: View {
 
         VStack(alignment: .leading, spacing: 10) {
 
+            if viewModel.showBookmarkReminder {
+                Group {
+                    HStack{
+                        Spacer().frame(width: 10)
+                        Image("info", bundle: .main)
+                            .renderingMode(.template)
+                            .resizable().scaledToFit().frame(height: 20)
+                            .foregroundStyle(.primary)
+                        Text(String(localized: "bookmark_reminder"))
+                            .foregroundStyle(.primary)
+                            .font(.system(size: 12))
+                        Spacer()
+                    }
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                }.background(.green)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                
+            }
+            
           if viewModel.busStopDetail != nil {
             Text(viewModel.getBusStopName()).font(.title)
           }
@@ -141,9 +160,9 @@ struct BusStopDetailView: View {
             label: {
 
               if viewModel.isSaved {
-                  Text(String(localized: "unbookmark"))
+                  Text(String(localized: "unbookmark")).fontWeight(.semibold).foregroundStyle(.red)
               } else {
-                Text(String(localized: "bookmark"))
+                  Text(String(localized: "bookmark")).fontWeight(.semibold)
               }
             })
         }

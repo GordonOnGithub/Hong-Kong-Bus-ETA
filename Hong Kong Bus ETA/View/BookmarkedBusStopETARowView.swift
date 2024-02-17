@@ -43,7 +43,7 @@ struct BookmarkedBusStopETARowView: View {
           Spacer().frame(height: 30)
         }
 
-        Spacer().frame(height: 10)
+        Spacer().frame(height: 5)
 
         if let busETAList = viewModel.busETAList {
 

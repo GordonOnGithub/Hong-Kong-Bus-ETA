@@ -22,7 +22,23 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "收藏"
+            "value" : "收藏巴士站"
+          }
+        }
+      }
+    },
+    "bookmark_reminder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click \"Bookmark\" to save this bus stop to the homepage for ETA."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "可按 \"收藏巴士站\" 以便在首頁查看預計到站時間"
           }
         }
       }
@@ -130,6 +146,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未能取得資料"
+          }
+        }
+      }
+    },
+    "info_tab" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About This App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "關於此程式"
           }
         }
       }
@@ -281,6 +313,38 @@
         }
       }
     },
+    "rate_this_app" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate This App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為應用程式評分"
+          }
+        }
+      }
+    },
+    "repository" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Repository"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "查看代碼庫"
+          }
+        }
+      }
+    },
     "retry" : {
       "localizations" : {
         "en" : {
@@ -345,6 +409,22 @@
         }
       }
     },
+    "setting_header" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This app is an open source project and the data is provided from data.gov.hk"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此應用程式是一個開源項目，資料來自 data.gov.hk"
+          }
+        }
+      }
+    },
     "to" : {
       "localizations" : {
         "en" : {
@@ -372,7 +452,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除"
+            "value" : "取消收藏"
           }
         }
       }

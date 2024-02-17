@@ -85,7 +85,6 @@ struct BusRouteDetailView: View {
           ProgressView().frame(height: 80)
         }
 
-        Spacer()
       }
     }
     .navigationTitle(

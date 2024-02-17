@@ -11,7 +11,7 @@ import UIKit
 protocol UIApplicationType {
   func canOpenURL(_ url: URL) -> Bool
   func openURL(_ url: URL) -> Bool
-
+  var connectedScenes: Set<UIScene> { get }
 }
 
 extension UIApplication: UIApplicationType {

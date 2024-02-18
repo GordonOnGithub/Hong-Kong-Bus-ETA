@@ -18,8 +18,6 @@ protocol BusStopETAListViewModelDelegate: AnyObject {
   func busStopETAListViewModelModel(
     _ viewModel: BusStopETAListViewModel, didRequestDisplayBusRoutes company: BusCompany)
 
-  func busStopETAListViewModelModelDidOpenSortingView(
-    _ viewModel: BusStopETAListViewModel)
 }
 
 enum Sorting: Int {
@@ -45,6 +43,8 @@ class BusStopETAListViewModel: ObservableObject {
 
   private var cancellable = Set<AnyCancellable>()
 
+  private let etaSortingKey = "etaSorting"
+
   init(
     busETAStorage: BusETAStorageType = BusETAStorage.shared,
     userDefaults: UserDefaultsType = UserDefaults.standard
@@ -54,7 +54,7 @@ class BusStopETAListViewModel: ObservableObject {
 
     busETAStorage.fetch()
 
-    if let sortingPref = userDefaults.object(forKey: "etaSorting") as? Int {
+    if let sortingPref = userDefaults.object(forKey: etaSortingKey) as? Int {
       self.sorting = Sorting(rawValue: sortingPref) ?? .addDateLatest
     }
 
@@ -114,8 +114,12 @@ class BusStopETAListViewModel: ObservableObject {
     delegate?.busStopETAListViewModelModel(self, didRequestDisplayBusRoutes: .KMB)
   }
 
-  func onSortingButtonClicked() {
-    delegate?.busStopETAListViewModelModelDidOpenSortingView(self)
+  func changeSorting(sorting: Sorting) {
+
+    self.sorting = sorting
+
+    userDefaults.setValue(sorting.rawValue, forKey: etaSortingKey)
+
   }
 }
 

@@ -25,16 +25,81 @@ struct BusStopETAListView: View {
           Text(String(localized: "estimated_time_of_arrival")).font(.headline).frame(
             maxWidth: .infinity)
 
-          Button(
-            action: {
+          Menu {
+            Section(String(localized: "eta_sorting_pref")) {
 
-              viewModel.onSortingButtonClicked()
+              Button(
+                action: {
+                  viewModel.changeSorting(sorting: .routeNumber)
 
-            },
-            label: {
-              Label("", systemImage: "arrow.up.and.down.text.horizontal")
+                },
+                label: {
+
+                  HStack {
+
+                    if viewModel.sorting == .routeNumber {
+                      Image(systemName: "checkmark.circle")
+                        .foregroundStyle(.primary)
+                    }
+
+                    Text(String(localized: "large_route_number_first"))
+                  }
+                }
+              ).buttonStyle(.plain)
+
+              Button(
+                action: {
+                  viewModel.changeSorting(sorting: .routeNumberInverse)
+
+                },
+                label: {
+                  HStack {
+                    if viewModel.sorting == .routeNumberInverse {
+                      Image(systemName: "checkmark.circle")
+                        .foregroundStyle(.primary)
+                    }
+                    Text(String(localized: "small_route_number_first"))
+                  }
+
+                }
+              ).buttonStyle(.plain)
+
+              Button(
+                action: {
+                  viewModel.changeSorting(sorting: .addDateLatest)
+
+                },
+                label: {
+                  HStack {
+                    if viewModel.sorting == .addDateLatest {
+                      Image(systemName: "checkmark.circle")
+                        .foregroundStyle(.primary)
+                    }
+                    Text(String(localized: "latest_added_first"))
+                  }
+                }
+              ).buttonStyle(.plain)
+
+              Button(
+                action: {
+                  viewModel.changeSorting(sorting: .addDateEarliest)
+
+                },
+                label: {
+                  HStack {
+                    if viewModel.sorting == .addDateEarliest {
+                      Image(systemName: "checkmark.circle")
+                        .foregroundStyle(.primary)
+                    }
+                    Text(String(localized: "earliest_added_first"))
+                  }
+
+                }
+              ).buttonStyle(.plain)
             }
-          ).frame(width: 50)
+          } label: {
+            Label("", systemImage: "arrow.up.and.down.text.horizontal")
+          }
 
         }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         List(viewModel.busStopETAList) { eta in

@@ -69,8 +69,6 @@ struct RootCoordinatorView: View {
             route: route, company: company, stopId: stopId, serviceType: serviceType,
             isInbound: isInbound, detail: detail)
 
-        case .sortingPref:
-          coordinator.buildETASortingPreferenceView()
         }
 
       }

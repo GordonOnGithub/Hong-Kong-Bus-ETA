@@ -110,6 +110,21 @@ struct BusStopETAListView: View {
           .frame(height: 180)
 
         }
+
+        if viewModel.showRatingReminder {
+          Button(
+            action: {
+              viewModel.onRatingButtonClicked()
+
+            },
+            label: {
+              Text(String(localized: "rate_this_app_reminder")).frame(maxWidth: .infinity)
+            }
+          ).buttonStyle(.borderedProminent)
+            .tint(.green)
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+        }
+
       } else {
         VStack(spacing: 20) {
           Text(String(localized: "empty_eta_list_title")).font(.headline)

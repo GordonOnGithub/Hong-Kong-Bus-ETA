@@ -13,8 +13,16 @@ class InfoViewModel: ObservableObject {
 
   let uiApplication: UIApplicationType
 
-  init(uiApplication: UIApplicationType = UIApplication.shared) {
+  let storeReviewController: SKStoreReviewControllerInjectableType
+
+  init(
+    uiApplication: UIApplicationType = UIApplication.shared,
+    storeReviewController: SKStoreReviewControllerInjectableType =
+      SKStoreReviewControllerInjectable()
+  ) {
     self.uiApplication = uiApplication
+    self.storeReviewController = storeReviewController
+
   }
 
   func onCheckRepositoryButtonClicked() {
@@ -26,11 +34,7 @@ class InfoViewModel: ObservableObject {
   }
 
   func onRateThisAppClicked() {
-    if let scene = uiApplication.connectedScenes.first(where: {
-      $0.activationState == .foregroundActive
-    }) as? UIWindowScene {
-      SKStoreReviewController.requestReview(in: scene)
-    }
+    storeReviewController.requestReview()
   }
 
   lazy var headerString: String = {

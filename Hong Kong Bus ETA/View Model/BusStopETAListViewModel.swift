@@ -35,9 +35,14 @@ class BusStopETAListViewModel: ObservableObject {
   @Published
   var sorting: Sorting = .addDateLatest
 
+  @Published
+  var showRatingReminder = false
+
   let busETAStorage: BusETAStorageType
 
   let userDefaults: UserDefaultsType
+
+  let storeReviewController: SKStoreReviewControllerInjectableType
 
   weak var delegate: BusStopETAListViewModelDelegate?
 
@@ -45,18 +50,33 @@ class BusStopETAListViewModel: ObservableObject {
 
   private let etaSortingKey = "etaSorting"
 
+  private let showRatingReminderKey = "showRatingReminder"
+
+  private let appLaunchCountKey = "appLaunchCount"
+
   init(
     busETAStorage: BusETAStorageType = BusETAStorage.shared,
-    userDefaults: UserDefaultsType = UserDefaults.standard
+    userDefaults: UserDefaultsType = UserDefaults.standard,
+    storeReviewController: SKStoreReviewControllerInjectableType =
+      SKStoreReviewControllerInjectable()
   ) {
     self.busETAStorage = busETAStorage
     self.userDefaults = userDefaults
+    self.storeReviewController = storeReviewController
 
     busETAStorage.fetch()
 
     if let sortingPref = userDefaults.object(forKey: etaSortingKey) as? Int {
       self.sorting = Sorting(rawValue: sortingPref) ?? .addDateLatest
     }
+
+    let appOpenCount = userDefaults.object(forKey: appLaunchCountKey) as? Int ?? 0
+
+    if appOpenCount > 4 {
+      self.showRatingReminder = userDefaults.object(forKey: showRatingReminderKey) as? Bool ?? true
+    }
+
+    userDefaults.setValue(appOpenCount + 1, forKey: appLaunchCountKey)
 
     setupPublisher()
   }
@@ -120,6 +140,15 @@ class BusStopETAListViewModel: ObservableObject {
 
     userDefaults.setValue(sorting.rawValue, forKey: etaSortingKey)
 
+  }
+
+  func onRatingButtonClicked() {
+
+    storeReviewController.requestReview()
+
+    userDefaults.setValue(false, forKey: showRatingReminderKey)
+
+    showRatingReminder = false
   }
 }
 

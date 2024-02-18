@@ -396,6 +396,22 @@
         }
       }
     },
+    "rate_this_app_reminder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you like this app?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你喜歡此應用程式嗎？"
+          }
+        }
+      }
+    },
     "repository" : {
       "localizations" : {
         "en" : {

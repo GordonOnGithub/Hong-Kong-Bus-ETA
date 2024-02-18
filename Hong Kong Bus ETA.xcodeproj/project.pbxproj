@@ -17,6 +17,8 @@
 		7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */; };
 		7D6C33B32B809CB900BA8820 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B22B809CB900BA8820 /* InfoView.swift */; };
 		7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */; };
+		7D6C33BB2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33BA2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift */; };
+		7D6C33BD2B81B93800BA8820 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33BC2B81B93700BA8820 /* InfoPlist.xcstrings */; };
 		7D8CD0552B637EBC00C15741 /* BookmarkedBusStopETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */; };
 		7D8CD0572B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */; };
 		7D8CD0592B638FCC00C15741 /* ETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0582B638FCC00C15741 /* ETARowView.swift */; };
@@ -61,6 +63,8 @@
 		7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7D6C33B22B809CB900BA8820 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
+		7D6C33BA2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKStoreReviewControllerInjectable.swift; sourceTree = "<group>"; };
+		7D6C33BC2B81B93700BA8820 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowView.swift; sourceTree = "<group>"; };
 		7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0582B638FCC00C15741 /* ETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETARowView.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				7DE9AF8D2B5EC352009B7EF7 /* BusRoutesDataProvider.swift */,
 				7DE9AF8F2B615427009B7EF7 /* DataStorage.swift */,
 				7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */,
+				7D6C33BC2B81B93700BA8820 /* InfoPlist.xcstrings */,
 			);
 			path = "Hong Kong Bus ETA";
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 				7D8CD05A2B6DDE6B00C15741 /* UserDefaults+Extension.swift */,
 				7D8CD05D2B6DEEAB00C15741 /* UIApplication+Extension.swift */,
 				7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */,
+				7D6C33BA2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift */,
 			);
 			path = Extnesion;
 			sourceTree = "<group>";
@@ -308,6 +314,7 @@
 			files = (
 				7D3E72802B5D31C6009C57F5 /* Preview Assets.xcassets in Resources */,
 				7D3E727C2B5D31C6009C57F5 /* Assets.xcassets in Resources */,
+				7D6C33BD2B81B93800BA8820 /* InfoPlist.xcstrings in Resources */,
 				7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,6 +388,7 @@
 				7DE9AF712B5D572E009B7EF7 /* APIResponseModel.swift in Sources */,
 				7DE9AF932B61611B009B7EF7 /* BusStopETA.swift in Sources */,
 				7DE9AF6F2B5D5408009B7EF7 /* CTBBusRouteModel.swift in Sources */,
+				7D6C33BB2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift in Sources */,
 				7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */,
 				7DE9AF8C2B5EC0DA009B7EF7 /* Array+Extension.swift in Sources */,
 				7D8CD05E2B6DEEAB00C15741 /* UIApplication+Extension.swift in Sources */,
@@ -531,6 +539,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "${CFBundleDisplayName}";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -545,7 +554,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -572,6 +581,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "${CFBundleDisplayName}";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -586,7 +596,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

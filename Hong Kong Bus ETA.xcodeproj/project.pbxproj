@@ -19,6 +19,7 @@
 		7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */; };
 		7D6C33BB2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33BA2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift */; };
 		7D6C33BD2B81B93800BA8820 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33BC2B81B93700BA8820 /* InfoPlist.xcstrings */; };
+		7D6C33BF2B8995D200BA8820 /* CLLocationManager + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C33BE2B8995D200BA8820 /* CLLocationManager + Extension.swift */; };
 		7D8CD0552B637EBC00C15741 /* BookmarkedBusStopETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */; };
 		7D8CD0572B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */; };
 		7D8CD0592B638FCC00C15741 /* ETARowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD0582B638FCC00C15741 /* ETARowView.swift */; };
@@ -65,6 +66,7 @@
 		7D6C33B42B809CE100BA8820 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		7D6C33BA2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKStoreReviewControllerInjectable.swift; sourceTree = "<group>"; };
 		7D6C33BC2B81B93700BA8820 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		7D6C33BE2B8995D200BA8820 /* CLLocationManager + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager + Extension.swift"; sourceTree = "<group>"; };
 		7D8CD0542B637EBC00C15741 /* BookmarkedBusStopETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowView.swift; sourceTree = "<group>"; };
 		7D8CD0562B637EC700C15741 /* BookmarkedBusStopETARowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedBusStopETARowViewModel.swift; sourceTree = "<group>"; };
 		7D8CD0582B638FCC00C15741 /* ETARowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETARowView.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				7D8CD05D2B6DEEAB00C15741 /* UIApplication+Extension.swift */,
 				7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */,
 				7D6C33BA2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift */,
+				7D6C33BE2B8995D200BA8820 /* CLLocationManager + Extension.swift */,
 			);
 			path = Extnesion;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				7DE9AF732B5D5B14009B7EF7 /* KMBBusRouteModel.swift in Sources */,
 				7D3E72872B5D48C4009C57F5 /* RootCoordinator.swift in Sources */,
 				7DE9AF712B5D572E009B7EF7 /* APIResponseModel.swift in Sources */,
+				7D6C33BF2B8995D200BA8820 /* CLLocationManager + Extension.swift in Sources */,
 				7DE9AF932B61611B009B7EF7 /* BusStopETA.swift in Sources */,
 				7DE9AF6F2B5D5408009B7EF7 /* CTBBusRouteModel.swift in Sources */,
 				7D6C33BB2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift in Sources */,
@@ -540,6 +544,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "${CFBundleDisplayName}";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show user's location on bus stops map";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -582,6 +590,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "${CFBundleDisplayName}";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show user's location on bus stops map";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

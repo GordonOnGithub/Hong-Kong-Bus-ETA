@@ -66,6 +66,7 @@ struct BusRoutesView: View {
 
     } else {
       ProgressView()
+        .frame(height: 120)
     }
 
   }

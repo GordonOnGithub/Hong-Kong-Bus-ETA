@@ -58,6 +58,10 @@ struct BusRouteDetailView: View {
                 }
               }
 
+              UserAnnotation()
+
+            }.mapControls {
+              MapUserLocationButton()
             }
 
           } else {
@@ -85,7 +89,7 @@ struct BusRouteDetailView: View {
 
           }
         } else {
-          ProgressView().frame(height: 80)
+          ProgressView().frame(height: 120)
         }
 
       }
@@ -98,6 +102,7 @@ struct BusRouteDetailView: View {
         Button(
           action: {
             viewModel.showMap.toggle()
+            viewModel.askLocationPermission()
           },
           label: {
             Image(viewModel.showMap ? "list" : "map", bundle: .main)
@@ -107,5 +112,7 @@ struct BusRouteDetailView: View {
           })
       }
     }
+    .toolbar((viewModel.displayedList?.isEmpty ?? true) ? .hidden : .automatic, for: .navigationBar)
+
   }
 }

@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CoreLocation
 import Foundation
 
 protocol BusRouteDetailViewModelDelegate: AnyObject {
@@ -15,11 +16,13 @@ protocol BusRouteDetailViewModelDelegate: AnyObject {
 
 }
 
-class BusRouteDetailViewModel: ObservableObject {
+class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   let route: any BusRouteModel
 
   var apiManager: APIManagerType
+
+  var locationManager: CLLocationManagerType
 
   @Published
   var stopList: [any BusStopModel]? = nil {
@@ -53,12 +56,21 @@ class BusRouteDetailViewModel: ObservableObject {
 
   private var cancellable = Set<AnyCancellable>()
 
-  init(route: any BusRouteModel, apiManager: APIManagerType = APIManager.shared) {
+  init(
+    route: any BusRouteModel, apiManager: APIManagerType = APIManager.shared,
+    locationManager: CLLocationManagerType = CLLocationManager()
+  ) {
     self.route = route
     self.apiManager = apiManager
+    self.locationManager = locationManager
+
+    super.init()
 
     setupPublisher()
     fetch()
+
+    self.locationManager.delegate = self
+
   }
 
   func setupPublisher() {
@@ -203,6 +215,21 @@ class BusRouteDetailViewModel: ObservableObject {
     let destination = self.route.destination()
 
     return String(localized: "to") + destination
+  }
+
+  func askLocationPermission() {
+
+    guard showMap else { return }
+    self.locationManager.requestWhenInUseAuthorization()
+    self.locationManager.startUpdatingLocation()
+  }
+}
+
+extension BusRouteDetailViewModel: CLLocationManagerDelegate {
+  func locationManager(
+    _ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus
+  ) {
+
   }
 }
 

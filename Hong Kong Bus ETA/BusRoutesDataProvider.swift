@@ -50,6 +50,8 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
     self.userDefaults = userDefaults
 
     loadCacheIfAvailalbe()
+    fetchCTBRoutes()
+    fetchKMBRoutes()
   }
 
   func loadCacheIfAvailalbe() {
@@ -131,42 +133,10 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
 
       return routes
 
-      //            var list : [CTBBusRouteModel] = []
-      //
-      //            guard let data else { return list }
-      //
-      //            let decoder = JSONDecoder()
-      //
-      //            if let response = try? decoder.decode(APIResponseModel<[CTBBusRouteModel]>.self, from: data) {
-      //
-      //                list = response.data
-      //
-      //                list.append(contentsOf: response.data.map({ route in
-      //
-      //                    CTBBusRouteModel(originTC: route.originTC, originSC: route.originSC, originEn: route.originEn, destinationTC: route.destinationTC, destinationSC: route.destinationSC, destinationEn: route.destinationEn, route: route.route,
-      //                        timestamp: route.timestamp,
-      //                                     isInbound: !route.isInbound)
-      //
-      //                }))
-      //
-      //
-      //        }
-      //
-      //            return list
-
     }.replaceError(with: [])
       .sink { [weak self] list in
 
         self?.handleCTBRoutesUpdate(list: list)
-        //                var cache : [String : CTBBusRouteModel] = [:]
-        //                for route in list {
-        //
-        //                    guard let company = route.company, let routeCode = route.route else { continue }
-        //
-        //                    cache[self.getCacheKey(company: company, route: routeCode, serviceType: nil, isInbound: route.isInbound)] = route
-        //                }
-        //
-        //                self.ctbRouteDict.value = cache
 
       }.store(in: &cancellable)
 
@@ -215,31 +185,10 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
 
       return routes
 
-      //            guard let data else { return [] }
-      //
-      //            let decoder = JSONDecoder()
-      //
-      //            if let response = try? decoder.decode(APIResponseModel<[KMBBusRouteModel]>.self, from: data) {
-      //
-      //                return response.data
-      //
-      //            }
-      //
-      //            return []
-
     }).replaceError(with: [])
       .sink(receiveValue: { [weak self] list in
 
         self?.handleKMBRoutesUpdate(list: list)
-        //                var cache : [String : KMBBusRouteModel] = [:]
-        //                for route in list {
-        //
-        //                    guard let company = route.company, let routeCode = route.route else { continue }
-        //
-        //                    cache[self.getCacheKey(company: company, route: routeCode, serviceType: route.serviceType, isInbound: route.isInbound)] = route
-        //                }
-        //
-        //                self.kmbRouteDict.value = cache
 
       }).store(in: &cancellable)
   }

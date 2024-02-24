@@ -98,16 +98,9 @@ class BusRoutesViewModel: ObservableObject {
 
     setupPublisher()
 
-    busRoutesListSource.fetchData()
   }
 
   func setupPublisher() {
-
-    self.busRoutesListSource.getRoutesListPublisher().map({ routeList in
-
-      routeList
-
-    }).assign(to: &$routeList)
 
     $filter.debounce(for: 0.3, scheduler: DispatchQueue.main)
       .combineLatest($routeList).sink { filter, routeList in
@@ -129,6 +122,12 @@ class BusRoutesViewModel: ObservableObject {
         self?.fetch()
       }
     }.store(in: &cancellable)
+
+    self.busRoutesListSource.getRoutesListPublisher().map({ routeList in
+
+      routeList
+
+    }).assign(to: &$routeList)
   }
 
   func fetch() {

@@ -108,11 +108,11 @@ struct BusRouteDetailView: View {
             Image(viewModel.showMap ? "list" : "map", bundle: .main)
               .renderingMode(.template)
               .resizable().scaledToFit().frame(height: 25)
-              .foregroundStyle(.blue)
-          })
+              .foregroundStyle((viewModel.displayedList?.isEmpty ?? true) ? .gray : .blue)
+          }
+        ).disabled((viewModel.displayedList?.isEmpty ?? true))
       }
     }
-    .toolbar((viewModel.displayedList?.isEmpty ?? true) ? .hidden : .automatic, for: .navigationBar)
 
   }
 }

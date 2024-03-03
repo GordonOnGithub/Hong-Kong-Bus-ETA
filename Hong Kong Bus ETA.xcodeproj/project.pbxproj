@@ -544,6 +544,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "${CFBundleDisplayName}";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Show user's location on bus stops map";
@@ -590,6 +591,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "${CFBundleDisplayName}";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Show user's location on bus stops map";

@@ -18,17 +18,20 @@ struct BusRoutesView: View {
     if let list = viewModel.displayedList {
       NavigationView {
         VStack(spacing: 20) {
-          if list.isEmpty, viewModel.filter.isEmpty {
+          if list.isEmpty {
+            if viewModel.filter.isEmpty {
+              Text(String(localized: "failed_to_fetch"))
 
-            Text(String(localized: "failed_to_fetch"))
-
-            Button(
-              action: {
-                viewModel.fetch()
-              },
-              label: {
-                Text(String(localized: "retry"))
-              })
+              Button(
+                action: {
+                  viewModel.fetch()
+                },
+                label: {
+                  Text(String(localized: "retry"))
+                })
+            } else {
+              Text(String(localized: "no_matching_bus_routes"))
+            }
 
           } else {
             List {
@@ -61,7 +64,7 @@ struct BusRoutesView: View {
       }
       .searchable(
         text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
-        prompt: Text(String(localized: "search"))
+        prompt: Text(String(localized: "search_by_keywords"))
       ).keyboardType(.namePhonePad)
 
     } else {

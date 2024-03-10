@@ -102,12 +102,21 @@ struct BusStopETAListView: View {
           }
 
         }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-        List(viewModel.busStopETAList) { eta in
 
-          BookmarkedBusStopETARowView(
-            viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta)
-          )
-          .frame(height: 180)
+        List {
+
+          Section {
+            ForEach(viewModel.busStopETAList) { eta in
+              BookmarkedBusStopETARowView(
+                viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta)
+              )
+              .frame(height: 180)
+
+            }
+          } header: {
+            Text(String(localized: "update_every_30_seconds")).listRowInsets(EdgeInsets())
+
+          }
 
         }
 
@@ -137,7 +146,10 @@ struct BusStopETAListView: View {
               viewModel.onSearchCTBRoutesButtonClicked()
             },
             label: {
-              Text(String(localized: "search_ctb_routes"))
+              HStack {
+                Image(systemName: "magnifyingglass")
+                Text(String(localized: "search_ctb_routes"))
+              }
             }
           ).buttonStyle(.bordered).tint(.blue)
 
@@ -146,7 +158,10 @@ struct BusStopETAListView: View {
               viewModel.onSearchKMBRoutesButtonClicked()
             },
             label: {
-              Text(String(localized: "search_kmb_routes"))
+              HStack {
+                Image(systemName: "magnifyingglass")
+                Text(String(localized: "search_kmb_routes"))
+              }
             }
           ).buttonStyle(.bordered).tint(.red)
         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))

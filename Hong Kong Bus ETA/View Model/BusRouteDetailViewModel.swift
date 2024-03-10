@@ -52,6 +52,9 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
   @Published
   var busStopDetailsDict: [String: any BusStopDetailModel] = [:]
 
+  @Published
+  var hasLocationPermission: Bool = false
+
   weak var delegate: BusRouteDetailViewModelDelegate?
 
   private var cancellable = Set<AnyCancellable>()
@@ -229,6 +232,15 @@ extension BusRouteDetailViewModel: CLLocationManagerDelegate {
   func locationManager(
     _ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus
   ) {
+
+    switch status {
+
+    case .authorizedAlways, .authorizedWhenInUse, .authorized:
+      hasLocationPermission = true
+
+    default:
+      hasLocationPermission = false
+    }
 
   }
 }

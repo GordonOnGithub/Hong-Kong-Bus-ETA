@@ -348,6 +348,23 @@
         }
       }
     },
+    "no_matching_bus_routes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There is no bus route that matches the keywords."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到吻合關鍵字的路線"
+          }
+        }
+      }
+    },
     "open_in_map_app" : {
       "localizations" : {
         "en" : {
@@ -460,6 +477,23 @@
         }
       }
     },
+    "search_by_keywords" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search by keyword(s), e.g. A20, airport"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "輸入關鍵字以搜尋路線，例如：A20, 機場"
+          }
+        }
+      }
+    },
     "search_ctb_routes" : {
       "localizations" : {
         "en" : {
@@ -552,6 +586,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消收藏"
+          }
+        }
+      }
+    },
+    "update_every_30_seconds" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimated time of arrivals below are updated once every 30 seconds"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "以下預計到站時間每隔30 秒更新一次"
           }
         }
       }

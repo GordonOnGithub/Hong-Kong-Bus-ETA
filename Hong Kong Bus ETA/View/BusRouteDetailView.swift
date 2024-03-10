@@ -61,7 +61,9 @@ struct BusRouteDetailView: View {
               UserAnnotation()
 
             }.mapControls {
-              MapUserLocationButton()
+              if viewModel.hasLocationPermission {
+                MapUserLocationButton()
+              }
             }
 
           } else {

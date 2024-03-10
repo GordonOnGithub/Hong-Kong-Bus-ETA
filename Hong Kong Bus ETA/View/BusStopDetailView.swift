@@ -134,7 +134,7 @@ struct BusStopDetailView: View {
 
             }
 
-            Map(initialPosition: position) {
+            Map(initialPosition: position, interactionModes: MapInteractionModes.zoom) {
               Marker(
                 viewModel.getBusStopName(),
                 coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))

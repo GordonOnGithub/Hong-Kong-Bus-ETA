@@ -25,7 +25,7 @@ extension MapCameraPosition {
 extension MapCameraBounds {
 
   static var boundsOfHongKong: MapCameraBounds {
-    MapCameraBounds.init(minimumDistance: 3000, maximumDistance: 200000)
+    MapCameraBounds.init(minimumDistance: 1000, maximumDistance: 200000)
   }
 
 }

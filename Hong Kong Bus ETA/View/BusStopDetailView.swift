@@ -103,8 +103,9 @@ struct BusStopDetailView: View {
             }
 
           } else {
-
+            Spacer()
             ProgressView().frame(height: 300)
+            Spacer()
           }
 
           if let busStopDetail = viewModel.busStopDetail,

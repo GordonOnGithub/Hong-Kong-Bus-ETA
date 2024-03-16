@@ -141,6 +141,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
     apiManager.isReachable.dropFirst().sink { [weak self] reachable in
       if reachable {
         self?.fetchETA()
+        self?.fetchBusStopDetailIfNeeded()
       }
     }.store(in: &cancellable)
   }

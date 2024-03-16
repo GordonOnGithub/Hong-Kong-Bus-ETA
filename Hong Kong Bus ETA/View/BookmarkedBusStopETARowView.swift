@@ -36,15 +36,14 @@ struct BookmarkedBusStopETARowView: View {
               .foregroundStyle(.primary)
               .frame(height: 20)
             Text(viewModel.getBusStopName()).lineLimit(2)
+              .font(.system(size: 14, weight: .regular))
             Spacer()
-          }
+          }.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         } else {
           Spacer().frame(height: 30)
         }
 
-        Spacer().frame(height: 5)
-
-        if let busETAList = viewModel.busETAList {
+        if let busETAList = viewModel.busETAList, !viewModel.isFetchingETA {
 
           if let latest = busETAList.first(where: { eta in
 
@@ -70,7 +69,6 @@ struct BookmarkedBusStopETARowView: View {
 
       }
     )
-    .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
     .contentShape(Rectangle())
     .onTapGesture {
       viewModel.onRowClicked()

@@ -71,7 +71,9 @@ struct BusStopDetailView: View {
           }
 
           Spacer().frame(height: 10)
-          if let busETAList = viewModel.busETAList {
+          if let busETAList = viewModel.busETAList?.filter({ eta in
+            eta.etaTimestamp != nil
+          }) {
 
             List {
 

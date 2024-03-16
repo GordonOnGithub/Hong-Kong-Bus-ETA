@@ -110,7 +110,7 @@ struct BusStopETAListView: View {
               BookmarkedBusStopETARowView(
                 viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta)
               )
-              .frame(height: 180)
+              .frame(height: 155)
 
             }
           } header: {

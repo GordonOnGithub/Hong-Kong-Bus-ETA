@@ -37,6 +37,9 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
   private var cancellable = Set<AnyCancellable>()
 
+  @Published
+  var isFetchingETA = false
+
   init(
     busStopETA: BusStopETA, apiManager: APIManagerType = APIManager.shared,
     busRoutesDataProvider: BusRoutesDataProviderType = BusRoutesDataProvider.shared
@@ -143,6 +146,14 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
   }
   func fetchETA() {
 
+    if isFetchingETA {
+      return
+    }
+
+    isFetchingETA = true
+
+    busETAList = nil
+
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
       fetchCTBETA(stopId: busStopETA.stopId, route: busStopETA.route)
@@ -152,6 +163,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
         stopId: busStopETA.stopId, route: busStopETA.route, serviceType: busStopETA.serviceType)
 
     case .none:
+      isFetchingETA = false
       break
     }
 
@@ -168,6 +180,8 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
       default:
         break
       }
+
+      self?.isFetchingETA = false
 
     } receiveValue: { [weak self] data in
 
@@ -198,6 +212,8 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
       default:
         break
       }
+
+      self?.isFetchingETA = false
 
     } receiveValue: { [weak self] data in
 

@@ -118,6 +118,8 @@ struct BusStopETAListView: View {
 
           }
 
+        }.refreshable {
+          viewModel.fetchAllETAs()
         }
 
         if viewModel.showRatingReminder {

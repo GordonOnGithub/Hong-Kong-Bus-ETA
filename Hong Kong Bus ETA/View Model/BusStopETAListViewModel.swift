@@ -54,6 +54,9 @@ class BusStopETAListViewModel: ObservableObject {
 
   private let appLaunchCountKey = "appLaunchCount"
 
+  private var bookmarkedBusStopETARowViewModelDict: [BusStopETA: BookmarkedBusStopETARowViewModel] =
+    [:]
+
   init(
     busETAStorage: BusETAStorageType = BusETAStorage.shared,
     userDefaults: UserDefaultsType = UserDefaults.standard,
@@ -84,6 +87,8 @@ class BusStopETAListViewModel: ObservableObject {
   private func setupPublisher() {
 
     busETAStorage.cache.combineLatest($sorting).sink { _, sorting in
+
+      self.bookmarkedBusStopETARowViewModelDict.removeAll()
 
       self.busETAStorage.cache.map { cache in
 
@@ -117,12 +122,26 @@ class BusStopETAListViewModel: ObservableObject {
   func buildBookmarkedBusStopETARowViewModel(busStopETA: BusStopETA)
     -> BookmarkedBusStopETARowViewModel
   {
+    guard let vm = bookmarkedBusStopETARowViewModelDict[busStopETA] else {
 
-    let vm = BookmarkedBusStopETARowViewModel(busStopETA: busStopETA)
+      let vm = BookmarkedBusStopETARowViewModel(busStopETA: busStopETA)
 
-    vm.delegate = self
+      vm.delegate = self
+
+      bookmarkedBusStopETARowViewModelDict[busStopETA] = vm
+
+      return vm
+    }
 
     return vm
+
+  }
+
+  func fetchAllETAs() {
+
+    for vm in bookmarkedBusStopETARowViewModelDict.values {
+      vm.fetchETA()
+    }
 
   }
 

@@ -12,4 +12,4 @@ This is an open source project, suggestions and improvements are welcome. You ma
 2. Kowloon Motor Bus (KMB)
 
 # Availability
-This app is available on App Store for iPhone with iOS 17 or above.
+This app is available on [App Store](https://apps.apple.com/us/app/hong-kong-bus-eta-ctb-kmb/id6478858580) for iPhone with iOS 17 or above.

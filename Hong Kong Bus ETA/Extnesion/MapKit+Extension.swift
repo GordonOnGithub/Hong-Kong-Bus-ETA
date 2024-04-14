@@ -12,12 +12,10 @@ import _MapKit_SwiftUI
 extension MapCameraPosition {
 
   static var positionOfHongKong: MapCameraPosition {
-    MapCameraPosition.region(
-      MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 22.3222263, longitude: 114.1568812),
-        span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-      )
-    )
+    .camera(
+      .init(
+        centerCoordinate: CLLocationCoordinate2D(latitude: 22.345, longitude: 114.12),
+        distance: 150000))
   }
 
 }
@@ -25,7 +23,15 @@ extension MapCameraPosition {
 extension MapCameraBounds {
 
   static var boundsOfHongKong: MapCameraBounds {
-    MapCameraBounds.init(minimumDistance: 1000, maximumDistance: 200000)
+    .init(
+      centerCoordinateBounds: .init(
+        MKMapRect(
+          origin: .init(
+            CLLocationCoordinate2D(
+              latitude: 22.58,
+              longitude: 113.8)),
+          size: .init(width: 360000, height: 360000))), minimumDistance: 500,
+      maximumDistance: 150000)
   }
 
 }

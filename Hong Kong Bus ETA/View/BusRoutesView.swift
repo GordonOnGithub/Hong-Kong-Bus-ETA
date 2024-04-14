@@ -65,7 +65,7 @@ struct BusRoutesView: View {
       .searchable(
         text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
         prompt: Text(String(localized: "search_by_keywords"))
-      ).keyboardType(.namePhonePad)
+      )
 
     } else {
       ProgressView()

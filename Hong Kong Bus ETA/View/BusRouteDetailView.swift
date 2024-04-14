@@ -11,6 +11,8 @@ import SwiftUI
 
 struct BusRouteDetailView: View {
 
+  @Environment(\.dismiss) var dismiss
+
   @StateObject
   var viewModel: BusRouteDetailViewModel
 
@@ -36,7 +38,9 @@ struct BusRouteDetailView: View {
             Spacer().frame(height: 20)
             Map(
               initialPosition: MapCameraPosition.positionOfHongKong,
-              bounds: MapCameraBounds.boundsOfHongKong
+              bounds: MapCameraBounds.boundsOfHongKong,
+              interactionModes: [.pan, .zoom],
+              selection: $viewModel.selectedMapMarker
             ) {
 
               if let list = viewModel.stopList {
@@ -52,7 +56,8 @@ struct BusRouteDetailView: View {
 
                     Marker(
                       name,
-                      coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                      coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    ).tag(stopId)
 
                   }
                 }
@@ -99,7 +104,25 @@ struct BusRouteDetailView: View {
     .navigationTitle(
       "\(viewModel.route.getFullRouteName()), \(viewModel.getDestinationDescription())"
     )
+    .navigationBarBackButtonHidden(true)
     .toolbar {
+
+      ToolbarItem(placement: .topBarLeading) {
+
+        Button {
+
+          if viewModel.showMap {
+            viewModel.showMap = false
+          } else {
+            dismiss()
+          }
+
+        } label: {
+          Image(systemName: "chevron.backward")
+        }
+
+      }
+
       ToolbarItem(placement: .topBarTrailing) {
         Button(
           action: {
@@ -107,10 +130,16 @@ struct BusRouteDetailView: View {
             viewModel.askLocationPermission()
           },
           label: {
-            Image(viewModel.showMap ? "list" : "map", bundle: .main)
-              .renderingMode(.template)
-              .resizable().scaledToFit().frame(height: 25)
-              .foregroundStyle((viewModel.displayedList?.isEmpty ?? true) ? .gray : .blue)
+            VStack {
+              Image(viewModel.showMap ? "list" : "map", bundle: .main)
+                .renderingMode(.template)
+                .resizable().scaledToFit().frame(height: 25)
+                .foregroundStyle((viewModel.displayedList?.isEmpty ?? true) ? .gray : .blue)
+              Text(String(localized: viewModel.showMap ? "list" : "map"))
+                .font(.system(size: 10))
+                .foregroundStyle((viewModel.displayedList?.isEmpty ?? true) ? .gray : .blue)
+
+            }
           }
         ).disabled((viewModel.displayedList?.isEmpty ?? true))
       }

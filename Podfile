@@ -3,5 +3,5 @@ platform :ios, '16.0'
 
 target 'Hong Kong Bus ETA' do
   use_frameworks!
-  pod 'Alamofire', '~> 5.8'
+  pod 'Alamofire', '~> 5.9.1'
 end

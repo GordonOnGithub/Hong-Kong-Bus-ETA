@@ -41,6 +41,9 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
   var displayedList: [any BusStopModel]? = nil
 
   @Published
+  var selectedMapMarker: String? = nil
+
+  @Published
   var filter: String = ""
 
   @Published
@@ -117,6 +120,20 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
         }
 
       }.store(in: &cancellable)
+
+    $selectedMapMarker.sink { [weak self] stopId in
+
+      guard let stopId, let self,
+        let busStopModel = self.stopList?.first(where: { busStopModel in
+          busStopModel.stopId == stopId
+        }), let busStopDetailModel = self.busStopDetailsDict[stopId]
+      else { return }
+
+      self.delegate?.busRouteDetailViewModel(
+        self, didRequestDisplayBusStop: busStopModel, isInbound: route.isInbound,
+        withDetails: busStopDetailModel)
+
+    }.store(in: &cancellable)
   }
 
   func fetch() {

@@ -49,12 +49,19 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
     self.apiManager = apiManager
     self.userDefaults = userDefaults
 
-    loadCacheIfAvailalbe()
+    Task {
+      await loadCTBCacheIfAvailalbe()
+    }
+
+    Task {
+      await loadKMBCacheIfAvailalbe()
+    }
+
     fetchCTBRoutes()
     fetchKMBRoutes()
   }
 
-  func loadCacheIfAvailalbe() {
+  func loadCTBCacheIfAvailalbe() async {
 
     if let ctbRouteData = userDefaults.object(forKey: ctbRoutesDataKey) as? Data {
 
@@ -64,6 +71,10 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
       }
 
     }
+
+  }
+
+  func loadKMBCacheIfAvailalbe() async {
 
     if let kmbRouteData = userDefaults.object(forKey: kmbRoutesDataKey) as? Data {
 
@@ -116,7 +127,9 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
           company: company, route: routeCode, serviceType: nil, isInbound: route.isInbound)] = route
     }
 
-    self.ctbRouteDict.value = cache
+    DispatchQueue.main.async {
+      self.ctbRouteDict.value = cache
+    }
   }
 
   func fetchCTBRoutes() {
@@ -168,7 +181,9 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
           isInbound: route.isInbound)] = route
     }
 
-    self.kmbRouteDict.value = cache
+    DispatchQueue.main.async {
+      self.kmbRouteDict.value = cache
+    }
   }
 
   func fetchKMBRoutes() {

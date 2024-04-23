@@ -243,6 +243,11 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
     self.locationManager.requestWhenInUseAuthorization()
     self.locationManager.startUpdatingLocation()
   }
+
+  func resetFilter() {
+    filter = ""
+    displayedList = stopList
+  }
 }
 
 extension BusRouteDetailViewModel: CLLocationManagerDelegate {

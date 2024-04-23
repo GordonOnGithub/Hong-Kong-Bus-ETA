@@ -116,13 +116,17 @@ struct BusStopDetailView: View {
             let position = MapCameraPosition.region(
               MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+                span: MKCoordinateSpan(latitudeDelta: 0.003, longitudeDelta: 0.003)
               )
             )
             Spacer().frame(height: 10)
 
             HStack {
-
+              Image("location", bundle: .main)
+                .renderingMode(.template)
+                .resizable().scaledToFit()
+                .foregroundStyle(.primary)
+                .frame(height: 20)
               Text(String(localized: "location")).font(.headline)
               Spacer()
               Button(
@@ -132,7 +136,15 @@ struct BusStopDetailView: View {
 
                 },
                 label: {
-                  Text(String(localized: "open_in_map_app"))
+                  HStack {
+                    Image("map")
+                      .renderingMode(.template)
+                      .resizable().scaledToFit()
+                      .foregroundStyle(.primary)
+                      .frame(height: 20)
+
+                    Text(String(localized: "open_in_map_app"))
+                  }
                 })
 
             }
@@ -141,6 +153,9 @@ struct BusStopDetailView: View {
               Marker(
                 viewModel.getBusStopName(),
                 coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+
+              UserAnnotation()
+
             }
             .frame(height: 200)
 
@@ -167,9 +182,16 @@ struct BusStopDetailView: View {
             label: {
 
               if viewModel.isSaved {
-                Text(String(localized: "unbookmark")).fontWeight(.semibold).foregroundStyle(.red)
+                HStack {
+                  Image(systemName: "bookmark.slash")
+                    .foregroundStyle(.red)
+                  Text(String(localized: "unbookmark")).fontWeight(.semibold).foregroundStyle(.red)
+                }
               } else {
-                Text(String(localized: "bookmark")).fontWeight(.semibold)
+                HStack {
+                  Image(systemName: "bookmark")
+                  Text(String(localized: "bookmark")).fontWeight(.semibold)
+                }
               }
             })
         }

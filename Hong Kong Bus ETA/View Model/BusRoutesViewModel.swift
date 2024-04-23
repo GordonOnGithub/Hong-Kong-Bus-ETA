@@ -85,6 +85,8 @@ class BusRoutesViewModel: ObservableObject {
 
   let busRoutesListSource: BusRoutesListSource
 
+  private var lastEnterBackgroundTime: Date?
+
   weak var delegate: BusRoutesViewModelDelegate?
 
   private var cancellable = Set<AnyCancellable>()
@@ -118,12 +120,13 @@ class BusRoutesViewModel: ObservableObject {
       }.store(in: &cancellable)
 
     apiManager.isReachable.dropFirst().sink { [weak self] reachable in
-      if reachable {
-        self?.fetch()
+      if let self, reachable, self.routeList?.isEmpty ?? false {
+        self.fetch()
       }
     }.store(in: &cancellable)
 
-    self.busRoutesListSource.getRoutesListPublisher().map({ routeList in
+    self.busRoutesListSource.getRoutesListPublisher().receive(on: DispatchQueue.main).map({
+      routeList in
 
       routeList
 
@@ -135,9 +138,26 @@ class BusRoutesViewModel: ObservableObject {
     busRoutesListSource.fetchData()
   }
 
+  func resetFilter() {
+    filter = ""
+    displayedList = routeList
+  }
+
   func onRouteSelected(_ route: any BusRouteModel) {
 
     delegate?.busRoutesViewModel(self, didSelectRoute: route)
   }
 
+  func onEnterBackground() {
+    lastEnterBackgroundTime = Date()
+  }
+
+  func onReturnToForeground() {
+    if let lastEnterBackgroundTime,
+      Date().timeIntervalSince1970 - lastEnterBackgroundTime.timeIntervalSince1970 > 86400
+    {
+      fetch()
+    }
+
+  }
 }

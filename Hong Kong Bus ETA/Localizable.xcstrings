@@ -78,6 +78,22 @@
         }
       }
     },
+    "downloading_database" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updating bus route database ..."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在更新巴士路線資料庫..."
+          }
+        }
+      }
+    },
     "earliest_added_first" : {
       "localizations" : {
         "en" : {
@@ -283,6 +299,22 @@
         }
       }
     },
+    "loading_bus_route_detail" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fetching details for this bus route..."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "正在下載此巴士路線詳細資料..."
+          }
+        }
+      }
+    },
     "location" : {
       "localizations" : {
         "en" : {
@@ -399,6 +431,22 @@
         }
       }
     },
+    "no_matching_bus_stop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There is no bus stop that matches the keywords."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到吻合關鍵字的巴士站"
+          }
+        }
+      }
+    },
     "open_in_map_app" : {
       "localizations" : {
         "en" : {
@@ -409,8 +457,8 @@
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "從地圖程式打開"
+            "state" : "needs_review",
+            "value" : "從地圖程式上查看"
           }
         }
       }
@@ -475,6 +523,22 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "查看代碼庫"
+          }
+        }
+      }
+    },
+    "reset" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重設"
           }
         }
       }

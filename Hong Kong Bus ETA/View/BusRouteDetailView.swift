@@ -72,22 +72,43 @@ struct BusRouteDetailView: View {
             }
 
           } else {
-            List {
-              Section {
-                ForEach(list, id: \.id) { stop in
 
-                  VStack(
-                    alignment: .leading,
-                    content: {
+            Group {
+              if list.isEmpty, !viewModel.filter.isEmpty {
+                Text(String(localized: "no_matching_bus_stop"))
+                  .multilineTextAlignment(.center)
+                  .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                Button(
+                  action: {
+                    viewModel.resetFilter()
+                  },
+                  label: {
+                    HStack {
+                      Image(systemName: "eraser")
+                      Text("reset")
+                    }
+                  })
+              } else {
 
-                      BusStopRowView(viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
+                List {
+                  Section {
+                    ForEach(list, id: \.id) { stop in
 
-                    })
+                      VStack(
+                        alignment: .leading,
+                        content: {
+
+                          BusStopRowView(
+                            viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
+
+                        })
+                    }
+                  } header: {
+                    Text(String(localized: "origin"))
+                  } footer: {
+                    Text(String(localized: "destination"))
+                  }
                 }
-              } header: {
-                Text(String(localized: "origin"))
-              } footer: {
-                Text(String(localized: "destination"))
               }
             }.searchable(
               text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
@@ -96,7 +117,9 @@ struct BusRouteDetailView: View {
 
           }
         } else {
-          ProgressView().frame(height: 120)
+          ProgressView(label: {
+            Text("loading_bus_route_detail")
+          }).frame(height: 120)
         }
 
       }

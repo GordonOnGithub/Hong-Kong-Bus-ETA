@@ -21,14 +21,20 @@ struct BusStopDetailView: View {
       VStack {
 
         if viewModel.showNetworkUnavailableWarning {
-          VStack {
+          HStack {
+            Spacer()
+
+            Image(systemName: "network.slash").foregroundStyle(.black)
+
             Text(String(localized: "network_not_reachable"))
               .foregroundStyle(.black)
               .font(.system(size: 16, weight: .semibold))
-              .frame(maxWidth: .infinity)
-              .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+            Spacer()
 
-          }.background(.yellow)
+          }
+          .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+
+          .background(.yellow)
         }
 
         VStack(alignment: .leading, spacing: 10) {
@@ -56,21 +62,32 @@ struct BusStopDetailView: View {
             Text(viewModel.getBusStopName()).font(.title)
           }
 
-          Button(
-            action: {
-              viewModel.showBusRouteDetail()
-            },
-            label: {
-              Text(viewModel.getRouteName()).font(.headline).foregroundStyle(.white)
-            }
-          ).buttonStyle(.borderedProminent).tint(
-            viewModel.busStopETA.company == "KMB" ? .red : .blue)
+          HStack {
+            Button(
+              action: {
+                viewModel.showBusRouteDetail()
+              },
+              label: {
+                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(.white)
+              }
+            ).buttonStyle(.borderedProminent).tint(
+              viewModel.busStopETA.company == "KMB" ? .red : .blue)
 
+            Spacer().frame(width: 10)
+
+            if let busFare = viewModel.busFare {
+              Image(systemName: "banknote.fill")
+              Text("$\(busFare.fullFare)")
+
+            }
+
+            Spacer()
+          }
           if viewModel.busRoute != nil {
             Text(viewModel.getDestinationDescription()).font(.subheadline)
           }
 
-          Spacer().frame(height: 10)
+          Divider()
           if let busETAList = viewModel.busETAList?.filter({ eta in
             eta.etaTimestamp != nil
           }) {
@@ -103,9 +120,13 @@ struct BusStopDetailView: View {
             }
 
           } else {
-            Spacer()
-            ProgressView().frame(height: 300)
-            Spacer()
+            HStack {
+              Spacer()
+              ProgressView(label: {
+                Text("fetching_eta")
+              }).frame(height: 300)
+              Spacer()
+            }
           }
 
           if let busStopDetail = viewModel.busStopDetail,
@@ -119,7 +140,7 @@ struct BusStopDetailView: View {
                 span: MKCoordinateSpan(latitudeDelta: 0.003, longitudeDelta: 0.003)
               )
             )
-            Spacer().frame(height: 10)
+            Divider()
 
             HStack {
               Image("location", bundle: .main)

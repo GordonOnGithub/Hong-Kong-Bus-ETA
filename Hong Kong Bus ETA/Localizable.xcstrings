@@ -4,15 +4,18 @@
     "" : {
 
     },
-    "%@, %@" : {
+    "%@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@, %2$@"
+            "value" : "%1$@ %2$@"
           }
         }
       }
+    },
+    "$%@" : {
+
     },
     "bookmark" : {
       "localizations" : {
@@ -58,6 +61,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "終點"
+          }
+        }
+      }
+    },
+    "different_holiday_fee" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separate fare for weekend and Public Holidays "
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "設假日及公眾假期收費"
           }
         }
       }
@@ -197,6 +216,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未能取得資料"
+          }
+        }
+      }
+    },
+    "fetching_eta" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fetching estimated time of arrival..."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "正在更新到站時間..."
           }
         }
       }
@@ -652,6 +687,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "路線號碼 （小至大）"
+          }
+        }
+      }
+    },
+    "time_specific_route" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time or day specific services"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "特定時段或非每天服務路線"
           }
         }
       }

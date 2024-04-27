@@ -74,6 +74,7 @@ struct BusRouteDetailView: View {
           } else {
 
             Group {
+
               if list.isEmpty, !viewModel.filter.isEmpty {
                 Text(String(localized: "no_matching_bus_stop"))
                   .multilineTextAlignment(.center)
@@ -122,10 +123,14 @@ struct BusRouteDetailView: View {
           }).frame(height: 120)
         }
 
+        if viewModel.filter.isEmpty {
+          Spacer()
+          busRouteSummary
+        }
       }
     }
     .navigationTitle(
-      "\(viewModel.route.getFullRouteName()), \(viewModel.getDestinationDescription())"
+      viewModel.route.getFullRouteName()
     )
     .navigationBarBackButtonHidden(true)
     .toolbar {
@@ -168,5 +173,41 @@ struct BusRouteDetailView: View {
       }
     }
 
+  }
+
+  var busRouteSummary: some View {
+    VStack(alignment: .leading) {
+
+      Text(
+        viewModel.getDestinationDescription()
+      ).lineLimit(2).multilineTextAlignment(.leading)
+        .font(.title3)
+
+      if let busFare = viewModel.busFare {
+        HStack {
+          Image(systemName: "banknote.fill")
+          Text("$\(busFare.fullFare)")
+          Spacer()
+          Image(systemName: "point.bottomleft.filled.forward.to.point.topright.scurvepath")
+
+          Text("\(busFare.jouneryTime) \(String(localized: "minutes"))")
+
+        }.frame(height: 30)
+
+        if let description = busFare.specialType.description {
+          HStack {
+            Image(systemName: "info.circle")
+
+            Text(description).lineLimit(2).multilineTextAlignment(.leading)
+              .font(.subheadline)
+            Spacer()
+          }
+
+        }
+      }
+    }.padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+      .foregroundStyle(.primary)
+      .background(RoundedRectangle(cornerRadius: 10).fill(.clear).stroke(.primary))
+      .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
 }

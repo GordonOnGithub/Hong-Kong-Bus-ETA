@@ -45,6 +45,9 @@ class BusStopDetailViewModel: ObservableObject {
   @Published
   var showBookmarkReminder = false
 
+  @Published
+  var busFare: BusFareModel? = nil
+
   weak var delegate: (any BusStopDetailViewModelDelegate)?
 
   let busETAStorage: BusETAStorageType
@@ -177,6 +180,30 @@ class BusStopDetailViewModel: ObservableObject {
     default:
       break
     }
+
+    busRoutesDataProvider.busFareDict.map { [weak self] dict -> BusFareModel? in
+
+      guard let dict, let route = self?.busRoute, let companyCode = route.company?.rawValue,
+        let routeNumber = route.route
+      else { return nil }
+
+      let key = "\(companyCode)_\(routeNumber)"
+
+      if let busFare = dict[key] {
+        return busFare
+      }
+
+      for value in dict.values {
+
+        if value.companyCode.contains(companyCode), value.routeNumber == routeNumber {
+          return value
+        }
+
+      }
+
+      return nil
+
+    }.assign(to: &$busFare)
 
   }
 

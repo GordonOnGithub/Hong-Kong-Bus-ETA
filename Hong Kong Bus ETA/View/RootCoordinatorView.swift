@@ -17,14 +17,19 @@ struct RootCoordinatorView: View {
 
     VStack {
       if coordinator.showNetworkUnavailableWarning {
-        VStack {
+        HStack {
+          Spacer()
+
+          Image(systemName: "network.slash")
+            .foregroundStyle(.black)
+
           Text(String(localized: "network_not_reachable"))
             .foregroundStyle(.black)
             .font(.system(size: 16, weight: .semibold))
-            .frame(maxWidth: .infinity)
-          Spacer().frame(height: 10)
+          Spacer()
 
-        }.background(.yellow)
+        }.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+          .background(.yellow)
       }
       NavigationStack(path: $coordinator.path) {
 

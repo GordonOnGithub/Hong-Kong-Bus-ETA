@@ -11,12 +11,15 @@ import Foundation
 protocol BusRoutesDataProviderType {
   var ctbRouteDict: CurrentValueSubject<[String: CTBBusRouteModel]?, Never> { get }
   var kmbRouteDict: CurrentValueSubject<[String: KMBBusRouteModel]?, Never> { get }
+  var busFareDict: CurrentValueSubject<[String: BusFareModel]?, Never> { get }
 
   static var shared: BusRoutesDataProviderType { get }
 
   func fetchCTBRoutes()
 
   func fetchKMBRoutes()
+
+  func fetchBusFareInfo()
 
   func getCacheKey(company: BusCompany, route: String, serviceType: String?, isInbound: Bool)
     -> String
@@ -34,6 +37,9 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
   var kmbRouteDict: CurrentValueSubject<[String: KMBBusRouteModel]?, Never> = CurrentValueSubject(
     nil)
 
+  var busFareDict: CurrentValueSubject<[String: BusFareModel]?, Never> = CurrentValueSubject(
+    nil)
+
   static var shared: BusRoutesDataProviderType = BusRoutesDataProvider()
 
   private var cancellable = Set<AnyCancellable>()
@@ -41,6 +47,8 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
   private let ctbRoutesDataKey = "ctbRoutesData"
 
   private let kmbRoutesDataKey = "kmbRoutesData"
+
+  private let busFaresDataKey = "busFaresData"
 
   private init(
     apiManager: APIManagerType = APIManager.shared,
@@ -57,8 +65,14 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
       await loadKMBCacheIfAvailalbe()
     }
 
+    Task {
+      await loadBusFareCacheIfAvailalbe()
+    }
+
     fetchCTBRoutes()
     fetchKMBRoutes()
+
+    fetchBusFareInfo()
   }
 
   func loadCTBCacheIfAvailalbe() async {
@@ -83,6 +97,14 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
         handleKMBRoutesUpdate(list: routes)
       }
 
+    }
+
+  }
+
+  func loadBusFareCacheIfAvailalbe() async {
+
+    if let busFaresData = userDefaults.object(forKey: busFaresDataKey) as? Data {
+      parseBusFareData(busFaresData)
     }
 
   }
@@ -215,4 +237,136 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
     return company.rawValue + "_" + route + "_" + (serviceType ?? "") + (isInbound ? "I" : "O")
 
   }
+
+  func fetchBusFareInfo() {
+
+    apiManager.call(api: .fare).replaceError(with: nil).sink { [weak self] data in
+
+      guard let self, let data else { return }
+
+      parseBusFareData(data)
+
+      if !(busFareDict.value?.isEmpty ?? true) {
+        self.userDefaults.setValue(data, forKey: self.busFaresDataKey)
+
+      }
+
+    }.store(in: &cancellable)
+
+  }
+
+  private func parseBusFareData(_ data: Data) {
+
+    let parser = XMLParser(data: data)
+
+    let delegate = BusFareXMLParserDelegate()
+
+    parser.delegate = delegate
+
+    parser.parse()
+
+    busFareDict.send(delegate.busFareDict)
+
+  }
+}
+
+class BusFareXMLParserDelegate: NSObject, XMLParserDelegate {
+
+  var companyCode: String?
+  var routeNumber: String?
+  var fullFare: String?
+  var specialType: BusFareModel.BusRouteSpecialType?
+  var jouneryTime: String?
+
+  var currentElement: BusFareXMLElement?
+
+  var busFareDict: [String: BusFareModel] = [:]
+
+  enum BusFareXMLElement: String {
+
+    case routeId = "ROUTE_ID"
+    case companyCode = "COMPANY_CODE"
+    case routeNumber = "ROUTE_NAMEE"
+    case fullFare = "FULL_FARE"
+    case specialType = "SPECIAL_TYPE"
+    case jouneryTime = "JOURNEY_TIME"
+  }
+
+  func parser(
+    _ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
+    qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]
+  ) {
+
+    if let element = BusFareXMLElement(rawValue: elementName) {
+      currentElement = element
+    }
+
+    if currentElement == .routeId {
+      self.companyCode = nil
+      self.routeNumber = nil
+      self.fullFare = nil
+      self.specialType = nil
+      self.jouneryTime = nil
+    }
+
+  }
+
+  func parser(_ parser: XMLParser, foundCharacters string: String) {
+
+    if !string.isEmpty, string != "\n" {
+
+      switch currentElement {
+      case .companyCode:
+        if companyCode == nil {
+          companyCode = string
+        }
+
+      case .routeNumber:
+        if routeNumber == nil {
+          routeNumber = string
+        }
+
+      case .fullFare:
+        if fullFare == nil {
+          fullFare = string
+        }
+
+      case .specialType:
+        if specialType == nil {
+          specialType = BusFareModel.BusRouteSpecialType(rawValue: string)
+        }
+
+      case .jouneryTime:
+        if jouneryTime == nil {
+          jouneryTime = string
+        }
+
+      default:
+        break
+      }
+
+    }
+
+  }
+
+  func parser(
+    _ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?,
+    qualifiedName qName: String?
+  ) {
+
+    if let companyCode, let routeNumber,
+      let fullFare, let specialType, let jouneryTime
+    {
+      let busFare = BusFareModel(
+        companyCode: companyCode, routeNumber: routeNumber, fullFare: fullFare,
+        specialType: specialType, jouneryTime: jouneryTime)
+
+      busFareDict["\(companyCode)_\(routeNumber)"] = busFare
+
+    }
+
+    currentElement = nil
+
+  }
+
 }

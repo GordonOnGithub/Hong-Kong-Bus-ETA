@@ -24,6 +24,8 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   var locationManager: CLLocationManagerType
 
+  let busRoutesDataProvider: BusRoutesDataProviderType
+
   @Published
   var stopList: [any BusStopModel]? = nil {
     didSet {
@@ -39,6 +41,9 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   @Published
   var displayedList: [any BusStopModel]? = nil
+
+  @Published
+  var busFare: BusFareModel? = nil
 
   @Published
   var selectedMapMarker: String? = nil
@@ -64,11 +69,13 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   init(
     route: any BusRouteModel, apiManager: APIManagerType = APIManager.shared,
-    locationManager: CLLocationManagerType = CLLocationManager()
+    locationManager: CLLocationManagerType = CLLocationManager(),
+    busRoutesDataProvider: BusRoutesDataProviderType = BusRoutesDataProvider.shared
   ) {
     self.route = route
     self.apiManager = apiManager
     self.locationManager = locationManager
+    self.busRoutesDataProvider = busRoutesDataProvider
 
     super.init()
 
@@ -134,6 +141,31 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
         withDetails: busStopDetailModel)
 
     }.store(in: &cancellable)
+
+    busRoutesDataProvider.busFareDict.map { [weak self] dict -> BusFareModel? in
+
+      guard let dict, let route = self?.route, let companyCode = route.company?.rawValue,
+        let routeNumber = route.route
+      else { return nil }
+
+      let key = "\(companyCode)_\(routeNumber)"
+
+      if let busFare = dict[key] {
+        return busFare
+      }
+
+      for value in dict.values {
+
+        if value.companyCode.contains(companyCode), value.routeNumber == routeNumber {
+          return value
+        }
+
+      }
+
+      return nil
+
+    }.assign(to: &$busFare)
+
   }
 
   func fetch() {
@@ -146,6 +178,10 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     } else if let kmbRoute = route as? KMBBusRouteModel {
       fetchKMBRouteData(route: kmbRoute)
+    }
+
+    if busFare == nil {
+      busRoutesDataProvider.fetchBusFareInfo()
     }
 
   }

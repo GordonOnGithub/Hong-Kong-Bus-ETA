@@ -26,6 +26,8 @@ enum API {
   case CTBArrivalEstimation(stopId: String, route: String)
   case KMBArrivalEstimation(stopId: String, route: String, serviceType: String)
 
+  case fare
+
   var url: URL {
 
     var urlString: String? = nil
@@ -50,6 +52,8 @@ enum API {
     case .KMBArrivalEstimation(let stopId, let route, let serviceType):
       urlString =
         "https://data.etabus.gov.hk/v1/transport/kmb/eta/\(stopId)/\(route)/\(serviceType)"
+    case .fare:
+      urlString = "https://static.data.gov.hk/td/routes-fares-xml/ROUTE_BUS.xml"
     }
 
     return URL(string: urlString!)!
@@ -61,7 +65,7 @@ enum API {
     let dict: [String: String] =
       switch self {
       case .CTBRoutes, .KMBRoutes, .CTBRouteData, .KMBRouteData, .CTBBusStopDetail,
-        .KMBBusStopDetail, .CTBArrivalEstimation, .KMBArrivalEstimation:
+        .KMBBusStopDetail, .CTBArrivalEstimation, .KMBArrivalEstimation, .fare:
         [:]
 
       }
@@ -76,7 +80,7 @@ enum API {
 
     switch self {
     case .CTBRoutes, .KMBRoutes, .CTBRouteData, .KMBRouteData, .CTBBusStopDetail, .KMBBusStopDetail,
-      .CTBArrivalEstimation, .KMBArrivalEstimation:
+      .CTBArrivalEstimation, .KMBArrivalEstimation, .fare:
       return [:]
 
     }
@@ -135,7 +139,7 @@ class APIManager: APIManagerType {
 
     switch api {
     case .CTBRoutes, .KMBRoutes, .CTBRouteData, .KMBRouteData, .CTBBusStopDetail, .KMBBusStopDetail,
-      .CTBArrivalEstimation, .KMBArrivalEstimation:
+      .CTBArrivalEstimation, .KMBArrivalEstimation, .fare:
       return "GET"
     }
   }

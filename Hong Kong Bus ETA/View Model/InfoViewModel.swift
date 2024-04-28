@@ -37,6 +37,15 @@ class InfoViewModel: ObservableObject {
     storeReviewController.requestReview()
   }
 
+  func onCheckOtherAppsButtonClicked() {
+    if let otherAppsURL = URL(
+      string: "https://apps.apple.com/us/developer/ka-chun-wong/id1734201673"),
+      uiApplication.canOpenURL(otherAppsURL)
+    {
+      uiApplication.openURL(otherAppsURL)
+    }
+  }
+
   lazy var headerString: String = {
 
     String(localized: "setting_header")

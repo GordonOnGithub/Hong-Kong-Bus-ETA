@@ -37,6 +37,14 @@ struct InfoView: View {
               Text(String(localized: "rate_this_app"))
             })
 
+          Button(
+            action: {
+              viewModel.onCheckOtherAppsButtonClicked()
+            },
+            label: {
+              Text(String(localized: "check_other_apps"))
+            })
+
         } header: {
           Text(viewModel.headerString)
         } footer: {

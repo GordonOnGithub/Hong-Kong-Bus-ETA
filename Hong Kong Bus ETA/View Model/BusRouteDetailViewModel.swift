@@ -43,6 +43,12 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
   var displayedList: [any BusStopModel]? = nil
 
   @Published
+  var closestBusStop: (any BusStopDetailModel, Double)? = nil
+
+  @Published
+  var currentLocation: CLLocation? = nil
+
+  @Published
   var busFare: BusFareModel? = nil
 
   @Published
@@ -84,6 +90,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     self.locationManager.delegate = self
 
+    askLocationPermission()
   }
 
   func setupPublisher() {
@@ -130,15 +137,9 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     $selectedMapMarker.sink { [weak self] stopId in
 
-      guard let stopId, let self,
-        let busStopModel = self.stopList?.first(where: { busStopModel in
-          busStopModel.stopId == stopId
-        }), let busStopDetailModel = self.busStopDetailsDict[stopId]
-      else { return }
+      guard let stopId, let self else { return }
 
-      self.delegate?.busRouteDetailViewModel(
-        self, didRequestDisplayBusStop: busStopModel, isInbound: route.isInbound,
-        withDetails: busStopDetailModel)
+      self.onBusStopSelected(stopId: stopId)
 
     }.store(in: &cancellable)
 
@@ -165,6 +166,43 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
       return nil
 
     }.assign(to: &$busFare)
+
+    $currentLocation.combineLatest($busStopDetailsDict).receive(on: DispatchQueue.main).map {
+      location, busStopsDetailsDict -> (BusStopDetailModel, Double)? in
+
+      guard let location else {
+
+        return nil
+      }
+
+      let sortedBusStops = busStopsDetailsDict.values.sorted { a, b in
+
+        guard let aLat = Double(a.position?.0 ?? ""),
+          let aLong = Double(a.position?.1 ?? ""),
+          let bLat = Double(b.position?.0 ?? ""),
+          let bLong = Double(b.position?.1 ?? "")
+        else { return false }
+
+        let aCoord = CLLocation(latitude: aLat, longitude: aLong)
+        let bCoord = CLLocation(latitude: bLat, longitude: bLong)
+
+        return location.distance(from: aCoord) < location.distance(from: bCoord)
+
+      }
+
+      if let closestBusStop = sortedBusStops.first,
+        let lat = Double(closestBusStop.position?.0 ?? ""),
+        let long = Double(closestBusStop.position?.1 ?? "")
+      {
+
+        let distance = location.distance(from: CLLocation(latitude: lat, longitude: long))
+        if distance < 1000 {
+          return (closestBusStop, distance)
+        }
+      }
+
+      return nil
+    }.assign(to: &$closestBusStop)
 
   }
 
@@ -275,7 +313,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   func askLocationPermission() {
 
-    guard showMap else { return }
+    //    guard showMap else { return }
     self.locationManager.requestWhenInUseAuthorization()
     self.locationManager.startUpdatingLocation()
   }
@@ -300,6 +338,23 @@ extension BusRouteDetailViewModel: CLLocationManagerDelegate {
       hasLocationPermission = false
     }
 
+  }
+
+  func onBusStopSelected(stopId: String) {
+
+    guard
+      let busStopModel = self.stopList?.first(where: { busStopModel in
+        busStopModel.stopId == stopId
+      }), let busStopDetailModel = self.busStopDetailsDict[stopId]
+    else { return }
+
+    self.delegate?.busRouteDetailViewModel(
+      self, didRequestDisplayBusStop: busStopModel, isInbound: route.isInbound,
+      withDetails: busStopDetailModel)
+  }
+
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    currentLocation = locations.first
   }
 }
 

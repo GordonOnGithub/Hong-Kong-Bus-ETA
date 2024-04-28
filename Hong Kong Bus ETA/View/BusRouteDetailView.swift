@@ -125,6 +125,39 @@ struct BusRouteDetailView: View {
 
         if viewModel.filter.isEmpty {
           Spacer()
+
+          if let closestBusStop = viewModel.closestBusStop {
+
+            Button {
+              viewModel.onBusStopSelected(stopId: closestBusStop.0.stopId ?? "")
+            } label: {
+
+              HStack {
+
+                Image(systemName: "mappin.and.ellipse")
+
+                VStack(alignment: .leading) {
+                  HStack {
+                    Text(String(localized: "closest_bus_stop")).fontWeight(.bold)
+                      + Text("( ~\(Int(closestBusStop.1))m)").fontWeight(.bold)
+                    Spacer()
+                  }
+
+                  Text(closestBusStop.0.localizedName() ?? "")
+                    .multilineTextAlignment(.leading)
+
+                }
+              }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+
+            }
+            .foregroundStyle(.black)
+            .background(
+              RoundedRectangle(cornerRadius: 10).fill(.green).shadow(radius: 5, x: 0, y: 5)
+            )
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+
+          }
+
           busRouteSummary
         }
       }
@@ -155,7 +188,6 @@ struct BusRouteDetailView: View {
         Button(
           action: {
             viewModel.showMap.toggle()
-            viewModel.askLocationPermission()
           },
           label: {
             VStack {

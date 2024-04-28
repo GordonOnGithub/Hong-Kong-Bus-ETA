@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "( ~%lldm)" : {
+
+    },
     "%@ %@" : {
       "localizations" : {
         "en" : {
@@ -45,6 +48,38 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "可按 \"收藏巴士站\" 以便在首頁查看預計到站時間"
+          }
+        }
+      }
+    },
+    "check_other_apps" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Other Useful Apps"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "尋找更多實用的應用程式"
+          }
+        }
+      }
+    },
+    "closest_bus_stop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closest Bus Stop "
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最接近的巴士站"
           }
         }
       }

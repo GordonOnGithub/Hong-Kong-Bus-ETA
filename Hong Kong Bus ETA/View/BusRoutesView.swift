@@ -33,6 +33,7 @@ struct BusRoutesView: View {
                 Text(String(localized: "no_matching_bus_routes"))
                   .multilineTextAlignment(.center)
                   .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                  .foregroundStyle(.gray)
 
                 Button(
                   action: {

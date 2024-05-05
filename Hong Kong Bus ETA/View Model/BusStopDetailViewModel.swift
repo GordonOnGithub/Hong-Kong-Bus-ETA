@@ -43,9 +43,6 @@ class BusStopDetailViewModel: ObservableObject {
   var showNetworkUnavailableWarning = false
 
   @Published
-  var showBookmarkReminder = false
-
-  @Published
   var busFare: BusFareModel? = nil
 
   weak var delegate: (any BusStopDetailViewModelDelegate)?
@@ -79,8 +76,14 @@ class BusStopDetailViewModel: ObservableObject {
 
     isSaved = busETAStorage.cache.value[self.busStopETA.id] != nil
 
-    showBookmarkReminder = userDefaults.object(forKey: showBookmarkReminderKey) as? Bool ?? true
+    let showBookmarkReminder = userDefaults.object(forKey: showBookmarkReminderKey) as? Bool ?? true
 
+      BookmarkTip.showBookmarkTip = showBookmarkReminder
+      
+      if showBookmarkReminder {
+          self.userDefaults.setValue(false, forKey: showBookmarkReminderKey)
+      }
+      
     setupPublisher()
 
     fetchETA()
@@ -317,7 +320,8 @@ class BusStopDetailViewModel: ObservableObject {
           if success {
             self.isSaved = true
             self.delegate?.busStopDetailViewModelDidRequestReturnToETAList(self)
-            self.userDefaults.setValue(false, forKey: self.showBookmarkReminderKey)
+            
+              BookmarkTip.showBookmarkTip = false
           }
         }.store(in: &cancellable)
 

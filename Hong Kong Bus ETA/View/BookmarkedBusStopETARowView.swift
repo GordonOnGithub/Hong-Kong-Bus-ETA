@@ -59,7 +59,11 @@ struct BookmarkedBusStopETARowView: View {
             ETARowView(eta: latest)
 
           } else {
-            Text(String(localized: "no_eta_info")).foregroundStyle(.gray)
+              HStack {
+                  Image(systemName: "clock.badge.questionmark")
+                  Text(String(localized: "no_eta_info"))
+                    Spacer()
+              }.foregroundStyle(.gray)
 
           }
 

@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 import SwiftUI
+import TipKit
 
 struct BusStopDetailView: View {
 
@@ -39,25 +40,6 @@ struct BusStopDetailView: View {
 
         VStack(alignment: .leading, spacing: 10) {
 
-          if viewModel.showBookmarkReminder {
-            Group {
-              HStack {
-                Spacer().frame(width: 10)
-                Image("info", bundle: .main)
-                  .renderingMode(.template)
-                  .resizable().scaledToFit().frame(height: 20)
-                  .foregroundStyle(.primary)
-                Text(String(localized: "bookmark_reminder"))
-                  .foregroundStyle(.primary)
-                  .font(.system(size: 12))
-                Spacer()
-              }
-              .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-            }.background(.green)
-              .clipShape(RoundedRectangle(cornerRadius: 5))
-
-          }
-
           if viewModel.busStopDetail != nil {
             Text(viewModel.getBusStopName()).font(.title)
           }
@@ -68,10 +50,10 @@ struct BusStopDetailView: View {
                 viewModel.showBusRouteDetail()
               },
               label: {
-                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(.white)
+                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(viewModel.busStopETA.company == "KMB" ? .white : .blue)
               }
             ).buttonStyle(.borderedProminent).tint(
-              viewModel.busStopETA.company == "KMB" ? .red : .blue)
+              viewModel.busStopETA.company == "KMB" ? .red : .yellow)
 
             Spacer().frame(width: 10)
 
@@ -210,13 +192,38 @@ struct BusStopDetailView: View {
                 }
               } else {
                 HStack {
-                  Image(systemName: "bookmark")
+                    Image(systemName: "bookmark")
                   Text(String(localized: "bookmark")).fontWeight(.semibold)
-                }
+                }.popoverTip(BookmarkTip())
+
               }
             })
         }
       }
     }
   }
+}
+
+struct BookmarkTip : Tip {
+    
+    var title: Text {
+        Text(String(localized: "bookmark"))
+    }
+    
+    var message: Text? {
+        Text(String(localized: "bookmark_reminder"))
+    }
+    
+    @Parameter
+    static var showBookmarkTip: Bool = true
+
+    var rules: [Rule] {
+      [
+        #Rule(Self.$showBookmarkTip) {
+          $0 == true
+        }
+      ]
+    }
+    
+ 
 }

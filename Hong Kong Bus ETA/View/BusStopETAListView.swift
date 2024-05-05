@@ -129,18 +129,24 @@ struct BusStopETAListView: View {
 
             },
             label: {
-              Text(String(localized: "rate_this_app_reminder")).frame(maxWidth: .infinity)
+                HStack {
+                    Spacer()
+                    Image(systemName: "star")
+                    Text(String(localized: "rate_this_app_reminder"))
+                    Spacer()
+                }                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
             }
           ).buttonStyle(.borderedProminent)
-            .tint(.green)
+            .tint(.indigo)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         }
 
       } else {
         VStack(spacing: 20) {
-          Text(String(localized: "empty_eta_list_title")).font(.headline)
+          Text(String(localized: "empty_eta_list_title")).font(.title)
             .multilineTextAlignment(.center)
           Text(String(localized: "empty_eta_list_message")).font(.subheadline)
+                .foregroundStyle(.gray)
             .multilineTextAlignment(.center)
 
           Button(

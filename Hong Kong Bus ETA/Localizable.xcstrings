@@ -41,13 +41,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Click \"Bookmark\" to save this bus stop to the homepage for ETA."
+            "value" : "Click \"Bookmark\" to save this bus stop to the homepage."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "可按 \"收藏巴士站\" 以便在首頁查看預計到站時間"
+            "state" : "translated",
+            "value" : "可按 \"收藏巴士站\" 以便於首頁查看"
           }
         }
       }
@@ -137,13 +137,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updating bus route database ..."
+            "value" : "Updating bus route database, it might take longer for the first time ..."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "正在更新巴士路線資料庫..."
+            "value" : "正在更新巴士路線資料庫，首次更新或需要較長時間..."
           }
         }
       }
@@ -402,7 +402,6 @@
       }
     },
     "map" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -414,6 +413,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "地圖"
+          }
+        }
+      }
+    },
+    "map_reminder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can also browse the bus stops on map."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你也可以在地圖上查看巴士站"
           }
         }
       }

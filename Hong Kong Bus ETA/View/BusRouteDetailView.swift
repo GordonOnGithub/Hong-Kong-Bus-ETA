@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 import SwiftUI
+import TipKit
 
 struct BusRouteDetailView: View {
 
@@ -86,7 +87,8 @@ struct BusRouteDetailView: View {
                   label: {
                     HStack {
                       Image(systemName: "eraser")
-                      Text("reset")
+                      Text("reset")    
+                        .foregroundStyle(.gray)
                     }
                   })
               } else {
@@ -147,12 +149,12 @@ struct BusRouteDetailView: View {
                     .multilineTextAlignment(.leading)
 
                 }
-              }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+              }.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
 
             }
-            .foregroundStyle(.black)
+            .foregroundStyle(.white)
             .background(
-              RoundedRectangle(cornerRadius: 10).fill(.green).shadow(radius: 5, x: 0, y: 5)
+                RoundedRectangle(cornerRadius: 10).fill(.indigo).shadow(radius: 5, x: 0, y: 5)
             )
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
 
@@ -202,6 +204,7 @@ struct BusRouteDetailView: View {
             }
           }
         ).disabled((viewModel.displayedList?.isEmpty ?? true))
+              .popoverTip(MapTip())
       }
     }
 
@@ -242,4 +245,28 @@ struct BusRouteDetailView: View {
       .background(RoundedRectangle(cornerRadius: 10).fill(.clear).stroke(.primary))
       .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
+}
+
+struct MapTip : Tip {
+    
+    var title: Text {
+        Text(String(localized: "map"))
+    }
+    
+    var message: Text? {
+        Text(String(localized: "map_reminder"))
+    }
+    
+    @Parameter
+    static var showMapTip: Bool = true
+
+    var rules: [Rule] {
+      [
+        #Rule(Self.$showMapTip) {
+          $0 == true
+        }
+      ]
+    }
+    
+ 
 }

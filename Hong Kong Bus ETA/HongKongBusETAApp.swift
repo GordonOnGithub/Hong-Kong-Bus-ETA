@@ -7,10 +7,16 @@
 
 import SwiftData
 import SwiftUI
+import TipKit
 
 @main
 struct HongKongBusETAApp: App {
 
+    init() {
+      // Configure Tip's data container
+      try? Tips.configure()
+    }
+    
   var body: some Scene {
     WindowGroup {
       RootCoordinatorView()

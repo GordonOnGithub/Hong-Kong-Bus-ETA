@@ -72,7 +72,7 @@ struct BusRoutesView: View {
 
                 }
 
-              }
+              }.scrollIndicators(.visible)
             }
           }
         }

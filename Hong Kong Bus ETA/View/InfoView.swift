@@ -26,7 +26,7 @@ struct InfoView: View {
               viewModel.onCheckRepositoryButtonClicked()
             },
             label: {
-              Text(String(localized: "repository"))
+              Label(String(localized: "repository"), systemImage: "swift")
             })
 
           Button(
@@ -34,7 +34,7 @@ struct InfoView: View {
               viewModel.onRateThisAppClicked()
             },
             label: {
-              Text(String(localized: "rate_this_app"))
+              Label(String(localized: "rate_this_app"), systemImage: "star")
             })
 
           Button(
@@ -42,7 +42,7 @@ struct InfoView: View {
               viewModel.onCheckOtherAppsButtonClicked()
             },
             label: {
-              Text(String(localized: "check_other_apps"))
+              Label(String(localized: "check_other_apps"), systemImage: "arrow.down.app")
             })
 
         } header: {

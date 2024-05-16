@@ -78,12 +78,12 @@ class BusStopDetailViewModel: ObservableObject {
 
     let showBookmarkReminder = userDefaults.object(forKey: showBookmarkReminderKey) as? Bool ?? true
 
-      BookmarkTip.showBookmarkTip = showBookmarkReminder
-      
-      if showBookmarkReminder {
-          self.userDefaults.setValue(false, forKey: showBookmarkReminderKey)
-      }
-      
+    BookmarkTip.showBookmarkTip = showBookmarkReminder
+
+    if showBookmarkReminder {
+      self.userDefaults.setValue(false, forKey: showBookmarkReminderKey)
+    }
+
     setupPublisher()
 
     fetchETA()
@@ -320,8 +320,8 @@ class BusStopDetailViewModel: ObservableObject {
           if success {
             self.isSaved = true
             self.delegate?.busStopDetailViewModelDidRequestReturnToETAList(self)
-            
-              BookmarkTip.showBookmarkTip = false
+
+            BookmarkTip.showBookmarkTip = false
           }
         }.store(in: &cancellable)
 

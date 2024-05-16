@@ -15,7 +15,7 @@ extension MapCameraPosition {
     .camera(
       .init(
         centerCoordinate: CLLocationCoordinate2D(latitude: 22.345, longitude: 114.12),
-        distance: 150000))
+        distance: 110000))
   }
 
 }

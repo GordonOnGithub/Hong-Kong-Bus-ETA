@@ -50,7 +50,8 @@ struct BusStopDetailView: View {
                 viewModel.showBusRouteDetail()
               },
               label: {
-                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(viewModel.busStopETA.company == "KMB" ? .white : .blue)
+                Text(viewModel.getRouteName()).font(.headline).foregroundStyle(
+                  viewModel.busStopETA.company == "KMB" ? .white : .blue)
               }
             ).buttonStyle(.borderedProminent).tint(
               viewModel.busStopETA.company == "KMB" ? .red : .yellow)
@@ -192,7 +193,7 @@ struct BusStopDetailView: View {
                 }
               } else {
                 HStack {
-                    Image(systemName: "bookmark")
+                  Image(systemName: "bookmark")
                   Text(String(localized: "bookmark")).fontWeight(.semibold)
                 }.popoverTip(BookmarkTip())
 
@@ -204,26 +205,25 @@ struct BusStopDetailView: View {
   }
 }
 
-struct BookmarkTip : Tip {
-    
-    var title: Text {
-        Text(String(localized: "bookmark"))
-    }
-    
-    var message: Text? {
-        Text(String(localized: "bookmark_reminder"))
-    }
-    
-    @Parameter
-    static var showBookmarkTip: Bool = true
+struct BookmarkTip: Tip {
 
-    var rules: [Rule] {
-      [
-        #Rule(Self.$showBookmarkTip) {
-          $0 == true
-        }
-      ]
-    }
-    
- 
+  var title: Text {
+    Text(String(localized: "bookmark"))
+  }
+
+  var message: Text? {
+    Text(String(localized: "bookmark_reminder"))
+  }
+
+  @Parameter
+  static var showBookmarkTip: Bool = true
+
+  var rules: [Rule] {
+    [
+      #Rule(Self.$showBookmarkTip) {
+        $0 == true
+      }
+    ]
+  }
+
 }

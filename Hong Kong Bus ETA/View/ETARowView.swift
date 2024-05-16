@@ -12,16 +12,18 @@ struct ETARowView: View {
 
   let eta: BusETAModel
 
+  @State
+  private var animateEffectToggle = 0
+
   var body: some View {
 
     HStack {
 
-      Image("clock", bundle: .main)
-        .renderingMode(.template).resizable().scaledToFit().frame(height: 20)
-        .foregroundColor(.primary)
-
       switch eta.remainingTime {
       case .expired:
+        Image(systemName: "clock")
+          .frame(height: 20)
+          .foregroundColor(.gray)
         Text(eta.getReadableHourAndMinute())
           .font(.system(size: 18))
           .foregroundStyle(.gray)
@@ -31,6 +33,10 @@ struct ETARowView: View {
           .foregroundStyle(.gray)
 
       case .imminent:
+        Image(systemName: "clock")
+          .symbolEffect(.bounce, options: .repeat(5), value: animateEffectToggle)
+          .frame(height: 20)
+          .foregroundColor(.primary)
         Text(eta.getReadableHourAndMinute())
           .font(.system(size: 18))
           .bold()
@@ -41,6 +47,9 @@ struct ETARowView: View {
           .bold()
 
       case .minutes:
+        Image(systemName: "clock")
+          .frame(height: 20)
+          .foregroundColor(.primary)
         Text(eta.getReadableHourAndMinute())
           .font(.system(size: 18))
         Spacer()
@@ -48,7 +57,9 @@ struct ETARowView: View {
           .font(.system(size: 18))
       }
 
-    }
+    }.onAppear(perform: {
+      animateEffectToggle += 1
+    })
 
   }
 }

@@ -73,46 +73,46 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   private var cancellable = Set<AnyCancellable>()
 
-    let userDefaults: UserDefaultsType
-    
-    private let showMapTipKey = "showMapTip"
-    
+  let userDefaults: UserDefaultsType
+
+  private let showMapTipKey = "showMapTip"
+
   init(
     route: any BusRouteModel, apiManager: APIManagerType = APIManager.shared,
     locationManager: CLLocationManagerType = CLLocationManager(),
     busRoutesDataProvider: BusRoutesDataProviderType = BusRoutesDataProvider.shared,
-    userDefaults : UserDefaultsType = UserDefaults.standard
+    userDefaults: UserDefaultsType = UserDefaults.standard
   ) {
     self.route = route
     self.apiManager = apiManager
     self.locationManager = locationManager
     self.busRoutesDataProvider = busRoutesDataProvider
     self.userDefaults = userDefaults
-      
+
     super.init()
 
     setupPublisher()
     fetch()
 
     self.locationManager.delegate = self
-      
-      let showMapTip = userDefaults.object(forKey: showMapTipKey) as? Bool ?? true
-      MapTip.showMapTip = showMapTip
-      
-      if showMapTip {
-          self.userDefaults.setValue(false, forKey: showMapTipKey)
-      }
+
+    let showMapTip = userDefaults.object(forKey: showMapTipKey) as? Bool ?? true
+    MapTip.showMapTip = showMapTip
+
+    if showMapTip {
+      self.userDefaults.setValue(false, forKey: showMapTipKey)
+    }
 
     askLocationPermission()
   }
 
   func setupPublisher() {
-      
-      $showMap.sink { [weak self] showMap in
-          if let self {
-              MapTip.showMapTip = false
-          }
-      }.store(in: &cancellable)
+
+    $showMap.sink { [weak self] showMap in
+      if let self {
+        MapTip.showMapTip = false
+      }
+    }.store(in: &cancellable)
 
     apiManager.isReachable.dropFirst().sink { [weak self] reachable in
       if reachable {

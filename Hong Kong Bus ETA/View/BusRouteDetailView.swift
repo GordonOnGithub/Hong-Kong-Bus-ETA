@@ -20,7 +20,7 @@ struct BusRouteDetailView: View {
   var body: some View {
     NavigationView {
 
-      VStack {
+      VStack(spacing: 0) {
 
         if let list = viewModel.displayedList {
 
@@ -78,8 +78,10 @@ struct BusRouteDetailView: View {
 
               if list.isEmpty, !viewModel.filter.isEmpty {
                 Text(String(localized: "no_matching_bus_stop"))
+                  .foregroundStyle(.gray)
                   .multilineTextAlignment(.center)
                   .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                Spacer().frame(height: 20)
                 Button(
                   action: {
                     viewModel.resetFilter()
@@ -87,8 +89,7 @@ struct BusRouteDetailView: View {
                   label: {
                     HStack {
                       Image(systemName: "eraser")
-                      Text("reset")    
-                        .foregroundStyle(.gray)
+                      Text("reset")
                     }
                   })
               } else {
@@ -120,13 +121,18 @@ struct BusRouteDetailView: View {
 
           }
         } else {
+          Spacer()
           ProgressView(label: {
             Text("loading_bus_route_detail")
           }).frame(height: 120)
+          Spacer()
+
         }
 
         if viewModel.filter.isEmpty {
-          Spacer()
+
+          Rectangle().fill(.appBackground).frame(height: 1).shadow(
+            color: .shadow, radius: 8, x: 0, y: -8)
 
           if let closestBusStop = viewModel.closestBusStop {
 
@@ -141,7 +147,7 @@ struct BusRouteDetailView: View {
                 VStack(alignment: .leading) {
                   HStack {
                     Text(String(localized: "closest_bus_stop")).fontWeight(.bold)
-                      + Text("( ~\(Int(closestBusStop.1))m)").fontWeight(.bold)
+                      + Text("( ~\(Int(closestBusStop.1))m)").font(.headline)
                     Spacer()
                   }
 
@@ -154,7 +160,7 @@ struct BusRouteDetailView: View {
             }
             .foregroundStyle(.white)
             .background(
-                RoundedRectangle(cornerRadius: 10).fill(.indigo).shadow(radius: 5, x: 0, y: 5)
+              RoundedRectangle(cornerRadius: 10).fill(.indigo)
             )
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
 
@@ -162,7 +168,7 @@ struct BusRouteDetailView: View {
 
           busRouteSummary
         }
-      }
+      }.background(.appBackground)
     }
     .navigationTitle(
       viewModel.route.getFullRouteName()
@@ -204,7 +210,7 @@ struct BusRouteDetailView: View {
             }
           }
         ).disabled((viewModel.displayedList?.isEmpty ?? true))
-              .popoverTip(MapTip())
+          .popoverTip(MapTip())
       }
     }
 
@@ -236,37 +242,36 @@ struct BusRouteDetailView: View {
             Text(description).lineLimit(2).multilineTextAlignment(.leading)
               .font(.subheadline)
             Spacer()
-          }
+          }.foregroundStyle(.gray)
 
         }
       }
-    }.padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+    }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
       .foregroundStyle(.primary)
-      .background(RoundedRectangle(cornerRadius: 10).fill(.clear).stroke(.primary))
+      .background(RoundedRectangle(cornerRadius: 10).fill(.appBackground).stroke(.primary))
       .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
 }
 
-struct MapTip : Tip {
-    
-    var title: Text {
-        Text(String(localized: "map"))
-    }
-    
-    var message: Text? {
-        Text(String(localized: "map_reminder"))
-    }
-    
-    @Parameter
-    static var showMapTip: Bool = true
+struct MapTip: Tip {
 
-    var rules: [Rule] {
-      [
-        #Rule(Self.$showMapTip) {
-          $0 == true
-        }
-      ]
-    }
-    
- 
+  var title: Text {
+    Text(String(localized: "map"))
+  }
+
+  var message: Text? {
+    Text(String(localized: "map_reminder"))
+  }
+
+  @Parameter
+  static var showMapTip: Bool = true
+
+  var rules: [Rule] {
+    [
+      #Rule(Self.$showMapTip) {
+        $0 == true
+      }
+    ]
+  }
+
 }

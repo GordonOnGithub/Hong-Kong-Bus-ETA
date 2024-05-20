@@ -140,8 +140,7 @@ struct BusStopETAListView: View {
             .tint(.indigo)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         }
-        Rectangle().fill(.appBackground).frame(height: 1).shadow(
-          color: .shadow, radius: 8, x: 0, y: -8)
+
       } else {
         VStack(spacing: 20) {
           Text(String(localized: "empty_eta_list_title")).font(.title)

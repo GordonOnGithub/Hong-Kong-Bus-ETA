@@ -21,6 +21,7 @@ struct BusRouteDetailView: View {
     NavigationView {
 
       VStack(spacing: 0) {
+        busRouteSummary
 
         if let list = viewModel.displayedList {
 
@@ -36,7 +37,6 @@ struct BusRouteDetailView: View {
             }
 
           } else if viewModel.showMap {
-            Spacer().frame(height: 20)
             Map(
               initialPosition: MapCameraPosition.positionOfHongKong,
               bounds: MapCameraBounds.boundsOfHongKong,
@@ -44,7 +44,7 @@ struct BusRouteDetailView: View {
               selection: $viewModel.selectedMapMarker
             ) {
 
-              if let list = viewModel.stopList {
+              if let list = viewModel.displayedList {
 
                 ForEach(list, id: \.id) { stop in
 
@@ -77,6 +77,8 @@ struct BusRouteDetailView: View {
             Group {
 
               if list.isEmpty, !viewModel.filter.isEmpty {
+                Spacer()
+
                 Text(String(localized: "no_matching_bus_stop"))
                   .foregroundStyle(.gray)
                   .multilineTextAlignment(.center)
@@ -92,6 +94,8 @@ struct BusRouteDetailView: View {
                       Text("reset")
                     }
                   })
+                Spacer()
+
               } else {
 
                 List {
@@ -114,10 +118,7 @@ struct BusRouteDetailView: View {
                   }
                 }
               }
-            }.searchable(
-              text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
-              prompt: Text(String(localized: "search"))
-            ).keyboardType(.alphabet)
+            }
 
           }
         } else {
@@ -131,44 +132,20 @@ struct BusRouteDetailView: View {
 
         if viewModel.filter.isEmpty {
 
-          Rectangle().fill(.appBackground).frame(height: 1).shadow(
-            color: .shadow, radius: 8, x: 0, y: -8)
-
           if let closestBusStop = viewModel.closestBusStop {
 
-            Button {
-              viewModel.onBusStopSelected(stopId: closestBusStop.0.stopId ?? "")
-            } label: {
-
-              HStack {
-
-                Image(systemName: "mappin.and.ellipse")
-
-                VStack(alignment: .leading) {
-                  HStack {
-                    Text(String(localized: "closest_bus_stop")).fontWeight(.bold)
-                      + Text("( ~\(Int(closestBusStop.1))m)").font(.headline)
-                    Spacer()
-                  }
-
-                  Text(closestBusStop.0.localizedName() ?? "")
-                    .multilineTextAlignment(.leading)
-
-                }
-              }.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-
-            }
-            .foregroundStyle(.white)
-            .background(
-              RoundedRectangle(cornerRadius: 10).fill(.indigo)
-            )
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            closetBusStopButton(closestBusStop: closestBusStop)
+              .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
 
           }
 
-          busRouteSummary
         }
-      }.background(.appBackground)
+      }.background(.thinMaterial)
+        .searchable(
+          text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .automatic),
+          prompt: Text(String(localized: "search"))
+        ).keyboardType(.alphabet)
+
     }
     .navigationTitle(
       viewModel.route.getFullRouteName()
@@ -202,18 +179,61 @@ struct BusRouteDetailView: View {
               Image(viewModel.showMap ? "list" : "map", bundle: .main)
                 .renderingMode(.template)
                 .resizable().scaledToFit().frame(height: 25)
-                .foregroundStyle((viewModel.displayedList?.isEmpty ?? true) ? .gray : .blue)
+                .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
               Text(String(localized: viewModel.showMap ? "list" : "map"))
                 .font(.system(size: 10))
-                .foregroundStyle((viewModel.displayedList?.isEmpty ?? true) ? .gray : .blue)
+                .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
 
             }
           }
-        ).disabled((viewModel.displayedList?.isEmpty ?? true))
+        ).disabled((viewModel.stopList?.isEmpty ?? true))
           .popoverTip(MapTip())
       }
     }
 
+  }
+
+  func closetBusStopButton(closestBusStop: (any BusStopDetailModel, Double)) -> some View {
+    Button {
+      viewModel.onBusStopSelected(stopId: closestBusStop.0.stopId ?? "")
+    } label: {
+
+      HStack {
+
+        VStack(alignment: .leading, spacing: 10) {
+
+          Text(String(localized: "closest_bus_stop"))
+            .font(.headline).multilineTextAlignment(.leading)
+            .underline()
+
+          HStack {
+            Image("location", bundle: .main)
+              .renderingMode(.template)
+              .resizable().scaledToFit()
+              .foregroundStyle(.primary)
+              .frame(height: 20)
+
+            Text(closestBusStop.0.localizedName() ?? "")
+              .multilineTextAlignment(.leading)
+            Spacer()
+          }
+          HStack {
+            Image(systemName: "figure.walk")
+
+            Text(
+              "\(Int(closestBusStop.1)) \(String(localized: closestBusStop.1 > 1 ? "minutes" : "minute"))"
+            )
+            Spacer()
+          }
+
+        }
+      }.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+
+    }
+    .foregroundStyle(.white)
+    .background(
+      RoundedRectangle(cornerRadius: 10).fill(.indigo)
+    )
   }
 
   var busRouteSummary: some View {
@@ -246,9 +266,11 @@ struct BusRouteDetailView: View {
 
         }
       }
-    }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+    }.padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
       .foregroundStyle(.primary)
-      .background(RoundedRectangle(cornerRadius: 10).fill(.appBackground).stroke(.primary))
+      .background(
+        RoundedRectangle(cornerRadius: 10).fill(.appBackground).shadow(color: .shadow, radius: 4)
+      )
       .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
 }

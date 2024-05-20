@@ -8,6 +8,7 @@
 import Combine
 import CoreLocation
 import Foundation
+import MapKit
 
 protocol BusRouteDetailViewModelDelegate: AnyObject {
   func busRouteDetailViewModel(
@@ -186,8 +187,10 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     }.assign(to: &$busFare)
 
-    $currentLocation.combineLatest($busStopDetailsDict).receive(on: DispatchQueue.main).map {
-      location, busStopsDetailsDict -> (BusStopDetailModel, Double)? in
+    $currentLocation.combineLatest($busStopDetailsDict).receive(on: DispatchQueue.main).throttle(
+      for: 1, scheduler: DispatchQueue.main, latest: true
+    ).map {
+      location, busStopsDetailsDict -> (BusStopDetailModel, CLLocationCoordinate2D)? in
 
       guard let location else {
 
@@ -215,13 +218,47 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
       {
 
         let distance = location.distance(from: CLLocation(latitude: lat, longitude: long))
-        if distance < 1000 {
-          return (closestBusStop, distance)
+        if distance < 500 {
+          return (closestBusStop, location.coordinate)
         }
       }
 
       return nil
-    }.assign(to: &$closestBusStop)
+    }
+    .flatMap({ tuple in
+
+      guard let tuple else {
+        return Just<(BusStopDetailModel, Double)?>.init(nil).setFailureType(to: Never.self)
+          .eraseToAnyPublisher()
+      }
+
+      return Future<(BusStopDetailModel, Double)?, Never> { completion in
+        Task {
+          let request = MKDirections.Request()
+
+          request.source = MKMapItem(placemark: MKPlacemark(coordinate: tuple.1))
+
+          let lat = Double(tuple.0.position?.0 ?? "") ?? 0
+          let long = Double(tuple.0.position?.1 ?? "") ?? 0
+          request.destination = MKMapItem(
+            placemark: MKPlacemark(
+              coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long)))
+
+          request.transportType = .walking
+
+          if let result = try? await MKDirections.init(request: request).calculateETA() {
+
+            completion(.success((tuple.0, result.expectedTravelTime / 60)))
+          } else {
+            completion(.success(nil))
+          }
+
+        }
+      }.eraseToAnyPublisher()
+
+    })
+    .receive(on: DispatchQueue.main)
+    .assign(to: &$closestBusStop)
 
   }
 

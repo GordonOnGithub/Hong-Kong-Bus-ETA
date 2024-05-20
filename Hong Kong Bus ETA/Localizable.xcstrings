@@ -401,6 +401,22 @@
         }
       }
     },
+    "look around" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Look Around"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "環視四周"
+          }
+        }
+      }
+    },
     "map" : {
       "localizations" : {
         "en" : {

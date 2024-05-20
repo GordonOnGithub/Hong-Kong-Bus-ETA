@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import MapKit
 import UIKit
 
 protocol BusStopDetailViewModelDelegate: AnyObject {
@@ -44,6 +45,12 @@ class BusStopDetailViewModel: ObservableObject {
 
   @Published
   var busFare: BusFareModel? = nil
+
+  @Published
+  var lookAroundScene: MKLookAroundScene? = nil
+
+  @Published
+  var showMap = true
 
   weak var delegate: (any BusStopDetailViewModelDelegate)?
 
@@ -89,6 +96,24 @@ class BusStopDetailViewModel: ObservableObject {
     fetchETA()
 
     fetchBusStopDetailIfNeeded()
+  }
+
+  func getMapScenePreview() {
+
+    guard let busStopDetail, let latitude = Double(busStopDetail.position?.0 ?? ""),
+      let longitude = Double(busStopDetail.position?.1 ?? "")
+    else {
+
+      return
+    }
+
+    Task { @MainActor in
+
+      let sceneRequest = MKLookAroundSceneRequest(
+        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+
+      lookAroundScene = try? await sceneRequest.scene
+    }
   }
 
   func fetchBusStopDetailIfNeeded() {
@@ -208,6 +233,11 @@ class BusStopDetailViewModel: ObservableObject {
 
     }.assign(to: &$busFare)
 
+    $busStopDetail.sink { [weak self] detail in
+      if detail != nil {
+        self?.getMapScenePreview()
+      }
+    }.store(in: &cancellable)
   }
 
   func fetchETA() {

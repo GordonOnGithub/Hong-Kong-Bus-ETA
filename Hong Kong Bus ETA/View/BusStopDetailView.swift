@@ -133,6 +133,38 @@ struct BusStopDetailView: View {
                 .frame(height: 20)
               Text(String(localized: "location")).font(.headline)
               Spacer()
+
+              Button {
+                viewModel.showMap.toggle()
+              } label: {
+                if viewModel.showMap {
+                  Label("look around", systemImage: "binoculars")
+                } else {
+                  Label("map", systemImage: "map")
+                }
+              }.disabled(viewModel.lookAroundScene == nil)
+
+            }
+
+            if viewModel.showMap {
+              Map(initialPosition: position, interactionModes: []) {
+                Marker(
+                  viewModel.getBusStopName(),
+                  coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+
+                UserAnnotation()
+
+              }
+              .frame(height: 200)
+            } else if viewModel.lookAroundScene != nil {
+
+              LookAroundPreview(scene: $viewModel.lookAroundScene)
+                .frame(height: 200)
+
+            }
+
+            HStack {
+              Spacer()
               Button(
                 action: {
 
@@ -141,28 +173,18 @@ struct BusStopDetailView: View {
                 },
                 label: {
                   HStack {
-                    Image("map")
-                      .renderingMode(.template)
-                      .resizable().scaledToFit()
+
+                    Text(String(localized: "open_in_map_app"))
+
+                    Image(systemName: "arrow.up.forward.app")
                       .foregroundStyle(.primary)
                       .frame(height: 20)
 
-                    Text(String(localized: "open_in_map_app"))
                   }
                 })
+              Spacer()
 
             }
-
-            Map(initialPosition: position, interactionModes: []) {
-              Marker(
-                viewModel.getBusStopName(),
-                coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-
-              UserAnnotation()
-
-            }
-            .frame(height: 200)
-
           }
 
         }.padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))

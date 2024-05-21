@@ -667,6 +667,22 @@
         }
       }
     },
+    "route_details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Route Details"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "路線詳情"
+          }
+        }
+      }
+    },
     "search" : {
       "localizations" : {
         "en" : {

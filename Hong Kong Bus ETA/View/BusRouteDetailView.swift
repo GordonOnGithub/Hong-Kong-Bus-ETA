@@ -22,10 +22,12 @@ struct BusRouteDetailView: View {
     VStack(spacing: 0) {
       busRouteSummary
 
+      Divider()
+
       if let list = viewModel.displayedList {
 
         if viewModel.hasError {
-
+          Spacer()
           Text(String(localized: "failed_to_fetch")).font(.headline)
           Spacer().frame(height: 10)
 
@@ -34,6 +36,7 @@ struct BusRouteDetailView: View {
           } label: {
             Text(String(localized: "retry"))
           }
+          Spacer()
 
         } else if viewModel.showMap {
           Map(
@@ -133,6 +136,11 @@ struct BusRouteDetailView: View {
 
         if let closestBusStop = viewModel.closestBusStop {
 
+          Divider()
+          Text(String(localized: "closest_bus_stop"))
+            .font(.headline).multilineTextAlignment(.leading)
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+
           closetBusStopButton(closestBusStop: closestBusStop)
             .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
 
@@ -146,7 +154,7 @@ struct BusRouteDetailView: View {
       ).keyboardType(.alphabet)
 
       .navigationTitle(
-        viewModel.route.getFullRouteName()
+        String(localized: "route_details")
       )
       .navigationBarBackButtonHidden(true)
       .toolbar {
@@ -200,10 +208,6 @@ struct BusRouteDetailView: View {
 
         VStack(alignment: .leading, spacing: 10) {
 
-          Text(String(localized: "closest_bus_stop"))
-            .font(.headline).multilineTextAlignment(.leading)
-            .underline()
-
           HStack {
             Image("location", bundle: .main)
               .renderingMode(.template)
@@ -225,7 +229,7 @@ struct BusRouteDetailView: View {
           }
 
         }
-      }.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+      }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
 
     }
     .foregroundStyle(.white)
@@ -235,12 +239,14 @@ struct BusRouteDetailView: View {
   }
 
   var busRouteSummary: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 10) {
+
+      Text(viewModel.route.getFullRouteName()).font(.title2)
 
       Text(
         viewModel.getDestinationDescription()
       ).lineLimit(2).multilineTextAlignment(.leading)
-        .font(.title3)
+        .font(.headline)
 
       if let busFare = viewModel.busFare {
         HStack {
@@ -251,7 +257,7 @@ struct BusRouteDetailView: View {
 
           Text("\(busFare.jouneryTime) \(String(localized: "minutes"))")
 
-        }.frame(height: 30)
+        }
 
         if let description = busFare.specialType.description {
           HStack {

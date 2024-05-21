@@ -122,7 +122,9 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
     }.store(in: &cancellable)
 
     $filter.debounce(for: 0.3, scheduler: DispatchQueue.main)
-      .combineLatest($stopList).sink { filter, stopList in
+      .combineLatest($stopList).sink { [weak self] filter, stopList in
+
+        guard let self else { return }
 
         let filterList = filter.lowercased().split(separator: " ").map { s in
           String(s)
@@ -187,9 +189,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     }.assign(to: &$busFare)
 
-    $currentLocation.combineLatest($busStopDetailsDict).receive(on: DispatchQueue.main).throttle(
-      for: 1, scheduler: DispatchQueue.main, latest: true
-    ).map {
+    $currentLocation.combineLatest($busStopDetailsDict).map {
       location, busStopsDetailsDict -> (BusStopDetailModel, CLLocationCoordinate2D)? in
 
       guard let location else {
@@ -225,6 +225,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
       return nil
     }
+    .throttle(for: 2, scheduler: DispatchQueue.main, latest: true)
     .flatMap({ tuple in
 
       guard let tuple else {

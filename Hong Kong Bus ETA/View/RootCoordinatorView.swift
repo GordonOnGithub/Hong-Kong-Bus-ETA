@@ -61,7 +61,8 @@ struct RootCoordinatorView: View {
         .navigationDestination(for: RootCoordinatorNavigationPath.self) { path in
           switch path {
           case .routeDetail(let route):
-            coordinator.buildRouteDetailView(route: route)
+            BusRouteDetailView(viewModel: coordinator.buildRouteDetailViewModel(route: route))
+
           }
 
         }
@@ -70,9 +71,10 @@ struct RootCoordinatorView: View {
         switch sheet {
         case .busStopDetail(
           let route, let company, let stopId, let serviceType, let isInbound, let detail):
-          coordinator.buildBusStopDetailView(
-            route: route, company: company, stopId: stopId, serviceType: serviceType,
-            isInbound: isInbound, detail: detail)
+          BusStopDetailView(
+            viewModel: coordinator.buildBusStopDetailViewModel(
+              route: route, company: company, stopId: stopId, serviceType: serviceType,
+              isInbound: isInbound, detail: detail))
 
         }
 

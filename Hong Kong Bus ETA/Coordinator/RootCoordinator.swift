@@ -112,11 +112,11 @@ class RootCoordinator: ObservableObject {
     return kmbBusRoutesViewModel
   }
 
-  func buildRouteDetailView(route: any BusRouteModel) -> some View {
+  func buildRouteDetailViewModel(route: any BusRouteModel) -> BusRouteDetailViewModel {
 
     let vm = BusRouteDetailViewModel(route: route)
     vm.delegate = self
-    return BusRouteDetailView(viewModel: vm)
+    return vm
 
   }
 
@@ -132,12 +132,10 @@ class RootCoordinator: ObservableObject {
     return busStopETAListViewModel
   }
 
-  func buildBusStopDetailView(
+  func buildBusStopDetailViewModel(
     route: String, company: BusCompany, stopId: String, serviceType: String?, isInbound: Bool,
     detail: (any BusStopDetailModel)?
-  ) -> some View {
-
-    let storage = BusETAStorage.shared
+  ) -> BusStopDetailViewModel {
 
     let vm = BusStopDetailViewModel(
       busStopETA: BusStopETA(
@@ -148,7 +146,7 @@ class RootCoordinator: ObservableObject {
 
     vm.busStopDetail = detail
 
-    return BusStopDetailView(viewModel: vm)
+    return vm
 
   }
 

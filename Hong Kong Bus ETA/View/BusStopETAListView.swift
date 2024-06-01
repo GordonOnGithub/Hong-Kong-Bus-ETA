@@ -120,6 +120,7 @@ struct BusStopETAListView: View {
 
         }.refreshable {
           viewModel.fetchAllETAs()
+          try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
 
         if viewModel.showRatingReminder {

@@ -34,21 +34,21 @@ enum API {
 
     switch self {
     case .CTBRoutes:
-      urlString = "https://rt.data.gov.hk/v1/transport/citybus-nwfb/route/ctb"
+      urlString = "https://rt.data.gov.hk/v2/transport/citybus/route/ctb"
     case .KMBRoutes:
       urlString = "https://data.etabus.gov.hk/v1/transport/kmb/route/"
     case .CTBRouteData(let route, let isInbound):
       urlString =
-        "https://rt.data.gov.hk/v1/transport/citybus-nwfb/route-stop/ctb/\(route)/\(isInbound ? "inbound" : "outbound")/"
+        "https://rt.data.gov.hk/v2/transport/citybus/route-stop/CTB/\(route)/\(isInbound ? "inbound" : "outbound")/"
     case .KMBRouteData(let route, let isInbound, let serviceType):
       urlString =
         "https://data.etabus.gov.hk/v1/transport/kmb/route-stop/\(route)/\(isInbound ? "inbound" : "outbound")/\(serviceType)"
     case .CTBBusStopDetail(let stopId):
-      urlString = "https://rt.data.gov.hk/v1/transport/citybus-nwfb/stop/\(stopId)"
+      urlString = "https://rt.data.gov.hk/v2/transport/citybus/stop/\(stopId)"
     case .KMBBusStopDetail(let stopId):
       urlString = "https://data.etabus.gov.hk/v1/transport/kmb/stop/\(stopId)"
     case .CTBArrivalEstimation(let stopId, let route):
-      urlString = "https://rt.data.gov.hk/v1/transport/citybus-nwfb/eta/ctb/\(stopId)/\(route)/"
+      urlString = "https://rt.data.gov.hk/v2/transport/citybus/eta/CTB/\(stopId)/\(route)/"
     case .KMBArrivalEstimation(let stopId, let route, let serviceType):
       urlString =
         "https://data.etabus.gov.hk/v1/transport/kmb/eta/\(stopId)/\(route)/\(serviceType)"

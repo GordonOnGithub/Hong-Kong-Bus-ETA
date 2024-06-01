@@ -156,24 +156,7 @@ struct BusRouteDetailView: View {
       .navigationTitle(
         String(localized: "route_details")
       )
-      .navigationBarBackButtonHidden(true)
       .toolbar {
-
-        ToolbarItem(placement: .topBarLeading) {
-
-          Button {
-
-            if viewModel.showMap {
-              viewModel.showMap = false
-            } else {
-              dismiss()
-            }
-
-          } label: {
-            Image(systemName: "chevron.backward")
-          }
-
-        }
 
         ToolbarItem(placement: .topBarTrailing) {
           Button(

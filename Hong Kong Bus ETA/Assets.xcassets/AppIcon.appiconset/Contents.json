@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "HKBusAppIcon@2x.png",
+      "filename" : "HKBusAppIcon@2x.jpg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -52,6 +52,7 @@
       "size" : "512x512"
     },
     {
+      "filename" : "HKBusAppIcon@2x 1.jpg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

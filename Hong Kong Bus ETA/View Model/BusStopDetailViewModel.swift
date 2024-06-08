@@ -44,7 +44,7 @@ class BusStopDetailViewModel: ObservableObject {
   var showNetworkUnavailableWarning = false
 
   @Published
-  var busFare: BusFareModel? = nil
+  var busFare: BusRouteSummaryModel? = nil
 
   @Published
   var lookAroundScene: MKLookAroundScene? = nil
@@ -209,7 +209,7 @@ class BusStopDetailViewModel: ObservableObject {
       break
     }
 
-    busRoutesDataProvider.busFareDict.map { [weak self] dict -> BusFareModel? in
+    busRoutesDataProvider.busRouteSummaryDict.map { [weak self] dict -> BusRouteSummaryModel? in
 
       guard let dict, let route = self?.busRoute, let companyCode = route.company?.rawValue,
         let routeNumber = route.route

@@ -11,7 +11,7 @@ import Foundation
 protocol BusRoutesDataProviderType {
   var ctbRouteDict: CurrentValueSubject<[String: CTBBusRouteModel]?, Never> { get }
   var kmbRouteDict: CurrentValueSubject<[String: KMBBusRouteModel]?, Never> { get }
-  var busFareDict: CurrentValueSubject<[String: BusFareModel]?, Never> { get }
+  var busRouteSummaryDict: CurrentValueSubject<[String: BusRouteSummaryModel]?, Never> { get }
 
   static var shared: BusRoutesDataProviderType { get }
 
@@ -37,8 +37,9 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
   var kmbRouteDict: CurrentValueSubject<[String: KMBBusRouteModel]?, Never> = CurrentValueSubject(
     nil)
 
-  var busFareDict: CurrentValueSubject<[String: BusFareModel]?, Never> = CurrentValueSubject(
-    nil)
+  var busRouteSummaryDict: CurrentValueSubject<[String: BusRouteSummaryModel]?, Never> =
+    CurrentValueSubject(
+      nil)
 
   static var shared: BusRoutesDataProviderType = BusRoutesDataProvider()
 
@@ -246,7 +247,7 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
 
       parseBusFareData(data)
 
-      if !(busFareDict.value?.isEmpty ?? true) {
+      if !(busRouteSummaryDict.value?.isEmpty ?? true) {
         self.userDefaults.setValue(data, forKey: self.busFaresDataKey)
 
       }
@@ -259,28 +260,30 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
 
     let parser = XMLParser(data: data)
 
-    let delegate = BusFareXMLParserDelegate()
+    let delegate = BusRouteSummaryXMLParserDelegate()
 
     parser.delegate = delegate
 
     parser.parse()
 
-    busFareDict.send(delegate.busFareDict)
+    busRouteSummaryDict.send(delegate.busRouteSummaryDict)
 
   }
 }
 
-class BusFareXMLParserDelegate: NSObject, XMLParserDelegate {
+class BusRouteSummaryXMLParserDelegate: NSObject, XMLParserDelegate {
 
   var companyCode: String?
   var routeNumber: String?
   var fullFare: String?
-  var specialType: BusFareModel.BusRouteSpecialType?
+  var specialType: BusRouteSummaryModel.BusRouteSpecialType?
   var jouneryTime: String?
+  var serviceMode: String?
+  var destination: String?
 
   var currentElement: BusFareXMLElement?
 
-  var busFareDict: [String: BusFareModel] = [:]
+  var busRouteSummaryDict: [String: BusRouteSummaryModel] = [:]
 
   enum BusFareXMLElement: String {
 
@@ -290,6 +293,8 @@ class BusFareXMLParserDelegate: NSObject, XMLParserDelegate {
     case fullFare = "FULL_FARE"
     case specialType = "SPECIAL_TYPE"
     case jouneryTime = "JOURNEY_TIME"
+    case serviceMode = "SERVICE_MODE"
+    case destination = "LOC_END_NAMEE"
   }
 
   func parser(
@@ -307,6 +312,8 @@ class BusFareXMLParserDelegate: NSObject, XMLParserDelegate {
       self.fullFare = nil
       self.specialType = nil
       self.jouneryTime = nil
+      self.serviceMode = nil
+      self.destination = nil
     }
 
   }
@@ -333,12 +340,21 @@ class BusFareXMLParserDelegate: NSObject, XMLParserDelegate {
 
       case .specialType:
         if specialType == nil {
-          specialType = BusFareModel.BusRouteSpecialType(rawValue: string)
+          specialType = BusRouteSummaryModel.BusRouteSpecialType(rawValue: string)
         }
 
       case .jouneryTime:
         if jouneryTime == nil {
           jouneryTime = string
+        }
+
+      case .serviceMode:
+        if serviceMode == nil {
+          serviceMode = string
+        }
+      case .destination:
+        if destination == nil {
+          destination = string
         }
 
       default:
@@ -355,14 +371,19 @@ class BusFareXMLParserDelegate: NSObject, XMLParserDelegate {
   ) {
 
     if let companyCode, let routeNumber,
-      let fullFare, let specialType, let jouneryTime
+      let fullFare, let specialType, let jouneryTime, let serviceMode, let destination
     {
-      let busFare = BusFareModel(
+      let busFare = BusRouteSummaryModel(
         companyCode: companyCode, routeNumber: routeNumber, fullFare: fullFare,
-        specialType: specialType, jouneryTime: jouneryTime)
+        specialType: specialType, jouneryTime: jouneryTime,
+        serviceMode: serviceMode, destination: destination)
 
-      busFareDict["\(companyCode)_\(routeNumber)"] = busFare
+      let companyCodes = companyCode.split(separator: "+")
 
+      for company in companyCodes {
+
+        busRouteSummaryDict["\(company)_\(routeNumber)_\(destination)"] = busFare
+      }
     }
 
     currentElement = nil

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BusFareModel {
+struct BusRouteSummaryModel {
 
   enum BusRouteSpecialType: String {
     case none = "0"
@@ -38,5 +38,7 @@ struct BusFareModel {
   var fullFare: String
   var specialType: BusRouteSpecialType
   var jouneryTime: String
+  var serviceMode: String
+  var destination: String
 
 }

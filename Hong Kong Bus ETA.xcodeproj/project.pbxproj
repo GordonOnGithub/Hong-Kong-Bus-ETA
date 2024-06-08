@@ -27,7 +27,7 @@
 		7D8CD05E2B6DEEAB00C15741 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD05D2B6DEEAB00C15741 /* UIApplication+Extension.swift */; };
 		7D8CD0602B774EB100C15741 /* MapKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */; };
 		7D9097B22BCB861200C8D45E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7D9097B12BCB6FC600C8D45E /* PrivacyInfo.xcprivacy */; };
-		7D9097BE2BDCF76400C8D45E /* BusFareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9097BD2BDCF76400C8D45E /* BusFareModel.swift */; };
+		7D9097BE2BDCF76400C8D45E /* BusRouteSummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */; };
 		7DE9AF652B5D4BC9009B7EF7 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9AF642B5D4BC9009B7EF7 /* APIManager.swift */; };
 		7DE9AF692B5D5122009B7EF7 /* BusRoutesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9AF682B5D5122009B7EF7 /* BusRoutesView.swift */; };
 		7DE9AF6B2B5D512B009B7EF7 /* BusRoutesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9AF6A2B5D512B009B7EF7 /* BusRoutesViewModel.swift */; };
@@ -77,7 +77,7 @@
 		7D8CD05D2B6DEEAB00C15741 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extension.swift"; sourceTree = "<group>"; };
 		7D9097B12BCB6FC600C8D45E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		7D9097BD2BDCF76400C8D45E /* BusFareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusFareModel.swift; sourceTree = "<group>"; };
+		7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteSummaryModel.swift; sourceTree = "<group>"; };
 		7DE9AF642B5D4BC9009B7EF7 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		7DE9AF682B5D5122009B7EF7 /* BusRoutesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRoutesView.swift; sourceTree = "<group>"; };
 		7DE9AF6A2B5D512B009B7EF7 /* BusRoutesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRoutesViewModel.swift; sourceTree = "<group>"; };
@@ -225,7 +225,7 @@
 				7DE9AF802B5E3025009B7EF7 /* CTBBusStopDetailModel.swift */,
 				7DE9AF822B5E34AF009B7EF7 /* KMBBusStopDetailModel.swift */,
 				7DE9AF882B5E4944009B7EF7 /* BusETAModel.swift */,
-				7D9097BD2BDCF76400C8D45E /* BusFareModel.swift */,
+				7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -410,7 +410,7 @@
 				7DE9AF7F2B5E2B0D009B7EF7 /* BusStopRowViewModel.swift in Sources */,
 				7DE9AF6B2B5D512B009B7EF7 /* BusRoutesViewModel.swift in Sources */,
 				7D3E727A2B5D31C4009C57F5 /* Item.swift in Sources */,
-				7D9097BE2BDCF76400C8D45E /* BusFareModel.swift in Sources */,
+				7D9097BE2BDCF76400C8D45E /* BusRouteSummaryModel.swift in Sources */,
 				7D3E72892B5D48CD009C57F5 /* RootCoordinatorView.swift in Sources */,
 				7DE9AF752B5E0FCD009B7EF7 /* BusRouteDetailView.swift in Sources */,
 				7D3E72762B5D31C4009C57F5 /* HongKongBusETAApp.swift in Sources */,
@@ -544,15 +544,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Hong Kong Bus ETA/Hong_Kong_Bus_ETA.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Hong Kong Bus ETA/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9Q4R7U9T9F;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
@@ -603,7 +602,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";

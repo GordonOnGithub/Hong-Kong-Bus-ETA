@@ -59,8 +59,8 @@ struct BusStopDetailView: View {
             Spacer().frame(width: 10)
 
             if let busFare = viewModel.busFare {
-              Image(systemName: "banknote.fill")
-              Text("$\(busFare.fullFare)")
+              Image(systemName: "dollarsign.circle.fill")
+              Text("\(busFare.fullFare)")
 
             }
 

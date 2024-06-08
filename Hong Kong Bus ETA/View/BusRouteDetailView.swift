@@ -223,18 +223,24 @@ struct BusRouteDetailView: View {
 
   var busRouteSummary: some View {
     VStack(alignment: .leading, spacing: 10) {
+      HStack {
+        Text(viewModel.route.getFullRouteName()).font(.title).multilineTextAlignment(.leading)
 
-      Text(viewModel.route.getFullRouteName()).font(.title2)
+        if viewModel.routeSummary?.serviceMode.contains("N") ?? false {
+          Image(systemName: "moon.stars")
+        }
 
+        Spacer()
+      }
       Text(
         viewModel.getDestinationDescription()
       ).lineLimit(2).multilineTextAlignment(.leading)
         .font(.headline)
 
-      if let busFare = viewModel.busFare {
+      if let busFare = viewModel.routeSummary {
         HStack {
-          Image(systemName: "banknote.fill")
-          Text("$\(busFare.fullFare)")
+          Image(systemName: "dollarsign.circle.fill")
+          Text("\(busFare.fullFare)")
           Spacer()
           Image(systemName: "point.bottomleft.filled.forward.to.point.topright.scurvepath")
 
@@ -253,12 +259,14 @@ struct BusRouteDetailView: View {
 
         }
       }
-    }.padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-      .foregroundStyle(.white)
-      .background(
-        RoundedRectangle(cornerRadius: 10).fill(.blue)
-      )
-      .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+    }
+    .frame(maxWidth: .infinity)
+    .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+    .foregroundStyle(.white)
+    .background(
+      RoundedRectangle(cornerRadius: 10).fill(.blue)
+    )
+    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
 }
 

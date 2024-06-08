@@ -50,7 +50,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
   var currentLocation: CLLocation? = nil
 
   @Published
-  var busFare: BusFareModel? = nil
+  var routeSummary: BusRouteSummaryModel? = nil
 
   @Published
   var selectedMapMarker: String? = nil
@@ -165,13 +165,14 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     }.store(in: &cancellable)
 
-    busRoutesDataProvider.busFareDict.map { [weak self] dict -> BusFareModel? in
+    busRoutesDataProvider.busRouteSummaryDict.map { [weak self] dict -> BusRouteSummaryModel? in
 
       guard let dict, let route = self?.route, let companyCode = route.company?.rawValue,
-        let routeNumber = route.route
+        let routeNumber = route.route,
+        let destination = route.destinationEn
       else { return nil }
 
-      let key = "\(companyCode)_\(routeNumber)"
+      let key = "\(companyCode)_\(routeNumber)_\(destination)"
 
       if let busFare = dict[key] {
         return busFare
@@ -187,7 +188,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
       return nil
 
-    }.assign(to: &$busFare)
+    }.assign(to: &$routeSummary)
 
     $currentLocation.combineLatest($busStopDetailsDict).map {
       location, busStopsDetailsDict -> (BusStopDetailModel, CLLocationCoordinate2D)? in
@@ -275,7 +276,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
       fetchKMBRouteData(route: kmbRoute)
     }
 
-    if busFare == nil {
+    if routeSummary == nil {
       busRoutesDataProvider.fetchBusFareInfo()
     }
 

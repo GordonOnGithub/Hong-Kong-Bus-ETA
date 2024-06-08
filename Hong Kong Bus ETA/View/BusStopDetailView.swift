@@ -100,6 +100,9 @@ struct BusStopDetailView: View {
                 }
               }
 
+            }.refreshable {
+              viewModel.fetchETA()
+              try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
 
           } else {
@@ -189,6 +192,24 @@ struct BusStopDetailView: View {
 
         }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
       }
+      .alert(
+        String(localized: "failed_to_fetch"), isPresented: $viewModel.encounteredError,
+        actions: {
+
+          Button(role: .cancel) {
+            viewModel.encounteredError = false
+          } label: {
+            Text("dismiss")
+          }
+
+          Button(role: .none) {
+            viewModel.fetchAllData()
+          } label: {
+            Text("retry")
+          }
+
+        }
+      )
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           Button(

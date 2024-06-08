@@ -52,6 +52,9 @@ class BusStopDetailViewModel: ObservableObject {
   @Published
   var showMap = true
 
+  @Published
+  var encounteredError = false
+
   weak var delegate: (any BusStopDetailViewModelDelegate)?
 
   let busETAStorage: BusETAStorageType
@@ -120,6 +123,8 @@ class BusStopDetailViewModel: ObservableObject {
 
     if busStopDetail != nil { return }
 
+    encounteredError = false
+
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
       self.apiManager.call(api: .CTBBusStopDetail(stopId: busStopETA.stopId)).receive(
@@ -134,6 +139,12 @@ class BusStopDetailViewModel: ObservableObject {
           return nil
         }
       }
+      .tryCatch({ [weak self] error -> AnyPublisher<(any BusStopDetailModel)?, Error> in
+
+        self?.encounteredError = true
+
+        throw error
+      })
       .replaceError(with: nil)
       .eraseToAnyPublisher()
       .assign(to: &$busStopDetail)
@@ -151,6 +162,12 @@ class BusStopDetailViewModel: ObservableObject {
           return nil
         }
       }
+      .tryCatch({ [weak self] error -> AnyPublisher<(any BusStopDetailModel)?, Error> in
+
+        self?.encounteredError = true
+
+        throw error
+      })
       .replaceError(with: nil)
       .eraseToAnyPublisher()
       .assign(to: &$busStopDetail)
@@ -168,6 +185,7 @@ class BusStopDetailViewModel: ObservableObject {
 
     apiManager.isReachable.dropFirst().sink { [weak self] reachable in
       if reachable {
+        self?.fetchBusStopDetailIfNeeded()
         self?.fetchETA()
       }
     }.store(in: &cancellable)
@@ -242,6 +260,8 @@ class BusStopDetailViewModel: ObservableObject {
 
   func fetchETA() {
 
+    encounteredError = false
+
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
       fetchCTBETA(stopId: busStopETA.stopId, route: busStopETA.route)
@@ -264,6 +284,7 @@ class BusStopDetailViewModel: ObservableObject {
       switch completion {
       case .failure(let error):
         self?.busETAList = []
+        self?.encounteredError = true
       default:
         break
       }
@@ -295,6 +316,7 @@ class BusStopDetailViewModel: ObservableObject {
       switch completion {
       case .failure(let error):
         self?.busETAList = []
+        self?.encounteredError = true
       default:
         break
       }
@@ -383,5 +405,12 @@ class BusStopDetailViewModel: ObservableObject {
 
   func showBusRouteDetail() {
     delegate?.busStopDetailViewModel(self, didRequestBusRouteDetail: self.busRoute)
+  }
+
+  func fetchAllData() {
+    encounteredError = false
+    busETAList = nil
+    fetchBusStopDetailIfNeeded()
+    fetchETA()
   }
 }

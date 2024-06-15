@@ -54,8 +54,7 @@ enum RootCoordinatorNavigationPath: Identifiable, Hashable {
 
 enum Tab: String, Hashable {
   case ETA = "eta"
-  case CTB = "ct"
-  case KMB = "kmb"
+  case routes = "routes"
   case info = "info"
 }
 
@@ -86,31 +85,12 @@ class RootCoordinator: ObservableObject {
     }).assign(to: &$showNetworkUnavailableWarning)
   }
 
-  func buildCTBRouteListViewModel() -> BusRoutesViewModel {
+  lazy var routesTabViewModel: RoutesTabViewModel = {
+    let vm = RoutesTabViewModel()
+    vm.delegate = self
+    return vm
 
-    guard let ctbBusRoutesViewModel else {
-
-      let vm = BusRoutesViewModel(busRoutesListSource: .ctb)
-      vm.delegate = self
-      ctbBusRoutesViewModel = vm
-      return vm
-    }
-
-    return ctbBusRoutesViewModel
-  }
-
-  func buildKMBRouteListViewModel() -> BusRoutesViewModel {
-
-    guard let kmbBusRoutesViewModel else {
-
-      let vm = BusRoutesViewModel(busRoutesListSource: .kmb)
-      vm.delegate = self
-      kmbBusRoutesViewModel = vm
-      return vm
-    }
-
-    return kmbBusRoutesViewModel
-  }
+  }()
 
   func buildRouteDetailViewModel(route: any BusRouteModel) -> BusRouteDetailViewModel {
 
@@ -148,14 +128,6 @@ class RootCoordinator: ObservableObject {
 
     return vm
 
-  }
-
-}
-
-extension RootCoordinator: BusRoutesViewModelDelegate {
-  func busRoutesViewModel(_ viewModel: BusRoutesViewModel, didSelectRoute route: any BusRouteModel)
-  {
-    path.append(RootCoordinatorNavigationPath.routeDetail(route: route))
   }
 
 }
@@ -201,9 +173,11 @@ extension RootCoordinator: BusStopETAListViewModelDelegate {
 
     switch company {
     case .CTB:
-      tab = .CTB
+      tab = .routes
+      routesTabViewModel.selectedTab = .ctb
     case .KMB:
-      tab = .KMB
+      tab = .routes
+      routesTabViewModel.selectedTab = .kmb
     }
   }
 
@@ -231,6 +205,14 @@ extension RootCoordinator: BusStopDetailViewModelDelegate {
 
     }
 
+  }
+
+}
+
+extension RootCoordinator: RoutesTabViewModelDelegate {
+  func routesTabViewModel(_ viewModel: RoutesTabViewModel, didSelectRoute route: any BusRouteModel)
+  {
+    path.append(RootCoordinatorNavigationPath.routeDetail(route: route))
   }
 
 }

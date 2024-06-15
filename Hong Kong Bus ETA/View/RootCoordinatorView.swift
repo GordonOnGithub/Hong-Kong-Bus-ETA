@@ -40,17 +40,11 @@ struct RootCoordinatorView: View {
 
           }.tag(Tab.ETA)
 
-          BusRoutesView(viewModel: coordinator.buildCTBRouteListViewModel())
+          RoutesTabView(viewModel: coordinator.routesTabViewModel)
             .tabItem {
-              Label(BusCompany.CTB.localizedName(), systemImage: "bus.doubledecker.fill")
+              Label("routes", systemImage: "bus.doubledecker.fill")
 
-            }.tag(Tab.CTB)
-
-          BusRoutesView(viewModel: coordinator.buildKMBRouteListViewModel())
-            .tabItem {
-              Label(BusCompany.KMB.localizedName(), systemImage: "bus.doubledecker.fill")
-
-            }.tag(Tab.KMB)
+            }.tag(Tab.routes)
 
           InfoView(viewModel: InfoViewModel())
             .tabItem {

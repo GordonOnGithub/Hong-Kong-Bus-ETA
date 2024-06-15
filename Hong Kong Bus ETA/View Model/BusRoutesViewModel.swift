@@ -12,6 +12,9 @@ protocol BusRoutesViewModelDelegate: AnyObject {
 
   func busRoutesViewModel(_ viewModel: BusRoutesViewModel, didSelectRoute route: any BusRouteModel)
 
+  func busRoutesViewModel(_ viewModel: BusRoutesViewModel, didUpdateSearchCount count: Int?)
+
+  func busRoutesViewModelDidResetFilter(_ viewModel: BusRoutesViewModel)
 }
 
 enum BusRoutesListSource {
@@ -22,9 +25,9 @@ enum BusRoutesListSource {
   var title: String {
     switch self {
     case .ctb:
-      return "CTB"
+      return String(localized: "ctb")
     case .kmb:
-      return "KMB"
+      return String(localized: "kmb")
     }
   }
 
@@ -105,7 +108,9 @@ class BusRoutesViewModel: ObservableObject {
   func setupPublisher() {
 
     $filter.debounce(for: 0.3, scheduler: DispatchQueue.main)
-      .combineLatest($routeList).sink { filter, routeList in
+      .combineLatest($routeList).sink { [weak self] filter, routeList in
+
+        guard let self else { return }
 
         let filterList = filter.lowercased().split(separator: " ").map { s in
           String(s)
@@ -115,6 +120,12 @@ class BusRoutesViewModel: ObservableObject {
           self.displayedList = routeList?.filterByKeywords(filterList)
         } else {
           self.displayedList = routeList
+        }
+
+        if filter.isEmpty {
+          delegate?.busRoutesViewModel(self, didUpdateSearchCount: nil)
+        } else {
+          delegate?.busRoutesViewModel(self, didUpdateSearchCount: displayedList?.count ?? nil)
         }
 
       }.store(in: &cancellable)
@@ -141,6 +152,7 @@ class BusRoutesViewModel: ObservableObject {
   func resetFilter() {
     filter = ""
     displayedList = routeList
+    delegate?.busRoutesViewModelDidResetFilter(self)
   }
 
   func onRouteSelected(_ route: any BusRouteModel) {

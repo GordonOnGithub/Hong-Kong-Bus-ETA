@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "(%lld)" : {
+
+    },
     "%@" : {
 
     },
@@ -87,6 +90,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最接近的巴士站"
+          }
+        }
+      }
+    },
+    "ctb" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CTB"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "城巴"
           }
         }
       }
@@ -290,6 +309,22 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "關於此程式"
+          }
+        }
+      }
+    },
+    "kmb" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KMB"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "九巴"
           }
         }
       }
@@ -528,13 +563,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There is no bus route that matches the keywords."
+            "value" : "There is no %@ route that matches the keywords."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "找不到吻合關鍵字的路線"
+            "value" : "找不到吻合關鍵字的%@路線"
           }
         }
       }
@@ -551,6 +586,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "找不到吻合關鍵字的巴士站"
+          }
+        }
+      }
+    },
+    "number_of_result" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found %@ route(s)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "找到%@條路線"
           }
         }
       }
@@ -679,6 +730,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "路線詳情"
+          }
+        }
+      }
+    },
+    "routes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bus Routes"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "巴士路線"
           }
         }
       }

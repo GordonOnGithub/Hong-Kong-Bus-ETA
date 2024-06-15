@@ -16,40 +16,44 @@ struct BusRoutesView: View {
   var body: some View {
     Group {
       if let list = viewModel.displayedList {
-        NavigationView {
-          VStack(spacing: 20) {
-            if list.isEmpty {
-              if viewModel.filter.isEmpty {
-                Text(String(localized: "failed_to_fetch"))
+        VStack(spacing: 20) {
+          if list.isEmpty {
+            if viewModel.filter.isEmpty {
+              Text(String(localized: "failed_to_fetch"))
 
-                Button(
-                  action: {
-                    viewModel.fetch()
-                  },
-                  label: {
-                    Text(String(localized: "retry"))
-                  })
-              } else {
-                Text(String(localized: "no_matching_bus_routes"))
-                  .multilineTextAlignment(.center)
-                  .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                  .foregroundStyle(.gray)
-
-                Button(
-                  action: {
-                    viewModel.resetFilter()
-                  },
-                  label: {
-                    HStack {
-                      Image(systemName: "eraser")
-                      Text("reset")
-                    }
-                  })
-              }
-
+              Button(
+                action: {
+                  viewModel.fetch()
+                },
+                label: {
+                  Text(String(localized: "retry"))
+                })
             } else {
-              List {
+              Text(
+                String(
+                  format: String(localized: "no_matching_bus_routes"),
+                  "\(viewModel.busRoutesListSource.title)")
+              )
+              .multilineTextAlignment(.center)
+              .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+              .foregroundStyle(.gray)
 
+              Button(
+                action: {
+                  viewModel.resetFilter()
+                },
+                label: {
+                  HStack {
+                    Image(systemName: "eraser")
+                    Text("reset")
+                  }
+                })
+            }
+
+          } else {
+            List {
+
+              Section {
                 ForEach(list, id: \.id) { route in
 
                   Button(
@@ -71,15 +75,22 @@ struct BusRoutesView: View {
                   ).buttonStyle(.plain)
 
                 }
+              } header: {
 
-              }.scrollIndicators(.visible)
-            }
+                if !viewModel.filter.isEmpty {
+                  Text(
+                    String(
+                      format: String(localized: "number_of_result"),
+                      "\(viewModel.displayedList?.count ?? 0)"))
+                }
+
+              } footer: {
+
+              }
+
+            }.scrollIndicators(.visible)
           }
         }
-        .searchable(
-          text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always),
-          prompt: Text(String(localized: "search_by_keywords"))
-        )
 
       } else {
         ProgressView(label: {

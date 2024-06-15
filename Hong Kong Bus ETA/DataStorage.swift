@@ -9,19 +9,19 @@ import Combine
 import Foundation
 import SwiftData
 
-protocol BusETAStorageType {
+protocol BusETAStorageType: Sendable {
 
   var cache: CurrentValueSubject<[BusStopETA.ID: BusStopETA], Never> { get }
 
-  func fetch() -> AnyPublisher<[BusStopETA], Error>
-  func insert(data: BusStopETA) -> AnyPublisher<Bool, Never>
-  func delete(data: BusStopETA) -> AnyPublisher<Bool, Never>
+  func fetch() throws -> [BusStopETA]
+  func insert(data: BusStopETA) throws
+  func delete(data: BusStopETA) throws
 
 }
 
-class BusETAStorage: BusETAStorageType {
+class BusETAStorage: BusETAStorageType, @unchecked Sendable {
 
-  static var shared = BusETAStorage()
+  static let shared = BusETAStorage()
 
   private let container: ModelContainer
 
@@ -39,95 +39,54 @@ class BusETAStorage: BusETAStorageType {
 
   }
 
-  func fetch() -> AnyPublisher<[BusStopETA], Error> {
+  func fetch() throws -> [BusStopETA] {
+    let context = ModelContext(self.container)
 
-    return Future { block in
-      Task {
-        let context = await self.container.mainContext
+    let result = try context.fetch(FetchDescriptor<BusStopETA>())
 
-        do {
-          let result = try context.fetch(FetchDescriptor<BusStopETA>())
+    var updatedCache: [BusStopETA.ID: BusStopETA] = [:]
 
-          var updatedCache: [BusStopETA.ID: BusStopETA] = [:]
+    for data in result {
+      updatedCache[data.id] = data
+    }
 
-          for data in result {
-            updatedCache[data.id] = data
-          }
+    self.cache.value = updatedCache
 
-          self.cache.value = updatedCache
+    return result
+  }
 
-          block(.success(result))
-        } catch {
-          block(.failure(error))
-        }
-      }
+  func insert(data: BusStopETA) throws {
+    let context = ModelContext(self.container)
 
-    }.receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
+    context.insert(data)
+
+    try context.save()
+
+    var updatedCache = self.cache.value
+
+    updatedCache[data.id] = data
+
+    self.cache.value = updatedCache
 
   }
 
-  func insert(data: BusStopETA) -> AnyPublisher<Bool, Never> {
+  func delete(data: BusStopETA) throws {
+    let context = ModelContext(self.container)
 
-    return Future<Bool, Never> { block in
+    var updatedCache = self.cache.value
 
-      Task {
-        do {
-          let context = await self.container.mainContext
+    updatedCache.removeValue(forKey: data.id)
 
-          context.insert(data)
+    self.cache.value = updatedCache
 
-          try context.save()
+    let key = data.id
 
-          var updatedCache = self.cache.value
+    let predicate = #Predicate<BusStopETA> { d in
+      d.id == key
+    }
 
-          updatedCache[data.id] = data
-
-          self.cache.value = updatedCache
-
-          block(.success(true))
-        } catch {
-          block(.success(false))
-        }
-
-      }
-
-    }.receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
-  }
-
-  func delete(data: BusStopETA) -> AnyPublisher<Bool, Never> {
-
-    return Future<Bool, Never> { block in
-
-      Task {
-        do {
-          let context = await self.container.mainContext
-
-          var updatedCache = self.cache.value
-
-          updatedCache.removeValue(forKey: data.id)
-
-          self.cache.value = updatedCache
-
-          let key = data.id
-
-          let predicate = #Predicate<BusStopETA> { d in
-            d.id == key
-          }
-
-          try context.delete(model: BusStopETA.self, where: predicate)
-          try context.save()
-
-          block(.success(true))
-        } catch {
-          block(.success(false))
-        }
-      }
-
-    }.receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
-
+    try context.delete(model: BusStopETA.self, where: predicate)
+    try context.save()
   }
 
 }

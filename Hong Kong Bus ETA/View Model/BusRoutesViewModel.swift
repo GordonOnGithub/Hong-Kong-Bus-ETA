@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+@MainActor
 protocol BusRoutesViewModelDelegate: AnyObject {
 
   func busRoutesViewModel(_ viewModel: BusRoutesViewModel, didSelectRoute route: any BusRouteModel)
@@ -70,6 +71,7 @@ enum BusRoutesListSource {
 
 }
 
+@MainActor
 class BusRoutesViewModel: ObservableObject {
 
   var apiManager: APIManagerType

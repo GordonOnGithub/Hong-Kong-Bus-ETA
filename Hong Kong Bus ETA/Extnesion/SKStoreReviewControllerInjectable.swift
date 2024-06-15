@@ -9,10 +9,12 @@ import Foundation
 import StoreKit
 import UIKit
 
+@MainActor
 protocol SKStoreReviewControllerInjectableType {
   func requestReview()
 }
 
+@MainActor
 class SKStoreReviewControllerInjectable: SKStoreReviewControllerInjectableType {
 
   let uiApplication: UIApplicationType

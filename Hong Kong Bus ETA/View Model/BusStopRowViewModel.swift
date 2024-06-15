@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+@MainActor
 protocol BusStopRowViewModelDelegate: AnyObject {
 
   func busStopRowViewModel(
@@ -19,6 +20,7 @@ protocol BusStopRowViewModelDelegate: AnyObject {
     withDetails details: (any BusStopDetailModel)?)
 }
 
+@MainActor
 class BusStopRowViewModel: ObservableObject {
 
   let busStop: any BusStopModel
@@ -59,29 +61,24 @@ class BusStopRowViewModel: ObservableObject {
 
     guard let stopId = busStop.stopId else { return }
 
-    apiManager.call(api: .CTBBusStopDetail(stopId: stopId)).sink { [weak self] completion in
+    Task {
 
-      switch completion {
-      case .failure(let error):
-        self?.error = error
-        break
-      default:
-        self?.error = nil
-        break
-      }
+      do {
+        guard let data = try await apiManager.call(api: .CTBBusStopDetail(stopId: stopId)),
+          let response = try? JSONDecoder().decode(
+            APIResponseModel<CTBBusStopDetailModel>.self, from: data)
+        else {
+          return
+        }
 
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(
-          APIResponseModel<CTBBusStopDetailModel>.self, from: data)
-      {
         busStopDetail = response.data
         self.delegate?.busStopRowViewModel(
           self, didUpdateBusStop: self.busStop, withDetails: busStopDetail)
-      }
 
-    }.store(in: &cancellable)
+      } catch {
+        self.error = error
+      }
+    }
 
   }
 
@@ -89,31 +86,25 @@ class BusStopRowViewModel: ObservableObject {
 
     guard let stopId = busStop.stopId else { return }
 
-    apiManager.call(api: .KMBBusStopDetail(stopId: stopId)).sink { [weak self] completion in
+    Task {
 
-      switch completion {
-      case .failure(let error):
-        self?.error = error
-        break
-      default:
-        self?.error = nil
-        break
-      }
+      do {
+        guard let data = try await apiManager.call(api: .KMBBusStopDetail(stopId: stopId)),
+          let response = try? JSONDecoder().decode(
+            APIResponseModel<KMBBusStopDetailModel>.self, from: data)
+        else {
+          return
+        }
 
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(
-          APIResponseModel<KMBBusStopDetailModel>.self, from: data)
-      {
         busStopDetail = response.data
 
         self.delegate?.busStopRowViewModel(
           self, didUpdateBusStop: self.busStop, withDetails: busStopDetail)
 
+      } catch {
+        self.error = error
       }
-
-    }.store(in: &cancellable)
+    }
 
   }
 

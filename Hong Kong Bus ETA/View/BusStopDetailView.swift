@@ -238,7 +238,8 @@ struct BusStopDetailView: View {
                 HStack {
                   Image(systemName: "bookmark")
                   Text(String(localized: "bookmark")).fontWeight(.semibold)
-                }.popoverTip(BookmarkTip())
+                }
+                //                .popoverTip(BookmarkTip())
 
               }
             })
@@ -247,26 +248,26 @@ struct BusStopDetailView: View {
     }
   }
 }
-
-struct BookmarkTip: Tip {
-
-  var title: Text {
-    Text(String(localized: "bookmark"))
-  }
-
-  var message: Text? {
-    Text(String(localized: "bookmark_reminder"))
-  }
-
-  @Parameter
-  static var showBookmarkTip: Bool = true
-
-  var rules: [Rule] {
-    [
-      #Rule(Self.$showBookmarkTip) {
-        $0 == true
-      }
-    ]
-  }
-
-}
+// TODO: fix this
+//struct BookmarkTip: Tip {
+//
+//  var title: Text {
+//    Text(String(localized: "bookmark"))
+//  }
+//
+//  var message: Text? {
+//    Text(String(localized: "bookmark_reminder"))
+//  }
+//
+//  @Parameter
+//  static var showBookmarkTip: Bool = true
+//
+//  var rules: [Rule] {
+//    [
+//      #Rule(Self.$showBookmarkTip) {
+//        $0 == true
+//      }
+//    ]
+//  }
+//
+//}

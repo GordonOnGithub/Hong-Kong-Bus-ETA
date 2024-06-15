@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class BusStopETA: Identifiable {
+final class BusStopETA: Identifiable, @unchecked Sendable {
 
   let stopId: String
 
@@ -24,7 +24,7 @@ class BusStopETA: Identifiable {
   let addDate: Date
 
   @Attribute(.unique)
-  var id: String
+  let id: String
 
   init(stopId: String, route: String, company: String, serviceType: String?, isInbound: Bool) {
     self.stopId = stopId

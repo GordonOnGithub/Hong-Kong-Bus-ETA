@@ -176,7 +176,7 @@ struct BusRouteDetailView: View {
               }
             }
           ).disabled((viewModel.stopList?.isEmpty ?? true))
-            .popoverTip(MapTip())
+          //            .popoverTip(MapTip()) // TODO: fix this
         }
       }
 
@@ -269,26 +269,26 @@ struct BusRouteDetailView: View {
     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
 }
-
-struct MapTip: Tip {
-
-  var title: Text {
-    Text(String(localized: "map"))
-  }
-
-  var message: Text? {
-    Text(String(localized: "map_reminder"))
-  }
-
-  @Parameter
-  static var showMapTip: Bool = true
-
-  var rules: [Rule] {
-    [
-      #Rule(Self.$showMapTip) {
-        $0 == true
-      }
-    ]
-  }
-
-}
+// TODO: fix this
+//struct MapTip: Tip {
+//
+//  var title: Text {
+//    Text(String(localized: "map"))
+//  }
+//
+//  var message: Text? {
+//    Text(String(localized: "map_reminder"))
+//  }
+//
+//  @Parameter
+//  static var showMapTip: Bool = true
+//
+//  var rules: [Rule] {
+//    [
+//      #Rule(Self.$showMapTip) {
+//        $0 == true
+//      }
+//    ]
+//  }
+//
+//}

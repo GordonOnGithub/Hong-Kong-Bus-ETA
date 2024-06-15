@@ -57,7 +57,7 @@ enum Tab: String, Hashable {
   case routes = "routes"
   case info = "info"
 }
-
+@MainActor
 class RootCoordinator: ObservableObject {
 
   @Published

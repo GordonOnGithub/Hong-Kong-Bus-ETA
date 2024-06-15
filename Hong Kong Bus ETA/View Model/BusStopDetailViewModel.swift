@@ -7,9 +7,10 @@
 
 import Combine
 import Foundation
-import MapKit
+@preconcurrency import MapKit
 import UIKit
 
+@MainActor
 protocol BusStopDetailViewModelDelegate: AnyObject {
 
   func busStopDetailViewModel(
@@ -19,6 +20,7 @@ protocol BusStopDetailViewModelDelegate: AnyObject {
 
 }
 
+@MainActor
 class BusStopDetailViewModel: ObservableObject {
 
   @Published
@@ -110,7 +112,7 @@ class BusStopDetailViewModel: ObservableObject {
       return
     }
 
-    Task { @MainActor in
+    Task {
 
       let sceneRequest = MKLookAroundSceneRequest(
         coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
@@ -127,50 +129,47 @@ class BusStopDetailViewModel: ObservableObject {
 
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
-      self.apiManager.call(api: .CTBBusStopDetail(stopId: busStopETA.stopId)).receive(
-        on: DispatchQueue.main
-      )
-      .map { data in
-        if let data {
-          let response = try? JSONDecoder().decode(
-            APIResponseModel<CTBBusStopDetailModel>.self, from: data)
-          return response?.data
-        } else {
-          return nil
+      Task {
+        do {
+          guard
+            let data = try await apiManager.call(api: .CTBBusStopDetail(stopId: busStopETA.stopId)),
+            let response = try? JSONDecoder().decode(
+              APIResponseModel<CTBBusStopDetailModel>.self, from: data)
+          else {
+            busStopDetail = nil
+            return
+          }
+
+          busStopDetail = response.data
+
+        } catch {
+
+          busStopDetail = nil
+          encounteredError = true
         }
       }
-      .tryCatch({ [weak self] error -> AnyPublisher<(any BusStopDetailModel)?, Error> in
-
-        self?.encounteredError = true
-
-        throw error
-      })
-      .replaceError(with: nil)
-      .eraseToAnyPublisher()
-      .assign(to: &$busStopDetail)
 
     case .KMB:
-      self.apiManager.call(api: .KMBBusStopDetail(stopId: busStopETA.stopId)).receive(
-        on: DispatchQueue.main
-      )
-      .map { data in
-        if let data {
-          let response = try? JSONDecoder().decode(
-            APIResponseModel<KMBBusStopDetailModel>.self, from: data)
-          return response?.data
-        } else {
-          return nil
+
+      Task {
+        do {
+          guard
+            let data = try await apiManager.call(api: .KMBBusStopDetail(stopId: busStopETA.stopId)),
+            let response = try? JSONDecoder().decode(
+              APIResponseModel<KMBBusStopDetailModel>.self, from: data)
+          else {
+            busStopDetail = nil
+            return
+          }
+
+          busStopDetail = response.data
+
+        } catch {
+
+          busStopDetail = nil
+          encounteredError = true
         }
       }
-      .tryCatch({ [weak self] error -> AnyPublisher<(any BusStopDetailModel)?, Error> in
-
-        self?.encounteredError = true
-
-        throw error
-      })
-      .replaceError(with: nil)
-      .eraseToAnyPublisher()
-      .assign(to: &$busStopDetail)
 
     case .none:
       break
@@ -196,38 +195,43 @@ class BusStopDetailViewModel: ObservableObject {
 
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
-      busRoutesDataProvider.ctbRouteDict.sink { [weak self] cache in
+      busRoutesDataProvider.ctbRouteDict
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] cache in
 
-        guard let self, let cache else { return }
+          guard let self, let cache else { return }
 
-        let key = busRoutesDataProvider.getCacheKey(
-          company: .CTB, route: self.busStopETA.route, serviceType: nil,
-          isInbound: self.busStopETA.isInbound)
+          let key = busRoutesDataProvider.getCacheKey(
+            company: .CTB, route: self.busStopETA.route, serviceType: nil,
+            isInbound: self.busStopETA.isInbound)
 
-        if let route = cache[key] {
-          self.busRoute = route
-        }
+          if let route = cache[key] {
+            self.busRoute = route
+          }
 
-      }.store(in: &cancellable)
+        }.store(in: &cancellable)
     case .KMB:
-      busRoutesDataProvider.kmbRouteDict.sink { [weak self] cache in
+      busRoutesDataProvider.kmbRouteDict
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] cache in
 
-        guard let self, let cache else { return }
+          guard let self, let cache else { return }
 
-        let key = busRoutesDataProvider.getCacheKey(
-          company: .KMB, route: self.busStopETA.route, serviceType: self.busStopETA.serviceType,
-          isInbound: self.busStopETA.isInbound)
+          let key = busRoutesDataProvider.getCacheKey(
+            company: .KMB, route: self.busStopETA.route, serviceType: self.busStopETA.serviceType,
+            isInbound: self.busStopETA.isInbound)
 
-        if let route = cache[key] {
-          self.busRoute = route
-        }
+          if let route = cache[key] {
+            self.busRoute = route
+          }
 
-      }.store(in: &cancellable)
+        }.store(in: &cancellable)
     default:
       break
     }
 
-    busRoutesDataProvider.busRouteSummaryDict.map { [weak self] dict -> BusRouteSummaryModel? in
+    busRoutesDataProvider.busRouteSummaryDict.receive(on: DispatchQueue.main).map {
+      [weak self] dict -> BusRouteSummaryModel? in
 
       guard let dict, let route = self?.busRoute, let companyCode = route.company?.rawValue,
         let routeNumber = route.route
@@ -278,67 +282,71 @@ class BusStopDetailViewModel: ObservableObject {
 
   func fetchCTBETA(stopId: String, route: String) {
 
-    apiManager.call(api: .CTBArrivalEstimation(stopId: stopId, route: route)).sink {
-      [weak self] completion in
+    Task {
+      do {
+        guard
+          let data = try await apiManager.call(
+            api: .CTBArrivalEstimation(stopId: stopId, route: route)),
+          let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
+        else {
+          if busETAList == nil {
+            busETAList = []
+          }
+          lastUpdatedTimestamp = Date()
 
-      switch completion {
-      case .failure(let error):
-        if self?.busETAList == nil {
-          self?.busETAList = []
+          return
         }
-        self?.encounteredError = true
-      default:
-        break
-      }
-      self?.lastUpdatedTimestamp = Date()
 
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
-      {
-
-        self.busETAList = response.data.sorted(by: { a, b in
+        busETAList = response.data.sorted(by: { a, b in
 
           (a.etaTimestamp?.timeIntervalSince1970 ?? 0)
             < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
         })
-      }
+        lastUpdatedTimestamp = Date()
 
-    }.store(in: &cancellable)
+      } catch {
+        if busETAList == nil {
+          busETAList = []
+        }
+        encounteredError = true
+        lastUpdatedTimestamp = Date()
+      }
+    }
 
   }
 
   func fetchKMBETA(stopId: String, route: String, serviceType: String?) {
 
-    apiManager.call(
-      api: .KMBArrivalEstimation(stopId: stopId, route: route, serviceType: serviceType ?? "")
-    ).sink { [weak self] completion in
-
-      switch completion {
-      case .failure(let error):
-        if self?.busETAList == nil {
-          self?.busETAList = []
+    Task {
+      do {
+        guard
+          let data = try await apiManager.call(
+            api: .KMBArrivalEstimation(stopId: stopId, route: route, serviceType: serviceType ?? "")
+          ),
+          let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
+        else {
+          if busETAList == nil {
+            busETAList = []
+          }
+          lastUpdatedTimestamp = Date()
+          return
         }
-        self?.encounteredError = true
-      default:
-        break
-      }
-      self?.lastUpdatedTimestamp = Date()
 
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
-      {
-        self.busETAList = response.data.sorted(by: { a, b in
+        busETAList = response.data.sorted(by: { a, b in
 
           (a.etaTimestamp?.timeIntervalSince1970 ?? 0)
             < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
         })
-      }
+        lastUpdatedTimestamp = Date()
 
-    }.store(in: &cancellable)
+      } catch {
+        if busETAList == nil {
+          busETAList = []
+        }
+        encounteredError = true
+        lastUpdatedTimestamp = Date()
+      }
+    }
 
   }
 
@@ -357,29 +365,21 @@ class BusStopDetailViewModel: ObservableObject {
   func onSaveButtonClicked() {
     if isSaved {
 
-      busETAStorage.delete(data: busStopETA)
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] success in
-          if success {
-            self?.isSaved = false
-
-          }
-        }.store(in: &cancellable)
+      do {
+        try busETAStorage.delete(data: busStopETA)
+        self.isSaved = false
+      } catch {
+        print(error)
+      }
 
     } else {
-      busETAStorage.insert(data: busStopETA)
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] success in
-
-          guard let self else { return }
-
-          if success {
-            self.isSaved = true
-            self.delegate?.busStopDetailViewModelDidRequestReturnToETAList(self)
-
-            BookmarkTip.showBookmarkTip = false
-          }
-        }.store(in: &cancellable)
+      do {
+        try busETAStorage.insert(data: busStopETA)
+        self.isSaved = true
+        self.delegate?.busStopDetailViewModelDidRequestReturnToETAList(self)
+      } catch {
+        print(error)
+      }
 
     }
   }

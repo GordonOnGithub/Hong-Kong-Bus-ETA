@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-protocol BusRoutesDataProviderType {
+protocol BusRoutesDataProviderType: Sendable {
   var ctbRouteDict: CurrentValueSubject<[String: CTBBusRouteModel]?, Never> { get }
   var kmbRouteDict: CurrentValueSubject<[String: KMBBusRouteModel]?, Never> { get }
   var busRouteSummaryDict: CurrentValueSubject<[String: BusRouteSummaryModel]?, Never> { get }
@@ -25,9 +25,9 @@ protocol BusRoutesDataProviderType {
     -> String
 }
 
-class BusRoutesDataProvider: BusRoutesDataProviderType {
+class BusRoutesDataProvider: BusRoutesDataProviderType, @unchecked Sendable {
 
-  var apiManager: APIManagerType
+  let apiManager: APIManagerType
 
   let userDefaults: UserDefaultsType
 
@@ -41,7 +41,7 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
     CurrentValueSubject(
       nil)
 
-  static var shared: BusRoutesDataProviderType = BusRoutesDataProvider()
+  static let shared: BusRoutesDataProviderType = BusRoutesDataProvider()
 
   private var cancellable = Set<AnyCancellable>()
 
@@ -150,31 +150,32 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
           company: company, route: routeCode, serviceType: nil, isInbound: route.isInbound)] = route
     }
 
-    DispatchQueue.main.async {
-      self.ctbRouteDict.value = cache
-    }
+    ctbRouteDict.send(cache)
   }
 
   func fetchCTBRoutes() {
 
-    apiManager.call(api: .CTBRoutes).map { [weak self] data -> [CTBBusRouteModel] in
+    Task {
+      do {
+        let data = try await apiManager.call(api: .CTBRoutes)
 
-      guard let self else { return [] }
+        let routes: [CTBBusRouteModel] =
+          if let data {
+            parseCTBRouteData(data)
+          } else {
+            []
+          }
 
-      let routes = self.parseCTBRouteData(data)
+        if !routes.isEmpty {
+          self.userDefaults.setValue(data, forKey: self.ctbRoutesDataKey)
+        }
 
-      if !routes.isEmpty {
-        self.userDefaults.setValue(data, forKey: self.ctbRoutesDataKey)
+        handleCTBRoutesUpdate(list: routes)
+
+      } catch {
+        handleCTBRoutesUpdate(list: [])
       }
-
-      return routes
-
-    }.replaceError(with: [])
-      .sink { [weak self] list in
-
-        self?.handleCTBRoutesUpdate(list: list)
-
-      }.store(in: &cancellable)
+    }
 
   }
 
@@ -204,31 +205,32 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
           isInbound: route.isInbound)] = route
     }
 
-    DispatchQueue.main.async {
-      self.kmbRouteDict.value = cache
-    }
+    kmbRouteDict.send(cache)
   }
 
   func fetchKMBRoutes() {
 
-    apiManager.call(api: .KMBRoutes).map({ [weak self] data -> [KMBBusRouteModel] in
+    Task {
+      do {
+        let data = try await apiManager.call(api: .KMBRoutes)
 
-      guard let self else { return [] }
+        let routes: [KMBBusRouteModel] =
+          if let data {
+            parseKMBRouteData(data)
+          } else {
+            []
+          }
 
-      let routes = self.parseKMBRouteData(data)
+        if !routes.isEmpty {
+          self.userDefaults.setValue(data, forKey: self.kmbRoutesDataKey)
+        }
 
-      if !routes.isEmpty {
-        self.userDefaults.setValue(data, forKey: self.kmbRoutesDataKey)
+        handleKMBRoutesUpdate(list: routes)
+
+      } catch {
+        handleKMBRoutesUpdate(list: [])
       }
-
-      return routes
-
-    }).replaceError(with: [])
-      .sink(receiveValue: { [weak self] list in
-
-        self?.handleKMBRoutesUpdate(list: list)
-
-      }).store(in: &cancellable)
+    }
   }
 
   func getCacheKey(company: BusCompany, route: String, serviceType: String?, isInbound: Bool)
@@ -241,18 +243,21 @@ class BusRoutesDataProvider: BusRoutesDataProviderType {
 
   func fetchBusFareInfo() {
 
-    apiManager.call(api: .fare).replaceError(with: nil).sink { [weak self] data in
+    Task {
+      do {
+        if let data = try await apiManager.call(api: .fare) {
 
-      guard let self, let data else { return }
+          parseBusFareData(data)
 
-      parseBusFareData(data)
+          if !(busRouteSummaryDict.value?.isEmpty ?? true) {
+            self.userDefaults.setValue(data, forKey: self.busFaresDataKey)
 
-      if !(busRouteSummaryDict.value?.isEmpty ?? true) {
-        self.userDefaults.setValue(data, forKey: self.busFaresDataKey)
-
+          }
+        }
+      } catch {
+        print(error)
       }
-
-    }.store(in: &cancellable)
+    }
 
   }
 

@@ -9,10 +9,10 @@ import Alamofire
 import Combine
 import Foundation
 
-protocol APIManagerType {
+protocol APIManagerType: Sendable {
   static var shared: APIManagerType { get }
   var isReachable: CurrentValueSubject<Bool, Never> { get }
-  func call(api: API) -> AnyPublisher<Data?, Error>
+  func call(api: API) async throws -> Data?
 }
 
 enum API {
@@ -89,14 +89,18 @@ enum API {
 
 }
 
-class APIManager: APIManagerType {
+class APIManager: APIManagerType, @unchecked Sendable {
 
-  static var shared: APIManagerType = APIManager()
+  static let shared: APIManagerType = APIManager()
 
   var isReachable: CurrentValueSubject<Bool, Never> = CurrentValueSubject(true)
 
+  private let reachabilityMAnager = NetworkReachabilityManager()
+
+  private let session: Alamofire.Session = Session()
+
   private init() {
-    NetworkReachabilityManager.default?.startListening(
+    reachabilityMAnager?.startListening(
       onQueue: .main,
       onUpdatePerforming: { status in
 
@@ -109,32 +113,20 @@ class APIManager: APIManagerType {
 
       })
 
-    AF.sessionConfiguration.timeoutIntervalForRequest = 10
+    session.sessionConfiguration.timeoutIntervalForRequest = 10
   }
 
-  func call(api: API) -> AnyPublisher<Data?, Error> {
+  func call(api: API) async throws -> Data? {
+    let response = await self.session.request(
+      api.url, method: HTTPMethod(rawValue: self.getMethod(forAPI: api)),
+      parameters: api.parameter, headers: HTTPHeaders(api.header)
+    ).serializingData().response
 
-    return Future { promise in
-
-      Task {
-        let request = AF.request(
-          api.url, method: HTTPMethod(rawValue: self.getMethod(forAPI: api)),
-          parameters: api.parameter, headers: HTTPHeaders(api.header))
-
-        request.response { response in
-
-          if let error = response.error {
-            promise(.failure(error))
-          } else {
-            promise(.success(response.data))
-          }
-
-        }
-
-      }
-
-    }.eraseToAnyPublisher()
-
+    if let error = response.error {
+      throw error
+    } else {
+      return response.data
+    }
   }
 
   func getMethod(forAPI api: API) -> String {

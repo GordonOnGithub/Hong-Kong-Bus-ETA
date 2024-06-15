@@ -8,12 +8,13 @@
 import Combine
 import Foundation
 
+@MainActor
 protocol RoutesTabViewModelDelegate: AnyObject {
 
   func routesTabViewModel(_ viewModel: RoutesTabViewModel, didSelectRoute route: any BusRouteModel)
-
 }
 
+@MainActor
 class RoutesTabViewModel: ObservableObject {
 
   @Published

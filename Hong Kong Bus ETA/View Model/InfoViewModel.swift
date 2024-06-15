@@ -9,6 +9,7 @@ import Foundation
 import StoreKit
 import UIKit
 
+@MainActor
 class InfoViewModel: ObservableObject {
 
   let uiApplication: UIApplicationType

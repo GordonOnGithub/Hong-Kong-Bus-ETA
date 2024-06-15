@@ -200,12 +200,24 @@ struct ETAListTip: Tip {
 
   }
 
-  @Parameter
-  static var showETAListTip: Bool = true
+  //  @Parameter
+  //  static var showETAListTip: Bool = true
+
+  static var showETAListTip: Bool {
+    get {
+      _showETAListTip.wrappedValue
+    }
+    set {
+      _showETAListTip.wrappedValue = newValue
+    }
+  }
+
+  static nonisolated(unsafe) var _showETAListTip: Tips.Parameter<Bool> = Tips.Parameter(
+    Self.self, "+showETAListTip", false)
 
   var rules: [Rule] {
     [
-      #Rule(Self.$showETAListTip) {
+      #Rule(ETAListTip._showETAListTip) {
         $0 == true
       }
     ]

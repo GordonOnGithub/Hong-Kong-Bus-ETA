@@ -238,7 +238,8 @@ struct BusStopDetailView: View {
                 HStack {
                   Image(systemName: "bookmark")
                   Text(String(localized: "bookmark")).fontWeight(.semibold)
-                }.popoverTip(BookmarkTip())
+                }
+                .popoverTip(BookmarkTip())
 
               }
             })
@@ -258,12 +259,24 @@ struct BookmarkTip: Tip {
     Text(String(localized: "bookmark_reminder"))
   }
 
-  @Parameter
-  static var showBookmarkTip: Bool = true
+  //  @Parameter
+  //  static var showBookmarkTip: Bool = true
+
+  static var showBookmarkTip: Bool {
+    get {
+      _showBookmarkTip.wrappedValue
+    }
+    set {
+      _showBookmarkTip.wrappedValue = newValue
+    }
+  }
+
+  static nonisolated(unsafe) var _showBookmarkTip: Tips.Parameter<Bool> = Tips.Parameter(
+    Self.self, "+showBookmarkTip", false)
 
   var rules: [Rule] {
     [
-      #Rule(Self.$showBookmarkTip) {
+      #Rule(BookmarkTip._showBookmarkTip) {
         $0 == true
       }
     ]

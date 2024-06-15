@@ -10,13 +10,14 @@ import CoreLocation
 import Foundation
 import MapKit
 
+@MainActor
 protocol BusRouteDetailViewModelDelegate: AnyObject {
   func busRouteDetailViewModel(
     _ viewModel: BusRouteDetailViewModel, didRequestDisplayBusStop busStop: any BusStopModel,
     isInbound: Bool, withDetails details: any BusStopDetailModel)
 
 }
-
+@MainActor
 class BusRouteDetailViewModel: NSObject, ObservableObject {
 
   let route: any BusRouteModel
@@ -284,62 +285,57 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
   }
 
   private func fetchKMBRouteData(route: KMBBusRouteModel) {
-    apiManager.call(
-      api: .KMBRouteData(
-        route: route.route ?? "", isInbound: route.isInbound, serviceType: route.serviceType ?? "")
-    ).sink { [weak self] completion in
 
-      switch completion {
-      case .failure(let error):
-        self?.stopList = []
-        self?.hasError = true
-        break
-      default:
-        self?.hasError = false
-        break
+    Task {
 
+      do {
+        if let data = try await apiManager.call(
+          api: .KMBRouteData(
+            route: route.route ?? "", isInbound: route.isInbound,
+            serviceType: route.serviceType ?? "")
+        ),
+          let response = try? JSONDecoder().decode(
+            APIResponseModel<[KMBBusStopModel]>.self, from: data)
+        {
+          self.stopList = response.data
+          self.hasError = false
+
+        } else {
+          self.stopList = []
+          self.hasError = false
+        }
+
+      } catch {
+        self.stopList = []
+        self.hasError = true
       }
-
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(
-          APIResponseModel<[KMBBusStopModel]>.self, from: data)
-      {
-
-        self.stopList = response.data
-      }
-
-    }.store(in: &cancellable)
+    }
 
   }
 
   private func fetchCTBRouteData(route: CTBBusRouteModel) {
-    apiManager.call(api: .CTBRouteData(route: route.route ?? "", isInbound: route.isInbound)).sink {
-      [weak self] completion in
 
-      switch completion {
-      case .failure(let error):
-        self?.stopList = []
-        self?.hasError = true
-        break
-      default:
-        self?.hasError = false
-        break
+    Task {
 
+      do {
+        if let data = try await apiManager.call(
+          api: .CTBRouteData(route: route.route ?? "", isInbound: route.isInbound)),
+          let response = try? JSONDecoder().decode(
+            APIResponseModel<[CTBBusStopModel]>.self, from: data)
+        {
+          self.stopList = response.data
+          self.hasError = false
+
+        } else {
+          self.stopList = []
+          self.hasError = false
+        }
+
+      } catch {
+        self.stopList = []
+        self.hasError = true
       }
-
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(
-          APIResponseModel<[CTBBusStopModel]>.self, from: data)
-      {
-
-        self.stopList = response.data
-      }
-
-    }.store(in: &cancellable)
+    }
 
   }
 
@@ -383,17 +379,18 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 }
 
 extension BusRouteDetailViewModel: CLLocationManagerDelegate {
-  func locationManager(
+  nonisolated func locationManager(
     _ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus
   ) {
+    Task { @MainActor in
+      switch status {
 
-    switch status {
+      case .authorizedAlways, .authorizedWhenInUse, .authorized:
+        hasLocationPermission = true
 
-    case .authorizedAlways, .authorizedWhenInUse, .authorized:
-      hasLocationPermission = true
-
-    default:
-      hasLocationPermission = false
+      default:
+        hasLocationPermission = false
+      }
     }
 
   }
@@ -411,8 +408,12 @@ extension BusRouteDetailViewModel: CLLocationManagerDelegate {
       withDetails: busStopDetailModel)
   }
 
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    currentLocation = locations.first
+  nonisolated func locationManager(
+    _ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]
+  ) {
+    Task { @MainActor in
+      currentLocation = locations.first
+    }
   }
 }
 
@@ -434,3 +435,5 @@ extension BusRouteDetailViewModel: BusStopRowViewModelDelegate {
     }
   }
 }
+
+extension MKDirections.ETAResponse: @unchecked Sendable {}

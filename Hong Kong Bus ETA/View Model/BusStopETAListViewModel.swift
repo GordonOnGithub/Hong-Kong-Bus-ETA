@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+@MainActor
 protocol BusStopETAListViewModelDelegate: AnyObject {
 
   func busStopETAListViewModelModel(
@@ -26,7 +27,7 @@ enum Sorting: Int {
   case addDateEarliest = 2
   case addDateLatest = 3
 }
-
+@MainActor
 class BusStopETAListViewModel: ObservableObject {
 
   @Published
@@ -59,6 +60,7 @@ class BusStopETAListViewModel: ObservableObject {
 
   private let showETAListKey = "showETAListTip"
 
+  @MainActor
   init(
     busETAStorage: BusETAStorageType = BusETAStorage.shared,
     userDefaults: UserDefaultsType = UserDefaults.standard,
@@ -69,7 +71,7 @@ class BusStopETAListViewModel: ObservableObject {
     self.userDefaults = userDefaults
     self.storeReviewController = storeReviewController
 
-    busETAStorage.fetch()
+    try? busETAStorage.fetch()
 
     if let sortingPref = userDefaults.object(forKey: etaSortingKey) as? Int {
       self.sorting = Sorting(rawValue: sortingPref) ?? .addDateLatest

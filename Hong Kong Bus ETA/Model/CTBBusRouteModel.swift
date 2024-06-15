@@ -25,12 +25,12 @@ struct CTBBusRouteModel: BusRouteModel, Decodable {
   var id: String = UUID().uuidString
 
   func getFullRouteName() -> String {
-    return "\(BusCompany.CTB.localizedName() ?? "") \(route ?? "")"
+    return "\(BusCompany.CTB.localizedName()) \(route ?? "")"
   }
 
   func destination() -> String {
 
-    if isInbound {  // TODO: verify
+    if isInbound {
       return localizedOrigin() ?? ""
     } else {
       return localizedDestination() ?? ""

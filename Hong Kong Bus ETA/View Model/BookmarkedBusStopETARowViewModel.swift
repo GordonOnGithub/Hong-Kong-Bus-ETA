@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+@MainActor
 protocol BookmarkedBusStopETARowViewModelDelegate: AnyObject {
 
   func bookmarkedBusStopETARowViewModel(
@@ -15,7 +16,7 @@ protocol BookmarkedBusStopETARowViewModelDelegate: AnyObject {
     didRequestDisplayBusStopDetailForRoute route: String, company: BusCompany, stopId: String,
     serviceType: String?, isInbound: Bool, detail: (any BusStopDetailModel)?)
 }
-
+@MainActor
 class BookmarkedBusStopETARowViewModel: ObservableObject {
 
   @Published
@@ -62,38 +63,49 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
-      self.apiManager.call(api: .CTBBusStopDetail(stopId: busStopETA.stopId)).receive(
-        on: DispatchQueue.main
-      )
-      .map { data in
-        if let data {
-          let response = try? JSONDecoder().decode(
-            APIResponseModel<CTBBusStopDetailModel>.self, from: data)
-          return response?.data
-        } else {
-          return nil
+
+      Task {
+        do {
+          guard
+            let data = try await self.apiManager.call(
+              api: .CTBBusStopDetail(stopId: busStopETA.stopId)),
+            let response = try? JSONDecoder().decode(
+              APIResponseModel<CTBBusStopDetailModel>.self, from: data)
+          else {
+
+            busStopDetail = nil
+
+            return
+          }
+
+          busStopDetail = response.data
+
+        } catch {
+          busStopDetail = nil
         }
       }
-      .replaceError(with: nil)
-      .eraseToAnyPublisher()
-      .assign(to: &$busStopDetail)
 
     case .KMB:
-      self.apiManager.call(api: .KMBBusStopDetail(stopId: busStopETA.stopId)).receive(
-        on: DispatchQueue.main
-      )
-      .map { data in
-        if let data {
-          let response = try? JSONDecoder().decode(
-            APIResponseModel<KMBBusStopDetailModel>.self, from: data)
-          return response?.data
-        } else {
-          return nil
+
+      Task {
+        do {
+          guard
+            let data = try await self.apiManager.call(
+              api: .KMBBusStopDetail(stopId: busStopETA.stopId)),
+            let response = try? JSONDecoder().decode(
+              APIResponseModel<KMBBusStopDetailModel>.self, from: data)
+          else {
+
+            busStopDetail = nil
+            return
+          }
+
+          busStopDetail = response.data
+
+        } catch {
+          busStopDetail = nil
         }
       }
-      .replaceError(with: nil)
-      .eraseToAnyPublisher()
-      .assign(to: &$busStopDetail)
 
     case .none:
       break
@@ -107,7 +119,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
-      busRoutesDataProvider.ctbRouteDict.sink { [weak self] cache in
+      busRoutesDataProvider.ctbRouteDict.receive(on: DispatchQueue.main).sink { [weak self] cache in
 
         guard let self, let cache else { return }
 
@@ -121,7 +133,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
       }.store(in: &cancellable)
     case .KMB:
-      busRoutesDataProvider.kmbRouteDict.sink { [weak self] cache in
+      busRoutesDataProvider.kmbRouteDict.receive(on: DispatchQueue.main).sink { [weak self] cache in
 
         guard let self, let cache else { return }
 
@@ -172,67 +184,71 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
   func fetchCTBETA(stopId: String, route: String) {
 
-    apiManager.call(api: .CTBArrivalEstimation(stopId: stopId, route: route)).sink {
-      [weak self] completion in
+    Task {
+      do {
+        guard
+          let data = try await apiManager.call(
+            api: .CTBArrivalEstimation(stopId: stopId, route: route)),
+          let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
+        else {
 
-      switch completion {
-      case .failure(let error):
-        if self?.busETAList == nil {
-          self?.busETAList = []
+          isFetchingETA = false
+          if busETAList == nil {
+            busETAList = []
+          }
+          return
         }
-      default:
-        break
-      }
 
-      self?.isFetchingETA = false
-
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
-      {
-
-        self.busETAList = response.data.sorted(by: { a, b in
+        busETAList = response.data.sorted(by: { a, b in
 
           (a.etaTimestamp?.timeIntervalSince1970 ?? 0)
             < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
         })
-      }
+        isFetchingETA = false
 
-    }.store(in: &cancellable)
+      } catch {
+        isFetchingETA = false
+        if busETAList == nil {
+          busETAList = []
+        }
+      }
+    }
 
   }
 
   func fetchKMBETA(stopId: String, route: String, serviceType: String?) {
 
-    apiManager.call(
-      api: .KMBArrivalEstimation(stopId: stopId, route: route, serviceType: serviceType ?? "")
-    ).sink { [weak self] completion in
+    Task {
+      do {
+        guard
+          let data = try await apiManager.call(
+            api: .KMBArrivalEstimation(stopId: stopId, route: route, serviceType: serviceType ?? "")
+          ),
+          let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
+        else {
 
-      switch completion {
-      case .failure(let error):
-        if self?.busETAList == nil {
-          self?.busETAList = []
+          isFetchingETA = false
+          if busETAList == nil {
+            busETAList = []
+          }
+
+          return
         }
-      default:
-        break
-      }
 
-      self?.isFetchingETA = false
-
-    } receiveValue: { [weak self] data in
-
-      if let self, let data,
-        let response = try? JSONDecoder().decode(APIResponseModel<[BusETAModel]>.self, from: data)
-      {
-        self.busETAList = response.data.sorted(by: { a, b in
+        busETAList = response.data.sorted(by: { a, b in
 
           (a.etaTimestamp?.timeIntervalSince1970 ?? 0)
             < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
         })
-      }
+        isFetchingETA = false
 
-    }.store(in: &cancellable)
+      } catch {
+        isFetchingETA = false
+        if busETAList == nil {
+          busETAList = []
+        }
+      }
+    }
 
   }
 

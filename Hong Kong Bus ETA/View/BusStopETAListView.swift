@@ -116,6 +116,8 @@ struct BusStopETAListView: View {
           } header: {
             Text(String(localized: "update_every_30_seconds")).listRowInsets(EdgeInsets())
 
+          } footer: {
+            Text(String(localized: "pull_down_to_refresh")).listRowInsets(EdgeInsets())
           }
 
         }.refreshable {

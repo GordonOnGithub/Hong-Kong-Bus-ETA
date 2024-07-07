@@ -75,7 +75,7 @@ class BusStopETAListViewModel: ObservableObject {
 
     let appOpenCount = userDefaults.object(forKey: appLaunchCountKey) as? Int ?? 0
 
-    if appOpenCount > 4 {
+    if appOpenCount > 2 {
       self.showRatingReminder = userDefaults.object(forKey: showRatingReminderKey) as? Bool ?? true
     }
 

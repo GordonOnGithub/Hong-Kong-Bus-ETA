@@ -590,6 +590,22 @@
         }
       }
     },
+    "number_of_bus_stop_result" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found %@ bus stop(s)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找到%@個巴士站"
+          }
+        }
+      }
+    },
     "number_of_result" : {
       "localizations" : {
         "en" : {
@@ -634,6 +650,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "起點"
+          }
+        }
+      }
+    },
+    "pull_down_to_refresh" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pull down to refresh estimated arrival time"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "可向下拉以更新到站時間"
           }
         }
       }

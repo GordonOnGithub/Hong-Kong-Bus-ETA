@@ -114,9 +114,19 @@ struct BusRouteDetailView: View {
                       })
                   }
                 } header: {
-                  Text(String(localized: "origin"))
+                  if viewModel.filter.isEmpty {
+                    Text(String(localized: "origin"))
+                  } else {
+                    Text(
+                      String(
+                        format: String(localized: "number_of_bus_stop_result"),
+                        "\(list.count)"))
+
+                  }
                 } footer: {
-                  Text(String(localized: "destination"))
+                  if viewModel.filter.isEmpty {
+                    Text(String(localized: "destination"))
+                  }
                 }
               }
             }

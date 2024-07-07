@@ -20,7 +20,7 @@ struct RoutesTabView: View {
 
   var body: some View {
     NavigationView {
-      VStack {
+      VStack(spacing: 0) {
 
         HStack {
           Spacer()
@@ -36,6 +36,7 @@ struct RoutesTabView: View {
                 Text(BusRoutesListSource.ctb.title).foregroundStyle(
                   .blue
                 ).font(.headline)
+                  .fontWeight(viewModel.selectedTab == .ctb ? .bold : .regular)
 
                 if let count = viewModel.searchResult[BusRoutesListSource.ctb] {
                   Text("(\(count))").foregroundStyle(
@@ -55,8 +56,10 @@ struct RoutesTabView: View {
             }
           ).buttonStyle(.borderedProminent).tint(
             .yellow
+
           )
           .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+          .opacity(viewModel.selectedTab == .ctb ? 1 : 0.7)
 
           Button(
             action: {
@@ -69,6 +72,7 @@ struct RoutesTabView: View {
                 Text(BusRoutesListSource.kmb.title).foregroundStyle(
                   .white
                 ).font(.headline)
+                  .fontWeight(viewModel.selectedTab == .kmb ? .bold : .regular)
 
                 if let count = viewModel.searchResult[BusRoutesListSource.kmb] {
                   Text("(\(count))").foregroundStyle(
@@ -91,10 +95,12 @@ struct RoutesTabView: View {
             .red
           )
           .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-
+          .opacity(viewModel.selectedTab == .kmb ? 1 : 0.7)
           Spacer()
 
         }
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+        .background(.thinMaterial)
 
         TabView(
           selection: $viewModel.selectedTab,

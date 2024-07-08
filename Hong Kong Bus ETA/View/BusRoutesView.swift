@@ -63,10 +63,15 @@ struct BusRoutesView: View {
                     label: {
                       HStack {
                         VStack(alignment: .leading) {
+                          Spacer()
 
                           Text(route.getFullRouteName()).font(.title)
 
+                          Spacer()
+
                           Text(String(localized: "to")) + Text(route.destination())
+                          Spacer()
+
                         }
                         Spacer()
                       }.frame(height: 80)

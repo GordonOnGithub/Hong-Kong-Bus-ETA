@@ -112,6 +112,7 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
     $showMap.sink { [weak self] showMap in
       if let self {
         MapTip.showMapTip = false
+        self.selectedMapMarker = nil
       }
     }.store(in: &cancellable)
 

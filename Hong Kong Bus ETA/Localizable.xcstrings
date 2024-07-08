@@ -655,17 +655,18 @@
       }
     },
     "pull_down_to_refresh" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pull down to refresh estimated arrival time"
+            "value" : "Pull down to refresh estimated arrival time."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "可向下拉以更新到站時間"
+            "value" : "可向下拉以更新到站時間。"
           }
         }
       }
@@ -932,13 +933,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Estimated time of arrivals below are updated once every 30 seconds"
+            "value" : "This page is updated once every 30 seconds. Pull the list down to refresh estimated arrival time."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "以下預計到站時間每隔30 秒更新一次"
+            "value" : "此頁面每隔30 秒自動更新一次。可將列表往下拉以更新到站時間。"
           }
         }
       }

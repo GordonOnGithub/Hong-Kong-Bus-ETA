@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import TipKit
 
 struct BusStopETAListView: View {
 
@@ -113,17 +114,14 @@ struct BusStopETAListView: View {
               .frame(height: 155)
 
             }
-          } header: {
-            Text(String(localized: "update_every_30_seconds")).listRowInsets(EdgeInsets())
-
-          } footer: {
-            Text(String(localized: "pull_down_to_refresh")).listRowInsets(EdgeInsets())
           }
 
         }.refreshable {
           viewModel.fetchAllETAs()
           try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
+
+        TipView(ETAListTip()).padding()
 
         if viewModel.showRatingReminder {
           Button(
@@ -180,4 +178,32 @@ struct BusStopETAListView: View {
       }
     }
   }
+}
+
+struct ETAListTip: Tip {
+
+  var image: Image? {
+    Image(systemName: "clock")
+  }
+
+  var title: Text {
+    Text(String(localized: "estimated_time_of_arrival"))
+  }
+
+  var message: Text? {
+    Text(String(localized: "update_every_30_seconds"))
+
+  }
+
+  @Parameter
+  static var showETAListTip: Bool = true
+
+  var rules: [Rule] {
+    [
+      #Rule(Self.$showETAListTip) {
+        $0 == true
+      }
+    ]
+  }
+
 }

@@ -57,6 +57,8 @@ class BusStopETAListViewModel: ObservableObject {
   private var bookmarkedBusStopETARowViewModelDict: [BusStopETA: BookmarkedBusStopETARowViewModel] =
     [:]
 
+  private let showETAListKey = "showETAListTip"
+
   init(
     busETAStorage: BusETAStorageType = BusETAStorage.shared,
     userDefaults: UserDefaultsType = UserDefaults.standard,
@@ -80,6 +82,13 @@ class BusStopETAListViewModel: ObservableObject {
     }
 
     userDefaults.setValue(appOpenCount + 1, forKey: appLaunchCountKey)
+
+    let showETAListTip = userDefaults.object(forKey: showETAListKey) as? Bool ?? true
+    ETAListTip.showETAListTip = showETAListTip
+
+    if showETAListTip {
+      self.userDefaults.setValue(false, forKey: showETAListKey)
+    }
 
     setupPublisher()
   }

@@ -20,9 +20,12 @@ struct BusRouteDetailView: View {
   var body: some View {
 
     VStack(spacing: 0) {
-      busRouteSummary
 
-      Divider()
+      if viewModel.filter.isEmpty {
+        busRouteSummary
+
+        Divider()
+      }
 
       if let list = viewModel.displayedList {
 
@@ -57,10 +60,16 @@ struct BusRouteDetailView: View {
                   let longitude = Double(busStopDetail.position?.1 ?? "")
                 {
 
+                  let isDestination =
+                    (stopId == (list.last?.stopId ?? "")) && viewModel.filter.isEmpty
+
                   Marker(
-                    name,
                     coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                  ).tag(stopId)
+                  ) {
+                    Label(name, systemImage: isDestination ? "flag.fill" : "mappin")
+                  }
+                  .tint(isDestination ? .green : .red)
+                  .tag(stopId)
 
                 }
               }
@@ -245,12 +254,12 @@ struct BusRouteDetailView: View {
       Text(
         viewModel.getDestinationDescription()
       ).lineLimit(2).multilineTextAlignment(.leading)
-        .font(.headline)
 
       if let busFare = viewModel.routeSummary {
         HStack {
           Image(systemName: "dollarsign.circle.fill")
           Text("\(busFare.fullFare)")
+
           Spacer()
           Image(systemName: "point.bottomleft.filled.forward.to.point.topright.scurvepath")
 
@@ -265,16 +274,15 @@ struct BusRouteDetailView: View {
             Text(description).lineLimit(2).multilineTextAlignment(.leading)
               .font(.subheadline)
             Spacer()
-          }
+          }.foregroundStyle(.secondary)
 
         }
       }
     }
     .frame(maxWidth: .infinity)
     .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-    .foregroundStyle(.white)
     .background(
-      RoundedRectangle(cornerRadius: 10).fill(.blue)
+      RoundedRectangle(cornerRadius: 10).fill(.appBackground)
     )
     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }

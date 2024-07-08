@@ -281,10 +281,6 @@ struct BusRouteDetailView: View {
     }
     .frame(maxWidth: .infinity)
     .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-    .background(
-      RoundedRectangle(cornerRadius: 10).fill(.appBackground)
-    )
-    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
   }
 }
 

@@ -85,63 +85,60 @@ struct BusRouteDetailView: View {
 
         } else {
 
-          Group {
+          if list.isEmpty, !viewModel.filter.isEmpty {
+            Spacer()
 
-            if list.isEmpty, !viewModel.filter.isEmpty {
-              Spacer()
+            Text(String(localized: "no_matching_bus_stop"))
+              .foregroundStyle(.gray)
+              .multilineTextAlignment(.center)
+              .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            Spacer().frame(height: 20)
+            Button(
+              action: {
+                viewModel.resetFilter()
+              },
+              label: {
+                HStack {
+                  Image(systemName: "eraser")
+                  Text("reset")
+                }
+              })
+            Spacer()
 
-              Text(String(localized: "no_matching_bus_stop"))
-                .foregroundStyle(.gray)
-                .multilineTextAlignment(.center)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-              Spacer().frame(height: 20)
-              Button(
-                action: {
-                  viewModel.resetFilter()
-                },
-                label: {
-                  HStack {
-                    Image(systemName: "eraser")
-                    Text("reset")
-                  }
-                })
-              Spacer()
+          } else {
 
-            } else {
+            List {
+              Section {
+                ForEach(list, id: \.id) { stop in
 
-              List {
-                Section {
-                  ForEach(list, id: \.id) { stop in
+                  VStack(
+                    alignment: .leading,
+                    content: {
 
-                    VStack(
-                      alignment: .leading,
-                      content: {
+                      BusStopRowView(
+                        viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
 
-                        BusStopRowView(
-                          viewModel: viewModel.makeBusStopRowViewModel(busStop: stop))
+                    })
+                }
+              } header: {
+                if viewModel.filter.isEmpty {
+                  Text(String(localized: "origin"))
+                } else {
+                  Text(
+                    String(
+                      format: String(localized: "number_of_bus_stop_result"),
+                      "\(list.count)"))
 
-                      })
-                  }
-                } header: {
-                  if viewModel.filter.isEmpty {
-                    Text(String(localized: "origin"))
-                  } else {
-                    Text(
-                      String(
-                        format: String(localized: "number_of_bus_stop_result"),
-                        "\(list.count)"))
-
-                  }
-                } footer: {
-                  if viewModel.filter.isEmpty {
-                    Text(String(localized: "destination"))
-                  }
+                }
+              } footer: {
+                if viewModel.filter.isEmpty {
+                  Text(String(localized: "destination"))
                 }
               }
             }
           }
-
         }
+
       } else {
         Spacer()
         ProgressView(label: {
@@ -166,38 +163,38 @@ struct BusRouteDetailView: View {
         }
 
       }
-    }.background(.thinMaterial)
-      .searchable(
-        text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .automatic),
-        prompt: Text(String(localized: "search"))
-      ).keyboardType(.alphabet)
+    }
+    .searchable(
+      text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .automatic),
+      prompt: Text(String(localized: "search"))
+    ).keyboardType(.alphabet)
 
-      .navigationTitle(
-        String(localized: "route_details")
-      )
-      .toolbar {
+    .navigationTitle(
+      String(localized: "route_details")
+    )
+    .toolbar {
 
-        ToolbarItem(placement: .topBarTrailing) {
-          Button(
-            action: {
-              viewModel.showMap.toggle()
-            },
-            label: {
-              VStack {
-                Image(viewModel.showMap ? "list" : "map", bundle: .main)
-                  .renderingMode(.template)
-                  .resizable().scaledToFit().frame(height: 25)
-                  .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
-                Text(String(localized: viewModel.showMap ? "list" : "map"))
-                  .font(.system(size: 10))
-                  .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
+      ToolbarItem(placement: .topBarTrailing) {
+        Button(
+          action: {
+            viewModel.showMap.toggle()
+          },
+          label: {
+            VStack {
+              Image(viewModel.showMap ? "list" : "map", bundle: .main)
+                .renderingMode(.template)
+                .resizable().scaledToFit().frame(height: 25)
+                .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
+              Text(String(localized: viewModel.showMap ? "list" : "map"))
+                .font(.system(size: 10))
+                .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
 
-              }
             }
-          ).disabled((viewModel.stopList?.isEmpty ?? true))
-            .popoverTip(MapTip())
-        }
+          }
+        ).disabled((viewModel.stopList?.isEmpty ?? true))
+          .popoverTip(MapTip())
       }
+    }
 
   }
 
@@ -279,8 +276,9 @@ struct BusRouteDetailView: View {
         }
       }
     }
-    .frame(maxWidth: .infinity)
     .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+    .background(.thinMaterial)
+    .frame(maxWidth: .infinity)
   }
 }
 

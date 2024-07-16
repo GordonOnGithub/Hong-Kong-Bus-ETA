@@ -546,12 +546,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No info on estimated time of arrival"
+            "value" : "No data for estimated time of arrival."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "沒有預計到站時間資訊"
           }
         }
@@ -595,12 +595,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Found %@ bus stop(s)"
+            "value" : "Found %@ bus stops."
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "找到%@個巴士站"
           }
         }
@@ -611,7 +611,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Found %@ route(s)"
+            "value" : "Found %@ routes."
           }
         },
         "zh-Hant" : {
@@ -627,7 +627,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open in map app"
+            "value" : "Show on Map App"
           }
         },
         "zh-Hant" : {
@@ -805,7 +805,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search by keyword(s), e.g. A20, airport"
+            "value" : "Search by keywords, e.g. A20, airport"
           }
         },
         "zh-Hant" : {
@@ -853,12 +853,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This app is an open source project and the data is provided from data.gov.hk"
+            "value" : "This app is an open source project. Its data is provided by data.gov.hk"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "此應用程式是一個開源項目，資料來自 data.gov.hk"
           }
         }

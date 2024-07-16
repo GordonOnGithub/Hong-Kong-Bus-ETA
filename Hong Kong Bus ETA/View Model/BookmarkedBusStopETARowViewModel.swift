@@ -177,7 +177,9 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
       switch completion {
       case .failure(let error):
-        self?.busETAList = []
+        if self?.busETAList == nil {
+          self?.busETAList = []
+        }
       default:
         break
       }
@@ -209,7 +211,9 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
       switch completion {
       case .failure(let error):
-        self?.busETAList = []
+        if self?.busETAList == nil {
+          self?.busETAList = []
+        }
       default:
         break
       }

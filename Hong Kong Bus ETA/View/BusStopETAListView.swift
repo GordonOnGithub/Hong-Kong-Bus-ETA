@@ -176,6 +176,11 @@ struct BusStopETAListView: View {
         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
 
       }
+    }.onReceive(
+      NotificationCenter.default.publisher(
+        for: UIApplication.willEnterForegroundNotification, object: nil)
+    ) { _ in
+      viewModel.fetchAllETAs()
     }
   }
 }

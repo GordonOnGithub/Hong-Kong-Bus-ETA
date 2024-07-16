@@ -283,7 +283,9 @@ class BusStopDetailViewModel: ObservableObject {
 
       switch completion {
       case .failure(let error):
-        self?.busETAList = []
+        if self?.busETAList == nil {
+          self?.busETAList = []
+        }
         self?.encounteredError = true
       default:
         break
@@ -315,7 +317,9 @@ class BusStopDetailViewModel: ObservableObject {
 
       switch completion {
       case .failure(let error):
-        self?.busETAList = []
+        if self?.busETAList == nil {
+          self?.busETAList = []
+        }
         self?.encounteredError = true
       default:
         break

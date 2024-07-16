@@ -108,6 +108,8 @@ class APIManager: APIManagerType {
         }
 
       })
+
+    AF.sessionConfiguration.timeoutIntervalForRequest = 10
   }
 
   func call(api: API) -> AnyPublisher<Data?, Error> {

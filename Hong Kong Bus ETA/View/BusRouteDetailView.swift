@@ -292,24 +292,12 @@ struct MapTip: Tip {
     Text(String(localized: "map_reminder"))
   }
 
-  //  @Parameter
-  //  static var showMapTip: Bool = true
-
-  static var showMapTip: Bool {
-    get {
-      _showMapTip.wrappedValue
-    }
-    set {
-      _showMapTip.wrappedValue = newValue
-    }
-  }
-
-  static nonisolated(unsafe) var _showMapTip: Tips.Parameter<Bool> = Tips.Parameter(
-    Self.self, "+showMapTip", false)
+  @Parameter
+  static var showMapTip: Bool = true
 
   var rules: [Rule] {
     [
-      #Rule(MapTip._showMapTip) {
+      #Rule(Self.$showMapTip) {
         $0 == true
       }
     ]

@@ -11,20 +11,20 @@ import SwiftData
 @Model
 final class BusStopETA: Identifiable, @unchecked Sendable {
 
-  let stopId: String
+  var stopId: String
 
-  let route: String
+  var route: String
 
-  let company: String
+  var company: String
 
-  let serviceType: String?
+  var serviceType: String?
 
-  let isInbound: Bool
+  var isInbound: Bool
 
-  let addDate: Date
+  var addDate: Date
 
   @Attribute(.unique)
-  let id: String
+  var id: String
 
   init(stopId: String, route: String, company: String, serviceType: String?, isInbound: Bool) {
     self.stopId = stopId

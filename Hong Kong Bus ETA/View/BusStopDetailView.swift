@@ -259,24 +259,12 @@ struct BookmarkTip: Tip {
     Text(String(localized: "bookmark_reminder"))
   }
 
-  //  @Parameter
-  //  static var showBookmarkTip: Bool = true
-
-  static var showBookmarkTip: Bool {
-    get {
-      _showBookmarkTip.wrappedValue
-    }
-    set {
-      _showBookmarkTip.wrappedValue = newValue
-    }
-  }
-
-  static nonisolated(unsafe) var _showBookmarkTip: Tips.Parameter<Bool> = Tips.Parameter(
-    Self.self, "+showBookmarkTip", false)
+  @Parameter
+  static var showBookmarkTip: Bool = true
 
   var rules: [Rule] {
     [
-      #Rule(BookmarkTip._showBookmarkTip) {
+      #Rule(Self.$showBookmarkTip) {
         $0 == true
       }
     ]

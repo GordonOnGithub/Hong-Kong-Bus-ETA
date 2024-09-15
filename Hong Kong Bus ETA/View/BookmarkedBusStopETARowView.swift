@@ -73,6 +73,11 @@ struct BookmarkedBusStopETARowView: View {
               }.foregroundStyle(.gray)
 
             }
+          } else {
+              HStack {
+                  ProgressView()
+                  Spacer()
+              }
           }
         case .failure:
           HStack {

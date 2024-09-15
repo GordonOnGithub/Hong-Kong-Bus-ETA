@@ -43,32 +43,49 @@ struct BookmarkedBusStopETARowView: View {
           Spacer().frame(height: 30)
         }
 
-        if let busETAList = viewModel.busETAList, !viewModel.isFetchingETA {
+        switch viewModel.busETAResult {
 
-          if let latest = busETAList.first(where: { eta in
+        case .success(let busETAList):
+          if let busETAList {
+            if let latest = busETAList.first(where: { eta in
 
-            switch eta.remainingTime {
-            case .expired:
-              return false
-            default:
-              return true
+              switch eta.remainingTime {
+              case .expired:
+                return false
+              default:
+                return true
+              }
+
+            }) {
+
+              ETARowView(eta: latest, isFetching: $viewModel.isFetchingETA)
+                .padding(1)
+
+            } else {
+              HStack {
+                if viewModel.isFetchingETA {
+                  ProgressView().padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 2))
+                } else {
+                  Image(systemName: "clock.badge.questionmark")
+                }
+                Text(String(localized: "no_eta_info"))
+                Spacer()
+              }.foregroundStyle(.gray)
+
             }
-
-          }) {
-
-            ETARowView(eta: latest)
-
-          } else {
-            HStack {
-              Image(systemName: "clock.badge.questionmark")
-              Text(String(localized: "no_eta_info"))
-              Spacer()
-            }.foregroundStyle(.gray)
-
           }
+        case .failure:
+          HStack {
 
-        } else {
-          ProgressView()
+            if viewModel.isFetchingETA {
+              ProgressView().padding(5)
+            } else {
+              Image(systemName: "exclamationmark.arrow.triangle.2.circlepath")
+            }
+            Text(String(localized: "failed_to_fetch_eta_info"))
+            Spacer()
+          }.foregroundStyle(.gray)
+
         }
 
       }

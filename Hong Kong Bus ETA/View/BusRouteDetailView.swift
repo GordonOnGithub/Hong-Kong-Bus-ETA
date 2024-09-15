@@ -22,7 +22,9 @@ struct BusRouteDetailView: View {
     VStack(spacing: 0) {
 
       if viewModel.filter.isEmpty {
-        busRouteSummary
+        GroupBox {
+          busRouteSummary
+        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
 
         Divider()
       }
@@ -276,8 +278,6 @@ struct BusRouteDetailView: View {
         }
       }
     }
-    .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-    .background(.thinMaterial)
     .frame(maxWidth: .infinity)
   }
 }

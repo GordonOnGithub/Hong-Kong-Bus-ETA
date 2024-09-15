@@ -281,6 +281,22 @@
         }
       }
     },
+    "failed_to_fetch_eta_info" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to fetch ETA"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "未能取得到站時間"
+          }
+        }
+      }
+    },
     "fetching_eta" : {
       "localizations" : {
         "en" : {

@@ -79,7 +79,7 @@ struct BusStopDetailView: View {
 
               Section {
                 ForEach(busETAList) { eta in
-                  ETARowView(eta: eta)
+                  ETARowView(eta: eta, isFetching: .constant(false))
                 }
 
               } header: {

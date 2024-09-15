@@ -26,7 +26,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
   var busRoute: (any BusRouteModel)?
 
   @Published
-  var busETAList: [BusETAModel]? = nil
+  var busETAResult: Result<[BusETAModel]?, Error> = .success(nil)
 
   let busStopETA: BusStopETA
 
@@ -165,7 +165,7 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
     isFetchingETA = true
 
-    busETAList = nil
+    fetchBusStopDetailIfNeeded()
 
     switch BusCompany(rawValue: busStopETA.company) {
     case .CTB:
@@ -193,24 +193,26 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
         else {
 
           isFetchingETA = false
-          if busETAList == nil {
-            busETAList = []
-          }
+
+          busETAResult = .failure(NSError(domain: "Failed to fetch", code: -1, userInfo: [:]))
+
           return
         }
 
-        busETAList = response.data.sorted(by: { a, b in
+        let busETAList = response.data.sorted(by: { a, b in
 
           (a.etaTimestamp?.timeIntervalSince1970 ?? 0)
             < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
         })
+
+        busETAResult = .success(busETAList)
+
         isFetchingETA = false
 
       } catch {
         isFetchingETA = false
-        if busETAList == nil {
-          busETAList = []
-        }
+
+        busETAResult = .failure(NSError(domain: "Failed to fetch", code: -1, userInfo: [:]))
       }
     }
 
@@ -228,25 +230,26 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
         else {
 
           isFetchingETA = false
-          if busETAList == nil {
-            busETAList = []
-          }
+
+          busETAResult = .failure(NSError(domain: "Failed to fetch", code: -1, userInfo: [:]))
 
           return
         }
 
-        busETAList = response.data.sorted(by: { a, b in
+        let busETAList = response.data.sorted(by: { a, b in
 
           (a.etaTimestamp?.timeIntervalSince1970 ?? 0)
             < (b.etaTimestamp?.timeIntervalSince1970 ?? 0)
         })
+
+        busETAResult = .success(busETAList)
+
         isFetchingETA = false
 
       } catch {
         isFetchingETA = false
-        if busETAList == nil {
-          busETAList = []
-        }
+
+        busETAResult = .failure(NSError(domain: "Failed to fetch", code: -1, userInfo: [:]))
       }
     }
 

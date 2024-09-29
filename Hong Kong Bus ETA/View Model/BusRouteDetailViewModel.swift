@@ -167,30 +167,32 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     }.store(in: &cancellable)
 
-    busRoutesDataProvider.busRouteSummaryDict.map { [weak self] dict -> BusRouteSummaryModel? in
+    busRoutesDataProvider.busRouteSummaryDict
+      .receive(on: DispatchQueue.main)
+      .map { [weak self] dict -> BusRouteSummaryModel? in
 
-      guard let dict, let route = self?.route, let companyCode = route.company?.rawValue,
-        let routeNumber = route.route,
-        let destination = route.destinationEn
-      else { return nil }
+        guard let dict, let route = self?.route, let companyCode = route.company?.rawValue,
+          let routeNumber = route.route,
+          let destination = route.destinationEn
+        else { return nil }
 
-      let key = "\(companyCode)_\(routeNumber)_\(destination)"
+        let key = "\(companyCode)_\(routeNumber)_\(destination)"
 
-      if let busFare = dict[key] {
-        return busFare
-      }
-
-      for value in dict.values {
-
-        if value.companyCode.contains(companyCode), value.routeNumber == routeNumber {
-          return value
+        if let busFare = dict[key] {
+          return busFare
         }
 
-      }
+        for value in dict.values {
 
-      return nil
+          if value.companyCode.contains(companyCode), value.routeNumber == routeNumber {
+            return value
+          }
 
-    }.assign(to: &$routeSummary)
+        }
+
+        return nil
+
+      }.assign(to: &$routeSummary)
 
     $currentLocation.combineLatest($busStopDetailsDict).map {
       location, busStopsDetailsDict -> (BusStopDetailModel, CLLocationCoordinate2D)? in

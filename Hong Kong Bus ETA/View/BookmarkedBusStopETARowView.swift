@@ -74,10 +74,10 @@ struct BookmarkedBusStopETARowView: View {
 
             }
           } else {
-              HStack {
-                  ProgressView()
-                  Spacer()
-              }
+            HStack {
+              ProgressView()
+              Spacer()
+            }
           }
         case .failure:
           HStack {

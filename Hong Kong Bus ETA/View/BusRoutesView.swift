@@ -65,17 +65,18 @@ struct BusRoutesView: View {
                         VStack(alignment: .leading) {
                           Spacer()
 
-                          Text(route.getFullRouteName()).font(.title)
+                          Text(route.getFullRouteName()).font(.title2)
 
                           Spacer()
 
-                          Text(String(localized: "to")) + Text(route.destination())
+                          Text(String(localized: "to") + route.destination()).foregroundStyle(
+                            .secondary)
                           Spacer()
 
                         }
                         Spacer()
-                      }.frame(height: 80)
-                        .contentShape(Rectangle())
+                      }
+                      .contentShape(Rectangle())
                     }
                   ).buttonStyle(.plain)
 

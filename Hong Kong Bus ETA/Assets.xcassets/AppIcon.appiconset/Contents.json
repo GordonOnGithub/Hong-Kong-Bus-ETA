@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "HKBusAppIcon@2x.jpg",
+      "filename" : "appicon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

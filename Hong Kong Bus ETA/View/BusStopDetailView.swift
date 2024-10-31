@@ -41,7 +41,7 @@ struct BusStopDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
 
           if viewModel.busStopDetail != nil {
-            Text(viewModel.getBusStopName()).font(.title)
+            Text(viewModel.getBusStopName()).font(.title2)
           }
 
           HStack {
@@ -67,7 +67,8 @@ struct BusStopDetailView: View {
             Spacer()
           }
           if viewModel.busRoute != nil {
-            Text(viewModel.getDestinationDescription()).font(.subheadline)
+            Text(viewModel.getDestinationDescription()).font(.subheadline).foregroundStyle(
+              .secondary)
           }
 
           Divider()

@@ -18,11 +18,12 @@ struct BookmarkedBusStopETARowView: View {
       alignment: .leading, spacing: 10,
       content: {
 
-        Text(viewModel.busStopETA.getFullRouteName()).font(.title)
+        Text(viewModel.busStopETA.getFullRouteName()).font(.title2).fontWeight(.medium).padding(
+          EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
 
         if viewModel.busRoute != nil {
 
-          Text(viewModel.getDestinationDescription()).font(.headline)
+          Text(viewModel.getDestinationDescription()).font(.body)
 
         } else {
           Spacer().frame(height: 30)
@@ -33,10 +34,10 @@ struct BookmarkedBusStopETARowView: View {
             Image("location", bundle: .main)
               .renderingMode(.template)
               .resizable().scaledToFit()
-              .foregroundStyle(.primary)
+              .foregroundStyle((.secondary))
               .frame(height: 20)
             Text(viewModel.getBusStopName()).lineLimit(2)
-              .font(.system(size: 14, weight: .regular))
+              .foregroundStyle(.secondary)
             Spacer()
           }.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         } else {

@@ -160,7 +160,7 @@ struct BusRouteDetailView: View {
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
 
           closetBusStopButton(closestBusStop: closestBusStop)
-            .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
 
         }
 
@@ -242,7 +242,8 @@ struct BusRouteDetailView: View {
   var busRouteSummary: some View {
     VStack(alignment: .leading, spacing: 10) {
       HStack {
-        Text(viewModel.route.getFullRouteName()).font(.title).multilineTextAlignment(.leading)
+        Text(viewModel.route.getFullRouteName()).font(.title2).fontWeight(.medium)
+          .multilineTextAlignment(.leading)
 
         if viewModel.routeSummary?.serviceMode.contains("N") ?? false {
           Image(systemName: "moon.stars")
@@ -264,14 +265,14 @@ struct BusRouteDetailView: View {
 
           Text("\(busFare.jouneryTime) \(String(localized: "minutes"))")
 
-        }
+        }.foregroundStyle(.secondary)
 
         if let description = busFare.specialType.description {
           HStack {
             Image(systemName: "info.circle")
 
             Text(description).lineLimit(2).multilineTextAlignment(.leading)
-              .font(.subheadline)
+              .font(.caption)
             Spacer()
           }.foregroundStyle(.secondary)
 

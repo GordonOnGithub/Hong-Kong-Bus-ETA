@@ -43,6 +43,8 @@ extension Array where Element == any BusRouteModel {
 
       return true
 
+    }.sorted { a, b in
+      (a.route?.count ?? 0) < (b.route?.count ?? 0)
     }
 
   }

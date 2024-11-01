@@ -399,13 +399,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Less than a minute"
+            "value" : "Within a minute"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "少於一分鐘"
+            "value" : "一分鐘之內"
           }
         }
       }

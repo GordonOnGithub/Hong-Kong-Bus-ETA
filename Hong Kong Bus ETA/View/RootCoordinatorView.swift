@@ -25,7 +25,7 @@ struct RootCoordinatorView: View {
 
           Text(String(localized: "network_not_reachable"))
             .foregroundStyle(.black)
-            .font(.system(size: 16, weight: .semibold))
+            .font(.body).fontWeight(.semibold)
           Spacer()
 
         }.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))

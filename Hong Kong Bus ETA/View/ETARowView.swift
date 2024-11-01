@@ -37,11 +37,11 @@ struct ETARowView: View {
         }.frame(width: 20)
 
         Text(eta.getReadableHourAndMinute())
-          .font(.system(size: 18))
+          .font(.title3)
           .foregroundStyle(.gray)
         Spacer()
         Text(eta.remainingTime.description)
-          .font(.system(size: 18))
+          .font(.title3)
           .foregroundStyle(.gray)
 
       case .imminent:
@@ -57,13 +57,13 @@ struct ETARowView: View {
           Spacer()
         }.frame(width: 20)
         Text(eta.getReadableHourAndMinute())
-          .font(.system(size: 18))
-          .bold()
+          .font(.title3)
+          .fontWeight(.semibold)
         Spacer()
 
         Text(eta.remainingTime.description)
-          .font(.system(size: 18))
-          .bold()
+          .font(.title3)
+          .fontWeight(.semibold)
 
       case .minutes:
         HStack(spacing: 0) {
@@ -77,10 +77,10 @@ struct ETARowView: View {
           Spacer()
         }.frame(width: 20)
         Text(eta.getReadableHourAndMinute())
-          .font(.system(size: 18))
+          .font(.title3)
         Spacer()
         Text(eta.remainingTime.description)
-          .font(.system(size: 18))
+          .font(.title3)
       }
 
     }.onAppear(perform: {

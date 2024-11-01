@@ -29,7 +29,7 @@ struct BusStopDetailView: View {
 
             Text(String(localized: "network_not_reachable"))
               .foregroundStyle(.black)
-              .font(.system(size: 16, weight: .semibold))
+              .font(.body).fontWeight(.semibold)
             Spacer()
 
           }

@@ -266,12 +266,19 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
   }
 
   func onRowClicked() {
-    if let busRoute, let delegate, let company = BusCompany(rawValue: busStopETA.company) {
 
-      delegate.bookmarkedBusStopETARowViewModel(
-        self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company,
-        stopId: busStopETA.stopId, serviceType: busStopETA.serviceType,
-        isInbound: busStopETA.isInbound, detail: self.busStopDetail)
+    switch busETAResult {
+    case .failure:
+      fetchBusStopDetailIfNeeded()
+      fetchETA()
+    default:
+      if let busRoute, let delegate, let company = BusCompany(rawValue: busStopETA.company) {
+
+        delegate.bookmarkedBusStopETARowViewModel(
+          self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company,
+          stopId: busStopETA.stopId, serviceType: busStopETA.serviceType,
+          isInbound: busStopETA.isInbound, detail: self.busStopDetail)
+      }
     }
 
   }

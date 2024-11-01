@@ -155,9 +155,16 @@ struct BusRouteDetailView: View {
         if let closestBusStop = viewModel.closestBusStop {
 
           Divider()
-          Text(String(localized: "closest_bus_stop"))
-            .font(.headline).multilineTextAlignment(.leading)
-            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+          Label {
+            Text(String(localized: "closest_bus_stop"))
+          } icon: {
+            Image("location", bundle: .main)
+              .renderingMode(.template)
+              .resizable().scaledToFit()
+              .foregroundStyle(.primary)
+              .frame(height: 20)
+          }.font(.headline).multilineTextAlignment(.leading)
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
 
           closetBusStopButton(closestBusStop: closestBusStop)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
@@ -210,11 +217,6 @@ struct BusRouteDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
 
           HStack {
-            Image("location", bundle: .main)
-              .renderingMode(.template)
-              .resizable().scaledToFit()
-              .foregroundStyle(.primary)
-              .frame(height: 20)
 
             Text(closestBusStop.0.localizedName() ?? "")
               .multilineTextAlignment(.leading)
@@ -225,12 +227,12 @@ struct BusRouteDetailView: View {
 
             Text(
               "\(Int(closestBusStop.1)) \(String(localized: closestBusStop.1 > 1 ? "minutes" : "minute"))"
-            )
+            ).font(.footnote)
             Spacer()
           }
 
         }
-      }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+      }.padding(12)
 
     }
     .foregroundStyle(.white)

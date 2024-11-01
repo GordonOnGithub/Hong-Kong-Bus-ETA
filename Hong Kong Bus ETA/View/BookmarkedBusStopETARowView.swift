@@ -18,8 +18,7 @@ struct BookmarkedBusStopETARowView: View {
       alignment: .leading, spacing: 10,
       content: {
 
-        Text(viewModel.busStopETA.getFullRouteName()).font(.title2).fontWeight(.medium).padding(
-          EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
+        Text(viewModel.busStopETA.getFullRouteName()).font(.title2).fontWeight(.medium).lineLimit(1)
 
         if viewModel.busRoute != nil {
 
@@ -35,11 +34,10 @@ struct BookmarkedBusStopETARowView: View {
               .renderingMode(.template)
               .resizable().scaledToFit()
               .foregroundStyle((.secondary))
-              .frame(height: 20)
-            Text(viewModel.getBusStopName()).lineLimit(2)
+              .frame(height: 16)
+            Text(viewModel.getBusStopName()).font(.footnote).lineLimit(1)
               .foregroundStyle(.secondary)
-            Spacer()
-          }.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+          }
         } else {
           Spacer().frame(height: 30)
         }

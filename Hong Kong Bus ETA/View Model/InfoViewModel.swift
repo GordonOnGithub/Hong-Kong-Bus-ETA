@@ -27,10 +27,12 @@ class InfoViewModel: ObservableObject {
   }
 
   func onCheckRepositoryButtonClicked() {
-    if let repoURL = URL(string: "https://github.com/GordonOnGithub/Hong-Kong-Bus-ETA"),
-      uiApplication.canOpenURL(repoURL)
-    {
-      uiApplication.openURL(repoURL)
+    Task {
+      if let repoURL = URL(string: "https://github.com/GordonOnGithub/Hong-Kong-Bus-ETA"),
+        uiApplication.canOpenURL(repoURL)
+      {
+        await uiApplication.open(repoURL, options: [:])
+      }
     }
   }
 
@@ -39,11 +41,13 @@ class InfoViewModel: ObservableObject {
   }
 
   func onCheckOtherAppsButtonClicked() {
-    if let otherAppsURL = URL(
-      string: "https://apps.apple.com/us/developer/ka-chun-wong/id1734201673"),
-      uiApplication.canOpenURL(otherAppsURL)
-    {
-      uiApplication.openURL(otherAppsURL)
+    Task {
+      if let otherAppsURL = URL(
+        string: "https://apps.apple.com/us/developer/ka-chun-wong/id1734201673"),
+        uiApplication.canOpenURL(otherAppsURL)
+      {
+        await uiApplication.open(otherAppsURL, options: [:])
+      }
     }
   }
 

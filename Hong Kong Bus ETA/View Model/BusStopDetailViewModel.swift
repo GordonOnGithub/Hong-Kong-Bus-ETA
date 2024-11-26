@@ -389,20 +389,21 @@ class BusStopDetailViewModel: ObservableObject {
   }
 
   func openMapApp() {
+    Task {
+      guard let busStopDetail,
+        let latitude = Double(busStopDetail.position?.0 ?? ""),
+        let longitude = Double(busStopDetail.position?.1 ?? "")
+      else { return }
 
-    guard let busStopDetail,
-      let latitude = Double(busStopDetail.position?.0 ?? ""),
-      let longitude = Double(busStopDetail.position?.1 ?? "")
-    else { return }
-
-    if let url = URL(string: "comgooglemaps://?saddr=&daddr=\(latitude),\(longitude)"),
-      application.canOpenURL(url)
-    {
-      application.openURL(url)
-    } else if let url = URL(string: "maps://?saddr=&daddr=\(latitude),\(longitude)"),
-      application.canOpenURL(url)
-    {
-      application.openURL(url)
+      if let url = URL(string: "comgooglemaps://?saddr=&daddr=\(latitude),\(longitude)"),
+        application.canOpenURL(url)
+      {
+        await application.open(url, options: [:])
+      } else if let url = URL(string: "maps://?saddr=&daddr=\(latitude),\(longitude)"),
+        application.canOpenURL(url)
+      {
+        await application.open(url, options: [:])
+      }
     }
 
   }

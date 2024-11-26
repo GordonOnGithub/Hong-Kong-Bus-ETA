@@ -11,7 +11,7 @@ import UIKit
 @MainActor
 protocol UIApplicationType {
   func canOpenURL(_ url: URL) -> Bool
-  func openURL(_ url: URL) -> Bool
+  func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any]) async -> Bool
   var connectedScenes: Set<UIScene> { get }
 }
 

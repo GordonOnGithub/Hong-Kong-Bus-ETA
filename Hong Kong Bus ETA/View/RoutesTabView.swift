@@ -30,72 +30,52 @@ struct RoutesTabView: View {
               viewModel.selectedTab = .ctb
             },
             label: {
-              HStack {
-                Spacer()
+              HStack(spacing: 0) {
 
                 Text(BusRoutesListSource.ctb.title).foregroundStyle(
                   .blue
-                ).font(.headline)
-                  .fontWeight(viewModel.selectedTab == .ctb ? .bold : .regular)
+                )
+                .fontWeight(viewModel.selectedTab == .ctb ? .bold : .regular)
 
                 if let count = viewModel.searchResult[BusRoutesListSource.ctb] {
-                  Text("(\(count))").foregroundStyle(
+                  Text(" (\(count))").foregroundStyle(
                     .blue
-                  ).font(.headline)
+                  )
                 }
 
-                if viewModel.selectedTab == .ctb {
-                  Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(
-                      .blue
-                    )
-                }
-                Spacer()
+              }.padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
 
-              }
             }
           ).buttonStyle(.borderedProminent).tint(
             .yellow
-
           )
-          .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-          .opacity(viewModel.selectedTab == .ctb ? 1 : 0.7)
+          .opacity(viewModel.selectedTab == .ctb ? 1 : 0.6)
 
           Button(
             action: {
               viewModel.selectedTab = .kmb
             },
             label: {
-              HStack {
-                Spacer()
+              HStack(spacing: 0) {
 
                 Text(BusRoutesListSource.kmb.title).foregroundStyle(
                   .white
-                ).font(.headline)
-                  .fontWeight(viewModel.selectedTab == .kmb ? .bold : .regular)
+                )
+                .fontWeight(viewModel.selectedTab == .kmb ? .bold : .regular)
 
                 if let count = viewModel.searchResult[BusRoutesListSource.kmb] {
-                  Text("(\(count))").foregroundStyle(
+                  Text(" (\(count))").foregroundStyle(
                     .white
-                  ).font(.headline)
+                  )
                 }
 
-                if viewModel.selectedTab == .kmb {
-                  Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(
-                      .white
-                    )
-                }
+              }.padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
 
-                Spacer()
-
-              }
             }
           ).buttonStyle(.borderedProminent).tint(
             .red
           )
-          .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-          .opacity(viewModel.selectedTab == .kmb ? 1 : 0.7)
+          .opacity(viewModel.selectedTab == .kmb ? 1 : 0.6)
           Spacer()
 
         }

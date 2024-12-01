@@ -4,7 +4,7 @@
     "" : {
 
     },
-    "(%lld)" : {
+    " (%lld)" : {
 
     },
     "%@" : {
@@ -99,7 +99,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CTB"
+            "value" : "Citybus"
           }
         },
         "zh-Hant" : {
@@ -334,13 +334,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KMB"
+            "value" : "Kowloon Motor Bus"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "九巴"
+            "value" : "九龍巴士"
           }
         }
       }
@@ -842,7 +842,7 @@
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "搜尋城巴路線"
           }
         }

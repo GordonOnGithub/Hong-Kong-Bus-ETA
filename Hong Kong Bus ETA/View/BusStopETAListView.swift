@@ -144,7 +144,8 @@ struct BusStopETAListView: View {
 
       } else {
         VStack(spacing: 20) {
-          Text(String(localized: "empty_eta_list_title")).font(.title)
+          Image(systemName: "bus.doubledecker.fill").resizable().frame(width: 40, height: 40)
+          Text(String(localized: "empty_eta_list_title")).font(.title2)
             .multilineTextAlignment(.center)
           Text(String(localized: "empty_eta_list_message")).font(.subheadline)
             .foregroundStyle(.gray)

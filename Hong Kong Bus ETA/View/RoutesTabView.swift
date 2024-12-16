@@ -30,20 +30,18 @@ struct RoutesTabView: View {
               viewModel.selectedTab = .ctb
             },
             label: {
-              HStack(spacing: 0) {
+              HStack(spacing: 2) {
 
                 Text(BusRoutesListSource.ctb.title).foregroundStyle(
                   .blue
                 )
                 .fontWeight(viewModel.selectedTab == .ctb ? .bold : .regular)
 
-                if let count = viewModel.searchResult[BusRoutesListSource.ctb] {
-                  Text(" (\(count))").foregroundStyle(
-                    .blue
-                  )
+                if !viewModel.filter.isEmpty, viewModel.selectedTab == .ctb {
+                  Image(systemName: "magnifyingglass").foregroundStyle(.blue)
                 }
 
-              }.padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
+              }.padding(3)
 
             }
           ).buttonStyle(.borderedProminent).tint(
@@ -56,20 +54,18 @@ struct RoutesTabView: View {
               viewModel.selectedTab = .kmb
             },
             label: {
-              HStack(spacing: 0) {
+              HStack(spacing: 2) {
 
                 Text(BusRoutesListSource.kmb.title).foregroundStyle(
                   .white
                 )
                 .fontWeight(viewModel.selectedTab == .kmb ? .bold : .regular)
 
-                if let count = viewModel.searchResult[BusRoutesListSource.kmb] {
-                  Text(" (\(count))").foregroundStyle(
-                    .white
-                  )
+                if !viewModel.filter.isEmpty, viewModel.selectedTab == .kmb {
+                  Image(systemName: "magnifyingglass").foregroundStyle(.white)
                 }
 
-              }.padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
+              }.padding(3)
 
             }
           ).buttonStyle(.borderedProminent).tint(

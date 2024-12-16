@@ -4,9 +4,6 @@
     "" : {
 
     },
-    " (%lld)" : {
-
-    },
     "%@" : {
 
     },
@@ -83,13 +80,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Closest Bus Stop "
+            "value" : "Nearest Bus Stop to You"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最接近的巴士站"
+            "value" : "最接近你的巴士站"
           }
         }
       }
@@ -524,6 +521,23 @@
         }
       }
     },
+    "minute_walk" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minute walk"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分鐘步行時間"
+          }
+        }
+      }
+    },
     "minutes" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -537,6 +551,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分鐘"
+          }
+        }
+      }
+    },
+    "minutes_walk" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minutes walk"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分鐘步行時間"
           }
         }
       }

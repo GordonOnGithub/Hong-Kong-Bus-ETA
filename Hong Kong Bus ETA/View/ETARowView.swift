@@ -28,7 +28,7 @@ struct ETARowView: View {
           if isFetching {
             ProgressView().frame(height: 20)
           } else {
-            Image(systemName: "clock")
+            Image(systemName: "clock.badge.xmark")
               .frame(height: 20)
               .foregroundColor(.gray)
           }
@@ -49,7 +49,7 @@ struct ETARowView: View {
           if isFetching {
             ProgressView().frame(height: 20)
           } else {
-            Image(systemName: "clock")
+            Image(systemName: "clock.badge.exclamationmark")
               .symbolEffect(.bounce, options: .repeat(5), value: animateEffectToggle)
               .frame(height: 20)
               .foregroundColor(.primary)

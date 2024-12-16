@@ -158,12 +158,12 @@ struct BusRouteDetailView: View {
           Label {
             Text(String(localized: "closest_bus_stop"))
           } icon: {
-            Image("location", bundle: .main)
+            Image(systemName: "figure.wave.circle")
               .renderingMode(.template)
               .resizable().scaledToFit()
               .foregroundStyle(.primary)
               .frame(height: 20)
-          }.font(.headline).multilineTextAlignment(.leading)
+          }.font(.subheadline).multilineTextAlignment(.leading)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
 
           closetBusStopButton(closestBusStop: closestBusStop)
@@ -173,6 +173,7 @@ struct BusRouteDetailView: View {
 
       }
     }
+    .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
     .searchable(
       text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .automatic),
       prompt: Text(String(localized: "search"))
@@ -189,16 +190,12 @@ struct BusRouteDetailView: View {
             viewModel.showMap.toggle()
           },
           label: {
-            VStack {
-              Image(viewModel.showMap ? "list" : "map", bundle: .main)
-                .renderingMode(.template)
-                .resizable().scaledToFit().frame(height: 25)
-                .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
-              Text(String(localized: viewModel.showMap ? "list" : "map"))
-                .font(.system(size: 10))
-                .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
 
-            }
+            Image(systemName: viewModel.showMap ? "list.number" : "map")
+              .renderingMode(.template)
+              .resizable().scaledToFit().frame(height: 25)
+              .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
+
           }
         ).disabled((viewModel.stopList?.isEmpty ?? true))
           .popoverTip(MapTip())
@@ -226,7 +223,7 @@ struct BusRouteDetailView: View {
             Image(systemName: "figure.walk")
 
             Text(
-              "\(Int(closestBusStop.1)) \(String(localized: closestBusStop.1 > 1 ? "minutes" : "minute"))"
+              "\(Int(closestBusStop.1)) \(String(localized: closestBusStop.1 > 1 ? "minutes_walk" : "minute_walk"))"
             ).font(.footnote)
             Spacer()
           }

@@ -19,7 +19,7 @@ struct HongKongBusETAApp: App {
 
   var body: some Scene {
     WindowGroup {
-      RootCoordinatorView()
+      RootCoordinatorView().ignoresSafeArea(edges: .bottom)
     }
   }
 }

@@ -191,8 +191,9 @@ struct BusStopDetailView: View {
             }
           }
 
-        }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+        }.padding(EdgeInsets(top: 10, leading: 20, bottom: 20, trailing: 20))
       }
+      .ignoresSafeArea(edges: .bottom)
       .alert(
         String(localized: "failed_to_fetch"), isPresented: $viewModel.encounteredError,
         actions: {
@@ -247,6 +248,7 @@ struct BusStopDetailView: View {
         }
       }
     }
+
   }
 }
 

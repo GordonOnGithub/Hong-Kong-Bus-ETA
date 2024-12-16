@@ -51,15 +51,15 @@ struct RootCoordinatorView: View {
               Label(String(localized: "info_tab"), systemImage: "info.circle")
 
             }.tag(Tab.info)
-        }
-        .navigationDestination(for: RootCoordinatorNavigationPath.self) { path in
-          switch path {
-          case .routeDetail(let route):
-            BusRouteDetailView(viewModel: coordinator.buildRouteDetailViewModel(route: route))
+        }.ignoresSafeArea(edges: .bottom)
+          .navigationDestination(for: RootCoordinatorNavigationPath.self) { path in
+            switch path {
+            case .routeDetail(let route):
+              BusRouteDetailView(viewModel: coordinator.buildRouteDetailViewModel(route: route))
+                .ignoresSafeArea(edges: .bottom)
+            }
 
           }
-
-        }
       }.sheet(item: $coordinator.sheetRoute) { sheet in
 
         switch sheet {

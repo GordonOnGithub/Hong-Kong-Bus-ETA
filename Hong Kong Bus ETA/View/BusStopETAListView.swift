@@ -104,19 +104,37 @@ struct BusStopETAListView: View {
 
         }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
 
+        if let pinnedETA = viewModel.pinnedETA {
+          BookmarkedBusStopETARowView(
+            viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: pinnedETA),
+            pinnedETA: $viewModel.pinnedETA
+          )
+          .padding(16)
+          .background(
+            RoundedRectangle(cornerRadius: 8).fill(Color(.secondarySystemGroupedBackground))
+          )
+          .padding(10)
+        }
+
         List {
 
           Section {
-            ForEach(viewModel.busStopETAList) { eta in
+            ForEach(
+              viewModel.busStopETAList.filter({
+                $0 != viewModel.pinnedETA
+              })
+            ) { eta in
               BookmarkedBusStopETARowView(
-                viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta)
+                viewModel: viewModel.buildBookmarkedBusStopETARowViewModel(busStopETA: eta),
+                pinnedETA: $viewModel.pinnedETA
               )
               .frame(height: 136)
 
             }
           }
 
-        }.refreshable {
+        }
+        .refreshable {
           viewModel.fetchAllETAs()
           try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
@@ -144,6 +162,7 @@ struct BusStopETAListView: View {
 
       } else {
         VStack(spacing: 20) {
+          Spacer()
           Image(systemName: "bus.doubledecker.fill").resizable().frame(width: 40, height: 40)
           Text(String(localized: "empty_eta_list_title")).font(.title2)
             .multilineTextAlignment(.center)
@@ -174,10 +193,13 @@ struct BusStopETAListView: View {
               }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
             }
           ).buttonStyle(.bordered).tint(.red)
-        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+          Spacer()
+        }.padding(20)
 
       }
-    }.onReceive(
+    }
+    .background(Color(.systemGroupedBackground))
+    .onReceive(
       NotificationCenter.default.publisher(
         for: UIApplication.willEnterForegroundNotification, object: nil)
     ) { _ in

@@ -72,13 +72,28 @@ class RootCoordinator: ObservableObject {
   @Published
   var showNetworkUnavailableWarning = false
 
+  let backgroundETAUpdateService: BackgroundETAUpdateServiceType
+
+  let etaLiveActivityManager: ETALiveActivityManagerType
+
   private weak var busStopETAListViewModel: BusStopETAListViewModel?
   private weak var ctbBusRoutesViewModel: BusRoutesViewModel?
   private weak var kmbBusRoutesViewModel: BusRoutesViewModel?
 
   private var cancellable: Set<AnyCancellable> = Set()
 
-  init(apiManager: APIManagerType = APIManager.shared) {
+  init(
+    apiManager: APIManagerType = APIManager.shared,
+    backgroundETAUpdateService: BackgroundETAUpdateServiceType = BackgroundETAUpdateService.shared,
+    etaLiveActivityManager: ETALiveActivityManagerType = ETALiveActivityManager.shared
+
+  ) {
+
+    self.backgroundETAUpdateService = backgroundETAUpdateService
+
+    self.etaLiveActivityManager = etaLiveActivityManager
+
+    backgroundETAUpdateService.delegate = self
 
     apiManager.isReachable.map({ isReachable in
       return !isReachable
@@ -130,6 +145,15 @@ class RootCoordinator: ObservableObject {
 
   }
 
+  func onEnterBackground() {
+    backgroundETAUpdateService.schedueBackgroundETAUpdateTask()
+  }
+
+  func onEnterForeground() {
+    if etaLiveActivityManager.etaLiveActivity?.activityState != .active {
+      etaLiveActivityManager.stop()
+    }
+  }
 }
 
 extension RootCoordinator: BusRouteDetailViewModelDelegate {
@@ -213,6 +237,21 @@ extension RootCoordinator: RoutesTabViewModelDelegate {
   func routesTabViewModel(_ viewModel: RoutesTabViewModel, didSelectRoute route: any BusRouteModel)
   {
     path.append(RootCoordinatorNavigationPath.routeDetail(route: route))
+  }
+
+}
+
+extension RootCoordinator: BackgroundETAUpdateServiceDelegate {
+  func backgroundETAUpdateService(
+    _ service: BackgroundETAUpdateService, didUpdateETA etaList: [BusETAModel],
+    forBusStopETA eta: BusStopETA
+  ) {
+
+    busStopETAListViewModel?.handleETAUpdateFromBackground(etaList: etaList, busStop: eta)
+
+    if etaLiveActivityManager.busStopETA == eta {
+      etaLiveActivityManager.update(etaList)
+    }
   }
 
 }

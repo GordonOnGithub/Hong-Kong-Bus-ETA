@@ -22,9 +22,10 @@ struct BusRouteDetailView: View {
     VStack(spacing: 0) {
 
       if viewModel.filter.isEmpty {
-        GroupBox {
-          busRouteSummary
-        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
+        busRouteSummary
+          .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+          .background(
+            RoundedRectangle(cornerRadius: 8).fill(Color(.secondarySystemGroupedBackground)))
 
         Divider()
       }
@@ -178,7 +179,7 @@ struct BusRouteDetailView: View {
       text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .automatic),
       prompt: Text(String(localized: "search"))
     ).keyboardType(.alphabet)
-
+    .background(Color(.systemGroupedBackground))
     .navigationTitle(
       String(localized: "route_details")
     )
@@ -278,7 +279,6 @@ struct BusRouteDetailView: View {
         }
       }
     }
-    .frame(maxWidth: .infinity)
   }
 }
 

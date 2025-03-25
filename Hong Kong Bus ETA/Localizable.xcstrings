@@ -17,6 +17,16 @@
         }
       }
     },
+    "%@:%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@:%2$@"
+          }
+        }
+      }
+    },
     "%lld %@" : {
       "localizations" : {
         "en" : {
@@ -587,6 +597,9 @@
           }
         }
       }
+    },
+    "No info" : {
+
     },
     "no_eta_info" : {
       "localizations" : {

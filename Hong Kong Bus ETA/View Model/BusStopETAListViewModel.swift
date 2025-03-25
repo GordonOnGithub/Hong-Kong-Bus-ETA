@@ -45,7 +45,12 @@ class BusStopETAListViewModel: ObservableObject {
 
   let storeReviewController: SKStoreReviewControllerInjectableType
 
+  let backgroundETAUpdateService: BackgroundETAUpdateServiceType
+
   weak var delegate: BusStopETAListViewModelDelegate?
+
+  @Published
+  var pinnedETA: BusStopETA?
 
   private var cancellable = Set<AnyCancellable>()
 
@@ -65,11 +70,13 @@ class BusStopETAListViewModel: ObservableObject {
     busETAStorage: BusETAStorageType = BusETAStorage.shared,
     userDefaults: UserDefaultsType = UserDefaults.standard,
     storeReviewController: SKStoreReviewControllerInjectableType =
-      SKStoreReviewControllerInjectable()
+      SKStoreReviewControllerInjectable(),
+    backgroundETAUpdateService: BackgroundETAUpdateServiceType = BackgroundETAUpdateService.shared
   ) {
     self.busETAStorage = busETAStorage
     self.userDefaults = userDefaults
     self.storeReviewController = storeReviewController
+    self.backgroundETAUpdateService = backgroundETAUpdateService
 
     try? busETAStorage.fetch()
 
@@ -97,13 +104,33 @@ class BusStopETAListViewModel: ObservableObject {
 
   private func setupPublisher() {
 
-    busETAStorage.cache.combineLatest($sorting).sink { _, sorting in
+    $pinnedETA.receive(on: DispatchQueue.main).sink { [weak self] eta in
+      self?.backgroundETAUpdateService.eta = eta
+
+    }.store(in: &cancellable)
+
+    busETAStorage.cache.sink { [weak self] cache in
+      if let pinnedETA = self?.pinnedETA, cache[pinnedETA.id] == nil {
+        self?.pinnedETA = nil
+      }
+    }.store(in: &cancellable)
+
+    busETAStorage.cache.combineLatest($sorting, $pinnedETA).sink {
+      [weak self] _, sorting, pinnedETA in
+
+      guard let self else { return }
 
       self.bookmarkedBusStopETARowViewModelDict.removeAll()
 
       self.busETAStorage.cache.map { cache in
 
         cache.values.sorted { a, b in
+
+          if a == pinnedETA {
+            return true
+          } else if b == pinnedETA {
+            return false
+          }
 
           switch sorting {
           case .routeNumber:
@@ -179,6 +206,16 @@ class BusStopETAListViewModel: ObservableObject {
     userDefaults.setValue(false, forKey: showRatingReminderKey)
 
     showRatingReminder = false
+  }
+
+  func handleETAUpdateFromBackground(etaList: [BusETAModel], busStop eta: BusStopETA) {
+
+    guard let vm = bookmarkedBusStopETARowViewModelDict[eta] else {
+      return
+    }
+
+    vm.busETAResult = .success(etaList)
+
   }
 }
 

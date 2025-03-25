@@ -34,6 +34,8 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
   let busRoutesDataProvider: BusRoutesDataProviderType
 
+  let etaLiveActivityManager: ETALiveActivityManagerType
+
   weak var delegate: BookmarkedBusStopETARowViewModelDelegate?
 
   private var cancellable = Set<AnyCancellable>()
@@ -43,12 +45,14 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
 
   init(
     busStopETA: BusStopETA, apiManager: APIManagerType = APIManager.shared,
-    busRoutesDataProvider: BusRoutesDataProviderType = BusRoutesDataProvider.shared
+    busRoutesDataProvider: BusRoutesDataProviderType = BusRoutesDataProvider.shared,
+    etaLiveActivityManager: ETALiveActivityManagerType = ETALiveActivityManager.shared
   ) {
 
     self.busStopETA = busStopETA
     self.apiManager = apiManager
     self.busRoutesDataProvider = busRoutesDataProvider
+    self.etaLiveActivityManager = etaLiveActivityManager
 
     fetchBusStopDetailIfNeeded()
 
@@ -112,7 +116,47 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
     }
   }
 
+  func onPinnedETAUpdated(_ pinnedETA: BusStopETA?) {
+
+    if pinnedETA == nil {
+      etaLiveActivityManager.stop()
+    } else if pinnedETA == busStopETA {
+
+      switch busETAResult {
+      case .success(let etaList):
+        etaLiveActivityManager.start(
+          busStopETA: busStopETA, destination: busRoute?.localizedDestination() ?? "",
+          stop: busStopDetail?.localizedName() ?? "", eta: etaList?.first?.etaTimestamp)
+
+      case .failure:
+        etaLiveActivityManager.start(
+          busStopETA: busStopETA, destination: busRoute?.localizedDestination() ?? "",
+          stop: busStopDetail?.localizedName() ?? "", eta: nil)
+
+        break
+      }
+
+    }
+
+  }
+
   private func setupPublisher() {
+
+    $busETAResult.sink { [weak self] result in
+
+      guard let self else { return }
+
+      switch result {
+      case .success(let etaList):
+        if let etaList, busStopETA == etaLiveActivityManager.busStopETA {
+          self.etaLiveActivityManager.update(etaList)
+        }
+      case .failure:
+        break
+      }
+
+    }.store(in: &cancellable)
+
     Timer.publish(every: 30, on: .main, in: .default).autoconnect().sink { [weak self] _ in
       self?.fetchETA()
     }.store(in: &cancellable)

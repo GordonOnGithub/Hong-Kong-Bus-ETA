@@ -73,7 +73,19 @@ struct RootCoordinatorView: View {
         }
 
       }
+    }.onReceive(
+      NotificationCenter.default.publisher(
+        for: UIApplication.didEnterBackgroundNotification, object: nil)
+    ) { _ in
+      coordinator.onEnterBackground()
     }
+    .onReceive(
+      NotificationCenter.default.publisher(
+        for: UIApplication.willEnterForegroundNotification, object: nil)
+    ) { _ in
+      coordinator.onEnterForeground()
+    }
+
   }
 
 }

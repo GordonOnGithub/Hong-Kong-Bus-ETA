@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,6 +28,11 @@
 		7D8CD0602B774EB100C15741 /* MapKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */; };
 		7D9097B22BCB861200C8D45E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7D9097B12BCB6FC600C8D45E /* PrivacyInfo.xcprivacy */; };
 		7D9097BE2BDCF76400C8D45E /* BusRouteSummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */; };
+		7DDDB7FF2D90179A00366BE7 /* BackgroundETAUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDDB7FE2D90179000366BE7 /* BackgroundETAUpdateService.swift */; };
+		7DDDB8CF2D9181D900366BE7 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDDB8CE2D9181D900366BE7 /* WidgetKit.framework */; };
+		7DDDB8D12D9181D900366BE7 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDDB8D02D9181D900366BE7 /* SwiftUI.framework */; };
+		7DDDB8E22D9181DA00366BE7 /* HongKongBusETALiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7DDDB8CD2D9181D900366BE7 /* HongKongBusETALiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7DDDB8EC2D918B8900366BE7 /* ETALiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDDB8EB2D918B7F00366BE7 /* ETALiveActivityManager.swift */; };
 		7DE9AF652B5D4BC9009B7EF7 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9AF642B5D4BC9009B7EF7 /* APIManager.swift */; };
 		7DE9AF692B5D5122009B7EF7 /* BusRoutesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9AF682B5D5122009B7EF7 /* BusRoutesView.swift */; };
 		7DE9AF6B2B5D512B009B7EF7 /* BusRoutesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE9AF6A2B5D512B009B7EF7 /* BusRoutesViewModel.swift */; };
@@ -55,6 +60,30 @@
 		7DFB70F82C1D7C6100077783 /* RoutesTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB70F72C1D7C6100077783 /* RoutesTabViewModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7DDDB8E02D9181DA00366BE7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D3E726A2B5D31C4009C57F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DDDB8CC2D9181D900366BE7;
+			remoteInfo = HongKongBusETALiveActivityExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7DDDB8E72D9181DA00366BE7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7DDDB8E22D9181DA00366BE7 /* HongKongBusETALiveActivityExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		389C2C787A5617E5B1365371 /* Pods-Hong Kong Bus ETA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hong Kong Bus ETA.release.xcconfig"; path = "Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA.release.xcconfig"; sourceTree = "<group>"; };
 		7D3E72722B5D31C4009C57F5 /* Hong Kong Bus ETA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hong Kong Bus ETA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +109,11 @@
 		7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extension.swift"; sourceTree = "<group>"; };
 		7D9097B12BCB6FC600C8D45E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRouteSummaryModel.swift; sourceTree = "<group>"; };
+		7DDDB7FE2D90179000366BE7 /* BackgroundETAUpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundETAUpdateService.swift; sourceTree = "<group>"; };
+		7DDDB8CD2D9181D900366BE7 /* HongKongBusETALiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HongKongBusETALiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DDDB8CE2D9181D900366BE7 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		7DDDB8D02D9181D900366BE7 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		7DDDB8EB2D918B7F00366BE7 /* ETALiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETALiveActivityManager.swift; sourceTree = "<group>"; };
 		7DE9AF642B5D4BC9009B7EF7 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		7DE9AF682B5D5122009B7EF7 /* BusRoutesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRoutesView.swift; sourceTree = "<group>"; };
 		7DE9AF6A2B5D512B009B7EF7 /* BusRoutesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusRoutesViewModel.swift; sourceTree = "<group>"; };
@@ -109,12 +143,42 @@
 		90DA5DD5B8865902CBF6FB64 /* Pods-Hong Kong Bus ETA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hong Kong Bus ETA.debug.xcconfig"; path = "Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7DDDB8E32D9181DA00366BE7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7DDDB8CC2D9181D900366BE7 /* HongKongBusETALiveActivityExtension */;
+		};
+		7DDDB8EA2D9188E600366BE7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				HongKongBusETALiveActivityLiveActivity.swift,
+			);
+			target = 7D3E72712B5D31C4009C57F5 /* Hong Kong Bus ETA */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7DDDB8D22D9181D900366BE7 /* HongKongBusETALiveActivity */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (7DDDB8EA2D9188E600366BE7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 7DDDB8E32D9181DA00366BE7 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HongKongBusETALiveActivity; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		7D3E726F2B5D31C4009C57F5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				6623ADE57D8544C8938695F6 /* Pods_Hong_Kong_Bus_ETA.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDDB8CA2D9181D900366BE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DDDB8D12D9181D900366BE7 /* SwiftUI.framework in Frameworks */,
+				7DDDB8CF2D9181D900366BE7 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				82C2947EC139AF15ABF890B8 /* Pods_Hong_Kong_Bus_ETA.framework */,
+				7DDDB8CE2D9181D900366BE7 /* WidgetKit.framework */,
+				7DDDB8D02D9181D900366BE7 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				7D3E72742B5D31C4009C57F5 /* Hong Kong Bus ETA */,
+				7DDDB8D22D9181D900366BE7 /* HongKongBusETALiveActivity */,
 				7D3E72732B5D31C4009C57F5 /* Products */,
 				A61F29420E7F2D929E76E33A /* Pods */,
 				797EB6E6828434EF47C57345 /* Frameworks */,
@@ -143,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				7D3E72722B5D31C4009C57F5 /* Hong Kong Bus ETA.app */,
+				7DDDB8CD2D9181D900366BE7 /* HongKongBusETALiveActivityExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +218,8 @@
 		7D3E72742B5D31C4009C57F5 /* Hong Kong Bus ETA */ = {
 			isa = PBXGroup;
 			children = (
+				7DDDB8EB2D918B7F00366BE7 /* ETALiveActivityManager.swift */,
+				7DDDB7FE2D90179000366BE7 /* BackgroundETAUpdateService.swift */,
 				7D8CD05C2B6DED3300C15741 /* Hong-Kong-Bus-ETA-Info.plist */,
 				7DE9AF8A2B5EC0B7009B7EF7 /* Extnesion */,
 				7DE9AF6D2B5D53F0009B7EF7 /* Model */,
@@ -278,15 +348,39 @@
 				7D3E726F2B5D31C4009C57F5 /* Frameworks */,
 				7D3E72702B5D31C4009C57F5 /* Resources */,
 				B9AD5BC3496554C959CF1CAA /* [CP] Embed Pods Frameworks */,
+				7DDDB8E72D9181DA00366BE7 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				7DDDB8E12D9181DA00366BE7 /* PBXTargetDependency */,
 			);
 			name = "Hong Kong Bus ETA";
 			productName = "Hong Kong Bus ETA";
 			productReference = 7D3E72722B5D31C4009C57F5 /* Hong Kong Bus ETA.app */;
 			productType = "com.apple.product-type.application";
+		};
+		7DDDB8CC2D9181D900366BE7 /* HongKongBusETALiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DDDB8E42D9181DA00366BE7 /* Build configuration list for PBXNativeTarget "HongKongBusETALiveActivityExtension" */;
+			buildPhases = (
+				7DDDB8C92D9181D900366BE7 /* Sources */,
+				7DDDB8CA2D9181D900366BE7 /* Frameworks */,
+				7DDDB8CB2D9181D900366BE7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7DDDB8D22D9181D900366BE7 /* HongKongBusETALiveActivity */,
+			);
+			name = HongKongBusETALiveActivityExtension;
+			packageProductDependencies = (
+			);
+			productName = HongKongBusETALiveActivityExtension;
+			productReference = 7DDDB8CD2D9181D900366BE7 /* HongKongBusETALiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -295,11 +389,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					7D3E72712B5D31C4009C57F5 = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					7DDDB8CC2D9181D900366BE7 = {
+						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
@@ -318,6 +415,7 @@
 			projectRoot = "";
 			targets = (
 				7D3E72712B5D31C4009C57F5 /* Hong Kong Bus ETA */,
+				7DDDB8CC2D9181D900366BE7 /* HongKongBusETALiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -332,6 +430,13 @@
 				7D6C33BD2B81B93800BA8820 /* InfoPlist.xcstrings in Resources */,
 				7D9097B22BCB861200C8D45E /* PrivacyInfo.xcprivacy in Resources */,
 				7D6C33B12B78EA0700BA8820 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDDB8CB2D9181D900366BE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +495,7 @@
 				7DE9AF652B5D4BC9009B7EF7 /* APIManager.swift in Sources */,
 				7DE9AF7D2B5E2AF5009B7EF7 /* BusStopRowView.swift in Sources */,
 				7D6C33B32B809CB900BA8820 /* InfoView.swift in Sources */,
+				7DDDB8EC2D918B8900366BE7 /* ETALiveActivityManager.swift in Sources */,
 				7DE9AF902B615427009B7EF7 /* DataStorage.swift in Sources */,
 				7DE9AF852B5E41E6009B7EF7 /* BusStopDetailView.swift in Sources */,
 				7DFB70F82C1D7C6100077783 /* RoutesTabViewModel.swift in Sources */,
@@ -407,6 +513,7 @@
 				7D6C33BF2B8995D200BA8820 /* CLLocationManager + Extension.swift in Sources */,
 				7DE9AF932B61611B009B7EF7 /* BusStopETA.swift in Sources */,
 				7DE9AF6F2B5D5408009B7EF7 /* CTBBusRouteModel.swift in Sources */,
+				7DDDB7FF2D90179A00366BE7 /* BackgroundETAUpdateService.swift in Sources */,
 				7D6C33BB2B81B44100BA8820 /* SKStoreReviewControllerInjectable.swift in Sources */,
 				7D6C33B52B809CE100BA8820 /* InfoViewModel.swift in Sources */,
 				7DE9AF8C2B5EC0DA009B7EF7 /* Array+Extension.swift in Sources */,
@@ -427,7 +534,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7DDDB8C92D9181D900366BE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7DDDB8E12D9181DA00366BE7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DDDB8CC2D9181D900366BE7 /* HongKongBusETALiveActivityExtension */;
+			targetProxy = 7DDDB8E02D9181DA00366BE7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7D3E72812B5D31C6009C57F5 /* Debug */ = {
@@ -565,6 +687,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -579,7 +702,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.21;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -600,12 +723,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Hong Kong Bus ETA/Hong_Kong_Bus_ETA.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Hong Kong Bus ETA/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 9Q4R7U9T9F;
+				DEVELOPMENT_TEAM = 9Q4R7U9T9F;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -615,6 +736,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Show user's location on bus stops map";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Show user's location on bus stops map";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -629,17 +751,79 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.21;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "HK Bus ETA Distribution";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		7DDDB8E52D9181DA00366BE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9Q4R7U9T9F;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HongKongBusETALiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HongKongBusETALiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta.test.HongKongBusETALiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7DDDB8E62D9181DA00366BE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9Q4R7U9T9F;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HongKongBusETALiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HongKongBusETALiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta.HongKongBusETALiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -660,6 +844,15 @@
 			buildConfigurations = (
 				7D3E72842B5D31C6009C57F5 /* Debug */,
 				7D3E72852B5D31C6009C57F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7DDDB8E42D9181DA00366BE7 /* Build configuration list for PBXNativeTarget "HongKongBusETALiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DDDB8E52D9181DA00366BE7 /* Debug */,
+				7DDDB8E62D9181DA00366BE7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

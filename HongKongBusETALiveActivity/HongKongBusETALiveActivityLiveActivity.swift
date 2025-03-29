@@ -30,8 +30,9 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
       HStack {
 
         VStack(alignment: .leading) {
-          Text("\( context.attributes.code)").font(.title).lineLimit(
-            1)
+          Text("\(context.attributes.company.uppercased()) \(context.attributes.code)").font(.title)
+            .lineLimit(
+              1)
           HStack {
             Text(context.attributes.destination).font(.headline)
           }

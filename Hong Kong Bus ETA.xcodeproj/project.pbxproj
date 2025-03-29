@@ -28,6 +28,7 @@
 		7D8CD0602B774EB100C15741 /* MapKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */; };
 		7D9097B22BCB861200C8D45E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7D9097B12BCB6FC600C8D45E /* PrivacyInfo.xcprivacy */; };
 		7D9097BE2BDCF76400C8D45E /* BusRouteSummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */; };
+		7DD55D142D983692006844B8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */; };
 		7DDDB7FF2D90179A00366BE7 /* BackgroundETAUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDDB7FE2D90179000366BE7 /* BackgroundETAUpdateService.swift */; };
 		7DDDB8CF2D9181D900366BE7 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDDB8CE2D9181D900366BE7 /* WidgetKit.framework */; };
 		7DDDB8D12D9181D900366BE7 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDDB8D02D9181D900366BE7 /* SwiftUI.framework */; };
@@ -437,6 +438,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DD55D142D983692006844B8 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,7 +704,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -751,7 +753,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

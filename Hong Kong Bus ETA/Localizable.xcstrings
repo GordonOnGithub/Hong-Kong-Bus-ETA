@@ -37,6 +37,9 @@
         }
       }
     },
+    "A an example control that runs a timer." : {
+
+    },
     "bookmark" : {
       "localizations" : {
         "en" : {
@@ -101,6 +104,9 @@
         }
       }
     },
+    "Configuration" : {
+
+    },
     "ctb" : {
       "localizations" : {
         "en" : {
@@ -161,6 +167,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉"
+          }
+        }
+      }
+    },
+    "donate_to_support" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donate to Support!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "捐款支持程式開發！"
           }
         }
       }
@@ -303,6 +325,12 @@
           }
         }
       }
+    },
+    "Favorite Emoji" : {
+
+    },
+    "Favorite Emoji:" : {
+
     },
     "fetching_eta" : {
       "localizations" : {
@@ -598,9 +626,6 @@
         }
       }
     },
-    "No info" : {
-
-    },
     "no_eta_info" : {
       "localizations" : {
         "en" : {
@@ -611,8 +636,25 @@
         },
         "zh-Hant" : {
           "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有預計到站時間資料"
+          }
+        }
+      }
+    },
+    "no_live_activity_data" : {
+      "comment" : "沒有資料",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Data"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
             "state" : "needs_review",
-            "value" : "沒有預計到站時間資訊"
+            "value" : "沒有資料"
           }
         }
       }
@@ -678,6 +720,22 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "找到%@條路線"
+          }
+        }
+      }
+    },
+    "Off" : {
+
+    },
+    "On" : {
+
+    },
+    "Open the app to refresh data for %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open the app to refresh data for %1$@ %2$@"
           }
         }
       }
@@ -940,6 +998,15 @@
         }
       }
     },
+    "Start a timer" : {
+
+    },
+    "Start Timer" : {
+
+    },
+    "This is an example widget." : {
+
+    },
     "time_specific_route" : {
       "localizations" : {
         "en" : {
@@ -955,6 +1022,21 @@
           }
         }
       }
+    },
+    "Time:" : {
+
+    },
+    "Timer" : {
+
+    },
+    "Timer is running" : {
+
+    },
+    "Timer Name" : {
+
+    },
+    "Timer Name Configuration" : {
+
     },
     "to" : {
       "localizations" : {

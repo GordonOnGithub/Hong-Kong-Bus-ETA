@@ -45,6 +45,16 @@ struct InfoView: View {
               Label(String(localized: "check_other_apps"), systemImage: "arrow.down.app")
             })
 
+          if viewModel.shouldShowdonationButton() {
+            Button(
+              action: {
+                viewModel.onDonationButtonClicked()
+              },
+              label: {
+                Label(String(localized: "donate_to_support"), systemImage: "cup.and.saucer")
+              })
+          }
+
         } header: {
           Text(viewModel.headerString)
         } footer: {

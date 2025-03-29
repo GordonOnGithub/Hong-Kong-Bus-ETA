@@ -140,6 +140,7 @@ struct BusStopETAListView: View {
         }
 
         TipView(ETAListTip()).padding()
+          .background(.background)
 
         if viewModel.showRatingReminder {
           Button(
@@ -198,7 +199,7 @@ struct BusStopETAListView: View {
 
       }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(viewModel.busStopETAList.isEmpty ? .appBackground : Color(.systemGroupedBackground))
     .onReceive(
       NotificationCenter.default.publisher(
         for: UIApplication.willEnterForegroundNotification, object: nil)

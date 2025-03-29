@@ -30,7 +30,7 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
       HStack {
 
         VStack(alignment: .leading) {
-          Text("\( context.attributes.code)").font(.title).fontWeight(.medium).lineLimit(
+          Text("\( context.attributes.code)").font(.title).lineLimit(
             1)
           HStack {
             Text(context.attributes.destination).font(.headline)
@@ -48,12 +48,13 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
             var hourString = hour >= 10 ? "\(hour)" : "0\(hour)"
             var minuteString = minute >= 10 ? "\(minute)" : "0\(minute)"
 
-            Label("\(hourString):\(minuteString)", systemImage: "clock").font(.title2)
+            Label("\(hourString):\(minuteString)", systemImage: "clock").font(.title)
 
-            Text(timerInterval: Date()...eta, showsHours: false).font(.headline).frame(maxWidth: 60)
-          }.frame(maxWidth: 100)
+            Text(timerInterval: Date()...eta, showsHours: false).font(.headline).frame(maxWidth: 80)
+          }
         } else {
-          Label("No info", systemImage: "clock.badge.questionmark").font(.headline)
+          Label(String(localized: "no_live_activity_data"), systemImage: "clock.badge.questionmark")
+            .font(.headline)
         }
 
       }
@@ -78,7 +79,8 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
             }
 
           } else {
-            Image(systemName: "clock.badge.questionmark")
+            Label(
+              String(localized: "no_live_activity_data"), systemImage: "clock.badge.questionmark")
           }
         }
         DynamicIslandExpandedRegion(.bottom) {
@@ -91,14 +93,20 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
             var hourString = hour >= 10 ? "\(hour)" : "0\(hour)"
             var minuteString = minute >= 10 ? "\(minute)" : "0\(minute)"
             HStack {
-              Text(context.attributes.destination)
+              Label(context.attributes.destination, systemImage: "arrowshape.right")
               Spacer()
               Label("\(hourString):\(minuteString)", systemImage: "clock")
-            }
+              Spacer().frame(width: 8)
+            }.foregroundStyle(.secondary)
+              .font(.caption)
+              .padding(3)
 
           } else {
+            Text(
+              "Open the app to refresh data for \(context.attributes.company.uppercased()) \(context.attributes.code)"
+            ).font(.caption).foregroundStyle(.secondary)
+              .padding(3)
 
-            Label("No info", systemImage: "clock.badge.questionmark")
           }
         }
       } compactLeading: {
@@ -111,7 +119,7 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
           }
 
         } else {
-          Label("No info", systemImage: "clock.badge.questionmark")
+          Label(String(localized: "no_live_activity_data"), systemImage: "clock.badge.questionmark")
         }
       } minimal: {
         Image(systemName: "bus.fill")

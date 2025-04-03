@@ -73,7 +73,11 @@ struct RootCoordinatorView: View {
         }
 
       }
-    }.onReceive(
+    }
+    .onAppear(perform: {
+      coordinator.backgroundETAUpdateService.registerBackgroundETAUpdateTask()
+    })
+    .onReceive(
       NotificationCenter.default.publisher(
         for: UIApplication.didEnterBackgroundNotification, object: nil)
     ) { _ in

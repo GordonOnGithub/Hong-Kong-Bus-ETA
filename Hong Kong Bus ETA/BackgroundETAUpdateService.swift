@@ -11,6 +11,7 @@ import Foundation
 protocol BackgroundETAUpdateServiceType: AnyObject, Sendable {
   var delegate: BackgroundETAUpdateServiceDelegate? { get set }
   var eta: BusStopETA? { get set }
+  func registerBackgroundETAUpdateTask()
   func schedueBackgroundETAUpdateTask()
 }
 
@@ -41,18 +42,25 @@ class BackgroundETAUpdateService: BackgroundETAUpdateServiceType, @unchecked Sen
 
     apiManager = APIManager.shared
 
-    BGTaskScheduler.shared.register(forTaskWithIdentifier: etaBackgroundTaskIdentifieer, using: nil)
-    { [weak self] task in
-      self?.handleBackgroundETAUpdateTask(task as! BGAppRefreshTask)
-    }
-
   }
 
   private var task: Task<Void, Never>?
 
-  private func handleBackgroundETAUpdateTask(_ bgTask: BGAppRefreshTask) {
+  private var didRegisterBackgroundETAUpdateTask = false
 
-    print("[BackgroundETAUpdateService] begin")
+  func registerBackgroundETAUpdateTask() {
+
+    guard !didRegisterBackgroundETAUpdateTask else { return }
+
+    didRegisterBackgroundETAUpdateTask = true
+
+    BGTaskScheduler.shared.register(forTaskWithIdentifier: etaBackgroundTaskIdentifieer, using: nil)
+    { [weak self] task in
+      self?.handleBackgroundETAUpdateTask(task as! BGAppRefreshTask)
+    }
+  }
+
+  private func handleBackgroundETAUpdateTask(_ bgTask: BGAppRefreshTask) {
 
     task?.cancel()
 
@@ -62,7 +70,6 @@ class BackgroundETAUpdateService: BackgroundETAUpdateServiceType, @unchecked Sen
         bgTask.setTaskCompleted(success: !(task?.isCancelled ?? false))
         task = nil
         schedueBackgroundETAUpdateTask()
-        print("[BackgroundETAUpdateService] end")
       }
 
       guard let eta else { return }

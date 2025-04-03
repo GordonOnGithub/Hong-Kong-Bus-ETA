@@ -40,6 +40,22 @@
     "A an example control that runs a timer." : {
 
     },
+    "arriving_soon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arriving Soon"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即將到達"
+          }
+        }
+      }
+    },
     "bookmark" : {
       "localizations" : {
         "en" : {

@@ -30,19 +30,17 @@ struct ETARowView: View {
           } else {
             Image(systemName: "clock.badge.xmark")
               .frame(height: 20)
-              .foregroundColor(.gray)
+              .foregroundColor(.secondary)
           }
 
           Spacer()
         }.frame(width: 20)
 
         Text(eta.getReadableHourAndMinute())
-          .font(.title3)
-          .foregroundStyle(.gray)
+          .foregroundStyle(.secondary)
         Spacer()
         Text(eta.remainingTime.description)
-          .font(.title3)
-          .foregroundStyle(.gray)
+          .foregroundStyle(.secondary)
 
       case .imminent:
         HStack(spacing: 0) {
@@ -52,17 +50,14 @@ struct ETARowView: View {
             Image(systemName: "clock.badge.exclamationmark")
               .symbolEffect(.bounce, options: .repeat(5), value: animateEffectToggle)
               .frame(height: 20)
-              .foregroundColor(.primary)
           }
           Spacer()
         }.frame(width: 20)
         Text(eta.getReadableHourAndMinute())
-          .font(.title3)
           .fontWeight(.semibold)
         Spacer()
 
         Text(eta.remainingTime.description)
-          .font(.title3)
           .fontWeight(.semibold)
 
       case .minutes:
@@ -72,15 +67,12 @@ struct ETARowView: View {
           } else {
             Image(systemName: "clock")
               .frame(height: 20)
-              .foregroundColor(.primary)
           }
           Spacer()
         }.frame(width: 20)
         Text(eta.getReadableHourAndMinute())
-          .font(.title3)
         Spacer()
         Text(eta.remainingTime.description)
-          .font(.title3)
       }
 
     }.onAppear(perform: {

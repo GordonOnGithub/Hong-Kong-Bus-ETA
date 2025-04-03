@@ -18,7 +18,7 @@ enum RemainingTime {
     case .expired:
       return "-"
     case .imminent:
-      return String(localized: "less_than_a_minute")
+      return String(localized: "arriving_soon")
     case .minutes(let minutes):
       return
         "\(minutes) \( minutes > 1 ? String(localized: "minutes") : String(localized: "minute") )"

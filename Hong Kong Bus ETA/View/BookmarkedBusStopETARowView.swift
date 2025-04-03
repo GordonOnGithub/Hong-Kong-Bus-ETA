@@ -72,19 +72,20 @@ struct BookmarkedBusStopETARowView: View {
           switch viewModel.busETAResult {
 
           case .success(let busETAList):
-            if let busETAList {
-              if let latest = busETAList.first(where: { eta in
-
-                switch eta.remainingTime {
-                case .expired:
-                  return false
-                default:
-                  return true
+            if let busETAList = busETAList?.filter({
+              switch $0.remainingTime {
+              case .expired:
+                return false
+              default:
+                return true
+              }
+            }) {
+              if let latest = busETAList.first {
+                if pinnedETA == viewModel.busStopETA, busETAList.count > 1 {
+                  Divider().padding(1)
                 }
-
-              }) {
-
                 ETARowView(eta: latest, isFetching: $viewModel.isFetchingETA)
+                  .font(.title3)
                   .padding(1)
 
               } else {
@@ -99,6 +100,20 @@ struct BookmarkedBusStopETARowView: View {
                 }.foregroundStyle(.gray)
 
               }
+
+              if pinnedETA == viewModel.busStopETA, busETAList.count > 1 {
+
+                let moreETAs = busETAList[1..<min(3, busETAList.count)]
+
+                ForEach(moreETAs) {
+                  ETARowView(eta: $0, isFetching: $viewModel.isFetchingETA)
+                    .foregroundStyle(.secondary)
+                    .font(.title3)
+                    .padding(1)
+                }
+
+              }
+
             } else {
               HStack {
                 ProgressView()

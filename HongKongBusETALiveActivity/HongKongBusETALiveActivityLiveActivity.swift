@@ -51,7 +51,13 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
 
             Label("\(hourString):\(minuteString)", systemImage: "clock").font(.title)
 
-            Text(timerInterval: Date()...eta, showsHours: false).font(.headline).frame(maxWidth: 80)
+            let now = Date()
+
+            if now < eta {
+              Text(timerInterval: now...eta, showsHours: false).font(.headline).frame(maxWidth: 80)
+            } else {
+              Text(String(localized: "arriving_soon")).font(.headline).frame(maxWidth: 80)
+            }
           }
         } else {
           Label(String(localized: "no_live_activity_data"), systemImage: "clock.badge.questionmark")
@@ -75,8 +81,16 @@ struct HongKongBusETALiveActivityLiveActivity: Widget {
           if let eta = context.state.eta {
             HStack {
               Image(systemName: "timer")
-              Text(timerInterval: Date()...eta, showsHours: false).font(.subheadline).frame(
-                width: 50)
+              let now = Date()
+
+              if now < eta {
+                Text(timerInterval: now...eta, showsHours: false).font(.subheadline).frame(
+                  width: 50)
+              } else {
+                Text(String(localized: "arriving_soon")).font(.subheadline).frame(
+                  width: 50)
+              }
+
             }
 
           } else {

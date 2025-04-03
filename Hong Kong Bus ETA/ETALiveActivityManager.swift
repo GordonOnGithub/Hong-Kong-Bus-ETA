@@ -37,7 +37,7 @@ class ETALiveActivityManager: @unchecked Sendable, ETALiveActivityManagerType {
       guard let busStopETA else { return }
       do {
 
-        let staleDate = eta?.addingTimeInterval(600) ?? Date(timeIntervalSinceNow: 600)
+        let staleDate = eta?.addingTimeInterval(900) ?? Date(timeIntervalSinceNow: 900)
 
         self.etaLiveActivity = try Activity<HongKongBusETALiveActivityAttributes>.request(
           attributes: .init(
@@ -60,7 +60,7 @@ class ETALiveActivityManager: @unchecked Sendable, ETALiveActivityManagerType {
       }
 
       let staleDate =
-        etaList.first?.etaTimestamp?.addingTimeInterval(600) ?? Date(timeIntervalSinceNow: 600)
+        etaList.first?.etaTimestamp?.addingTimeInterval(900) ?? Date(timeIntervalSinceNow: 900)
 
       await etaLiveActivity?.update(
         ActivityContent(state: .init(eta: etaList.first?.etaTimestamp), staleDate: staleDate))

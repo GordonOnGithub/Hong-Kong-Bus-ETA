@@ -222,10 +222,15 @@ struct BusRouteDetailView: View {
           }
           HStack {
             Image(systemName: "figure.walk")
-
-            Text(
-              "\(Int(closestBusStop.1)) \(String(localized: closestBusStop.1 > 1 ? "minutes_walk" : "minute_walk"))"
-            ).font(.footnote)
+              
+              if closestBusStop.1 > 1 {
+                  Text(
+                    "\(Int(closestBusStop.1)) \(String(localized:"minutes_walk"))"
+                  ).font(.footnote)
+              } else {
+                  Text(String(localized:"near_you")
+                  ).font(.footnote)
+              }
             Spacer()
           }
 

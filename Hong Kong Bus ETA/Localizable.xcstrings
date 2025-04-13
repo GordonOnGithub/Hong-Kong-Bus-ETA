@@ -626,6 +626,22 @@
         }
       }
     },
+    "near_you" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Near you"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你附近"
+          }
+        }
+      }
+    },
     "network_not_reachable" : {
       "localizations" : {
         "en" : {

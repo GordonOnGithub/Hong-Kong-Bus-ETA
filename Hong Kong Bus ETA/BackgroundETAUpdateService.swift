@@ -56,7 +56,8 @@ class BackgroundETAUpdateService: BackgroundETAUpdateServiceType, @unchecked Sen
 
     BGTaskScheduler.shared.register(forTaskWithIdentifier: etaBackgroundTaskIdentifieer, using: nil)
     { [weak self] task in
-      self?.handleBackgroundETAUpdateTask(task as! BGAppRefreshTask)
+      guard let task = task as? BGAppRefreshTask else { return }
+      self?.handleBackgroundETAUpdateTask(task)
     }
   }
 

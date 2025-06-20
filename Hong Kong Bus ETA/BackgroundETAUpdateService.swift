@@ -8,6 +8,7 @@
 import BackgroundTasks
 import Foundation
 
+@MainActor
 protocol BackgroundETAUpdateServiceType: AnyObject, Sendable {
   var delegate: BackgroundETAUpdateServiceDelegate? { get set }
   var eta: BusStopETA? { get set }
@@ -25,7 +26,7 @@ protocol BackgroundETAUpdateServiceDelegate: AnyObject {
     _ service: BackgroundETAUpdateService, didUpdateETA etaList: [BusETAModel],
     forBusStopETA eta: BusStopETA)
 }
-
+@MainActor
 class BackgroundETAUpdateService: BackgroundETAUpdateServiceType, @unchecked Sendable {
 
   static let shared: BackgroundETAUpdateServiceType = BackgroundETAUpdateService()

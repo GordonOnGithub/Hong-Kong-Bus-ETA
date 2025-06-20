@@ -14,6 +14,7 @@ struct HongKongBusETAApp: App {
 
   init() {
     // Configure Tip's data container
+    BackgroundETAUpdateService.shared.registerBackgroundETAUpdateTask()
     try? Tips.configure()
   }
 

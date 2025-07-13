@@ -31,8 +31,8 @@ struct BookmarkedBusStopETARowView: View {
 
           Image(systemName: pinnedETA == viewModel.busStopETA ? "pin.slash" : "pin")
             .foregroundStyle(pinnedETA == viewModel.busStopETA ? .red : .blue)
-            .padding(8)
-            .background(Circle().fill(.background.secondary))
+            .padding(12)
+            .background(Circle().fill(.thickMaterial))
             .onTapGesture {
               if pinnedETA == viewModel.busStopETA {
                 pinnedETA = nil

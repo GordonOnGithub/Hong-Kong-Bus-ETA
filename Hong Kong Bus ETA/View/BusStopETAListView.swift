@@ -111,7 +111,7 @@ struct BusStopETAListView: View {
           )
           .padding(16)
           .background(
-            RoundedRectangle(cornerRadius: 8).fill(Color(.secondarySystemGroupedBackground))
+            RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemGroupedBackground))
           )
           .padding(10)
         }
@@ -131,6 +131,10 @@ struct BusStopETAListView: View {
               .frame(height: 136)
 
             }
+          } header: {
+            Text(String(localized: "pin_for_details")).font(.caption2).foregroundStyle(.secondary)
+          } footer: {
+
           }
 
         }

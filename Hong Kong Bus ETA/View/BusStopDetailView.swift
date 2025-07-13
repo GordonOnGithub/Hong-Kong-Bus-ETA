@@ -51,17 +51,19 @@ struct BusStopDetailView: View {
               },
               label: {
                 Text(viewModel.getRouteName()).font(.headline).foregroundStyle(
-                  viewModel.busStopETA.company == "KMB" ? .white : .blue)
+                  viewModel.busStopETA.company == "KMB" ? .white : .blue
+                )
+                .padding(10)
               }
-            ).buttonStyle(.borderedProminent).tint(
-              viewModel.busStopETA.company == "KMB" ? .red : .yellow)
+            )
+            .background(
+              RoundedRectangle(cornerRadius: 10).fill(
+                viewModel.busStopETA.company == "KMB" ? .red : .yellow))
 
             Spacer().frame(width: 10)
 
             if let busFare = viewModel.busFare {
-              Image(systemName: "dollarsign.circle.fill")
-              Text("\(busFare.fullFare)")
-
+              Label("\(busFare.fullFare)", systemImage: "dollarsign.circle.fill")
             }
 
             Spacer()
@@ -152,14 +154,18 @@ struct BusStopDetailView: View {
             }
 
             if viewModel.showMap {
-              Map(initialPosition: position, interactionModes: []) {
+              Map(initialPosition: position, interactionModes: [.zoom]) {
                 Marker(
                   viewModel.getBusStopName(),
                   coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
 
                 UserAnnotation()
 
-              }
+              }.mapStyle(
+                .standard(
+                  elevation: .automatic, emphasis: .automatic, pointsOfInterest: .all,
+                  showsTraffic: true)
+              )
               .frame(height: 200)
             } else if viewModel.lookAroundScene != nil {
 
@@ -183,7 +189,7 @@ struct BusStopDetailView: View {
 
                     Image(systemName: "arrow.up.forward.app")
                       .foregroundStyle(.primary)
-                      .frame(height: 20)
+                      .frame(height: 25)
 
                   }
                 })
@@ -220,7 +226,7 @@ struct BusStopDetailView: View {
               dismiss()
             },
             label: {
-              Text(String(localized: "dismiss"))
+              Text(String(localized: "dismiss")).padding(10)
             })
         }
 
@@ -236,13 +242,13 @@ struct BusStopDetailView: View {
                   Image(systemName: "bookmark.slash")
                     .foregroundStyle(.red)
                   Text(String(localized: "unbookmark")).fontWeight(.semibold).foregroundStyle(.red)
-                }
+                }.padding(10)
               } else {
                 HStack {
                   Image(systemName: "bookmark")
                   Text(String(localized: "bookmark")).fontWeight(.semibold)
-                }
-                .popoverTip(BookmarkTip())
+                }.padding(10)
+                  .popoverTip(BookmarkTip())
 
               }
             })

@@ -25,7 +25,9 @@ struct BusRouteDetailView: View {
         busRouteSummary
           .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
           .background(
-            RoundedRectangle(cornerRadius: 8).fill(Color(.secondarySystemGroupedBackground)))
+            RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemGroupedBackground))
+          )
+          .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
 
         Divider()
       }
@@ -48,7 +50,7 @@ struct BusRouteDetailView: View {
           Map(
             initialPosition: MapCameraPosition.positionOfHongKong,
             bounds: MapCameraBounds.boundsOfHongKong,
-            interactionModes: [.pan, .zoom],
+            interactionModes: [.pan, .zoom, .rotate],
             selection: $viewModel.selectedMapMarker
           ) {
 
@@ -84,7 +86,13 @@ struct BusRouteDetailView: View {
             if viewModel.hasLocationPermission {
               MapUserLocationButton()
             }
+            MapScaleView()
+            MapCompass()
           }
+          .mapStyle(
+            .standard(
+              elevation: .automatic, emphasis: .automatic, pointsOfInterest: .all,
+              showsTraffic: true))
 
         } else {
 
@@ -168,7 +176,7 @@ struct BusRouteDetailView: View {
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
 
           closetBusStopButton(closestBusStop: closestBusStop)
-            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
 
         }
 
@@ -193,13 +201,13 @@ struct BusRouteDetailView: View {
           label: {
 
             Image(systemName: viewModel.showMap ? "list.number" : "map")
-              .renderingMode(.template)
-              .resizable().scaledToFit().frame(height: 25)
+              .padding(10)
               .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
 
           }
         ).disabled((viewModel.stopList?.isEmpty ?? true))
           .popoverTip(MapTip())
+
       }
     }
 
@@ -241,7 +249,7 @@ struct BusRouteDetailView: View {
     }
     .foregroundStyle(.white)
     .background(
-      RoundedRectangle(cornerRadius: 10).fill(.indigo)
+      RoundedRectangle(cornerRadius: 12).fill(.indigo)
     )
   }
 

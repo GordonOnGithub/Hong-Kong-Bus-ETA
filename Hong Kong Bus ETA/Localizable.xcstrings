@@ -804,6 +804,22 @@
         }
       }
     },
+    "pin_for_details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin a bus stop to see its ETA as live activity."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可把巴士站置頂，並在系統通知欄查看預計到站時間。"
+          }
+        }
+      }
+    },
     "pull_down_to_refresh" : {
       "extractionState" : "stale",
       "localizations" : {

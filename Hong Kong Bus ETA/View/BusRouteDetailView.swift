@@ -17,6 +17,9 @@ struct BusRouteDetailView: View {
   @StateObject
   var viewModel: BusRouteDetailViewModel
 
+  @State
+  var destinationName = ""
+
   var body: some View {
 
     VStack(spacing: 0) {
@@ -196,18 +199,33 @@ struct BusRouteDetailView: View {
       ToolbarItem(placement: .topBarTrailing) {
         Button(
           action: {
+            viewModel.switchRouteDirection()
+            withAnimation(.easeInOut(duration: 0.3)) {
+              destinationName = viewModel.getDestinationDescription()
+            }
+          },
+          label: {
+
+            Image(systemName: "arrow.left.arrow.right.circle")
+              .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
+
+          }
+        ).disabled((viewModel.stopList?.isEmpty ?? true))
+      }
+
+      ToolbarItem(placement: .topBarTrailing) {
+        Button(
+          action: {
             viewModel.showMap.toggle()
           },
           label: {
 
             Image(systemName: viewModel.showMap ? "list.number" : "map")
-              .padding(10)
               .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
 
           }
         ).disabled((viewModel.stopList?.isEmpty ?? true))
           .popoverTip(MapTip())
-
       }
     }
 
@@ -266,7 +284,7 @@ struct BusRouteDetailView: View {
         Spacer()
       }
       Text(
-        viewModel.getDestinationDescription()
+        destinationName
       ).lineLimit(2).multilineTextAlignment(.leading)
 
       if let busFare = viewModel.routeSummary {
@@ -292,6 +310,8 @@ struct BusRouteDetailView: View {
 
         }
       }
+    }.onAppear {
+      destinationName = viewModel.getDestinationDescription()
     }
   }
 }

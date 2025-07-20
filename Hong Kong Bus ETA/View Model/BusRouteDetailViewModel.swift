@@ -20,7 +20,7 @@ protocol BusRouteDetailViewModelDelegate: AnyObject {
 @MainActor
 class BusRouteDetailViewModel: NSObject, ObservableObject {
 
-  let route: any BusRouteModel
+  private(set) var route: any BusRouteModel
 
   var apiManager: APIManagerType
 
@@ -108,6 +108,36 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
     askLocationPermission()
   }
 
+  func switchRouteDirection() {
+    guard let company = route.company else { return }
+    let key = busRoutesDataProvider.getCacheKey(
+      company: company, route: self.route.route ?? "",
+      serviceType: (route as? KMBBusRouteModel)?.serviceType,
+      isInbound: !self.route.isInbound)
+
+    let oppositeDirectionRoute: (any BusRouteModel)? =
+      switch company {
+      case .CTB:
+        busRoutesDataProvider.ctbRouteDict.value?[key]
+      case .KMB:
+        busRoutesDataProvider.kmbRouteDict.value?[key]
+      }
+
+    if let oppositeDirectionRoute {
+      self.route = oppositeDirectionRoute
+      cancellable.removeAll()
+      stopList = nil
+      displayedList = nil
+      filter = ""
+      routeSummary = nil
+      closestBusStop = nil
+      busStopDetailsDict.removeAll()
+      busStopRowViewModeDict.removeAll()
+      setupPublisher()
+      fetch()
+    }
+  }
+
   func setupPublisher() {
 
     $showMap.sink { [weak self] showMap in
@@ -192,7 +222,11 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
         return nil
 
-      }.assign(to: &$routeSummary)
+      }
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] summary in
+        self?.routeSummary = summary
+      }.store(in: &cancellable)
 
     $currentLocation.combineLatest($busStopDetailsDict).map {
       location, busStopsDetailsDict -> (BusStopDetailModel, CLLocationCoordinate2D)? in
@@ -264,7 +298,9 @@ class BusRouteDetailViewModel: NSObject, ObservableObject {
 
     })
     .receive(on: DispatchQueue.main)
-    .assign(to: &$closestBusStop)
+    .sink { [weak self] closestBusStop in
+      self?.closestBusStop = closestBusStop
+    }.store(in: &cancellable)
 
   }
 

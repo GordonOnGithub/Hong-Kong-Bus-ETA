@@ -5,8 +5,8 @@
 //  Created by Ka Chun Wong on 22/1/2024.
 //
 
-import Combine
 import Foundation
+import Observation
 
 @MainActor
 protocol BusStopRowViewModelDelegate: AnyObject {
@@ -21,21 +21,18 @@ protocol BusStopRowViewModelDelegate: AnyObject {
 }
 
 @MainActor
-class BusStopRowViewModel: ObservableObject {
+@Observable
+class BusStopRowViewModel {
 
   let busStop: any BusStopModel
 
   var apiManager: APIManagerType
 
-  @Published
   var busStopDetail: (any BusStopDetailModel)?
 
-  @Published
   var error: (any Error)?
 
   weak var delegate: BusStopRowViewModelDelegate?
-
-  private var cancellable = Set<AnyCancellable>()
 
   init(busStop: any BusStopModel, apiManager: APIManagerType = APIManager.shared) {
     self.busStop = busStop

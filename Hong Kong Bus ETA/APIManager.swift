@@ -60,7 +60,7 @@ enum API {
 
   }
 
-  var header: [HTTPHeader] {
+  var header: [String: String] {
 
     let dict: [String: String] =
       switch self {
@@ -70,20 +70,7 @@ enum API {
 
       }
 
-    return dict.map { (key: String, value: String) in
-      HTTPHeader(name: key, value: value)
-    }
-
-  }
-
-  var parameter: [String: String] {
-
-    switch self {
-    case .CTBRoutes, .KMBRoutes, .CTBRouteData, .KMBRouteData, .CTBBusStopDetail, .KMBBusStopDetail,
-      .CTBArrivalEstimation, .KMBArrivalEstimation, .fare:
-      return [:]
-
-    }
+    return dict
 
   }
 
@@ -96,8 +83,6 @@ class APIManager: APIManagerType, @unchecked Sendable {
   var isReachable: CurrentValueSubject<Bool, Never> = CurrentValueSubject(true)
 
   private let reachabilityMAnager = NetworkReachabilityManager()
-
-  private let session: Alamofire.Session = Session()
 
   private init() {
     reachabilityMAnager?.startListening(
@@ -113,20 +98,23 @@ class APIManager: APIManagerType, @unchecked Sendable {
 
       })
 
-    session.sessionConfiguration.timeoutIntervalForRequest = 10
   }
 
   func call(api: API) async throws -> Data? {
-    let response = await self.session.request(
-      api.url, method: HTTPMethod(rawValue: self.getMethod(forAPI: api)),
-      parameters: api.parameter, headers: HTTPHeaders(api.header)
-    ).serializingData().response
 
-    if let error = response.error {
-      throw error
-    } else {
-      return response.data
+    let session = URLSession(configuration: .default)
+    session.configuration.timeoutIntervalForRequest = 10
+    session.configuration.timeoutIntervalForResource = 15
+
+    var request = URLRequest(url: api.url)
+    request.httpMethod = self.getMethod(forAPI: api)
+    for key in api.header.keys {
+      if let value = api.header[key] {
+        request.setValue(value, forHTTPHeaderField: key)
+      }
     }
+
+    return try await session.data(for: request).0
   }
 
   func getMethod(forAPI api: API) -> String {

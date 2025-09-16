@@ -10,7 +10,7 @@ import StoreKit
 import UIKit
 
 @MainActor
-class InfoViewModel: ObservableObject {
+class InfoViewModel {
 
   let uiApplication: UIApplicationType
 

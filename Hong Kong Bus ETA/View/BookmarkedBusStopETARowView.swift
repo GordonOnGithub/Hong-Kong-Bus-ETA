@@ -30,6 +30,7 @@ struct BookmarkedBusStopETARowView: View {
           Spacer()
 
           Image(systemName: pinnedETA == viewModel.busStopETA ? "pin.slash" : "pin")
+            .contentTransition(.symbolEffect(.replace))
             .foregroundStyle(pinnedETA == viewModel.busStopETA ? .red : .blue)
             .padding(12)
             .background(Circle().fill(.thickMaterial))

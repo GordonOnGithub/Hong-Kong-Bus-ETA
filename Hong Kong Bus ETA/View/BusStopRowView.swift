@@ -10,7 +10,7 @@ import SwiftUI
 
 struct BusStopRowView: View {
 
-  @StateObject
+  @State
   var viewModel: BusStopRowViewModel
 
   var body: some View {

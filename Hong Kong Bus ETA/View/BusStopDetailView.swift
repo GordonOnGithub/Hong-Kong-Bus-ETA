@@ -251,7 +251,9 @@ struct BusStopDetailView: View {
                   .popoverTip(BookmarkTip())
 
               }
-            })
+            }
+          ).contentTransition(.symbolEffect(.replace))
+
         }
       }
     }

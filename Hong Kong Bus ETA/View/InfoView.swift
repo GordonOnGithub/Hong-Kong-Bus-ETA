@@ -10,7 +10,6 @@ import SwiftUI
 
 struct InfoView: View {
 
-  @StateObject
   var viewModel: InfoViewModel
 
   var body: some View {

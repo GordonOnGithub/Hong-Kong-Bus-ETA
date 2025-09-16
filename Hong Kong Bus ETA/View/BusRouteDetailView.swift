@@ -206,11 +206,15 @@ struct BusRouteDetailView: View {
           },
           label: {
 
-            Image(systemName: "arrow.left.arrow.right.circle")
-              .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
+            Image(
+              systemName: viewModel.route.isInbound ? "arrow.left.circle" : "arrow.right.circle"
+            )
+            .foregroundStyle((viewModel.stopList?.isEmpty ?? true) ? .gray : .blue)
 
           }
-        ).disabled((viewModel.stopList?.isEmpty ?? true))
+        )
+        .contentTransition(.symbolEffect(.replace))
+        .disabled((viewModel.stopList?.isEmpty ?? true))
       }
 
       ToolbarItem(placement: .topBarTrailing) {
@@ -226,6 +230,7 @@ struct BusRouteDetailView: View {
           }
         ).disabled((viewModel.stopList?.isEmpty ?? true))
           .popoverTip(MapTip())
+          .contentTransition(.symbolEffect(.replace))
       }
     }
 

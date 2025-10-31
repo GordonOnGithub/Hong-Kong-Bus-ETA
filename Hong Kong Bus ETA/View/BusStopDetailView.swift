@@ -40,9 +40,7 @@ struct BusStopDetailView: View {
 
         VStack(alignment: .leading, spacing: 10) {
 
-          if viewModel.busStopDetail != nil {
-            Text(viewModel.getBusStopName()).font(.title2)
-          }
+          Text(viewModel.getBusStopName()).font(.title2)
 
           HStack {
             Button(
@@ -63,7 +61,7 @@ struct BusStopDetailView: View {
             Spacer().frame(width: 10)
 
             if let busFare = viewModel.busFare {
-              Label("\(busFare.fullFare)", systemImage: "dollarsign.circle.fill")
+              Label("$\(busFare.fullFare)", systemImage: "ticket")
             }
 
             Spacer()
@@ -133,7 +131,7 @@ struct BusStopDetailView: View {
             Divider()
 
             HStack {
-              Image("location", bundle: .main)
+              Image(systemName: "mappin.circle")
                 .renderingMode(.template)
                 .resizable().scaledToFit()
                 .foregroundStyle(.primary)
@@ -167,6 +165,7 @@ struct BusStopDetailView: View {
                   showsTraffic: true)
               )
               .frame(height: 200)
+              .mask(RoundedRectangle(cornerRadius: 8))
             } else if viewModel.lookAroundScene != nil {
 
               LookAroundPreview(scene: $viewModel.lookAroundScene)
@@ -198,7 +197,7 @@ struct BusStopDetailView: View {
             }
           }
 
-        }.padding(EdgeInsets(top: 10, leading: 20, bottom: 20, trailing: 20))
+        }.padding(EdgeInsets(top: 10, leading: 20, bottom: 25, trailing: 20))
       }
       .ignoresSafeArea(edges: .bottom)
       .alert(

@@ -23,8 +23,17 @@ struct BookmarkedBusStopETARowView: View {
         HStack {
           Text(viewModel.busStopETA.getFullRouteName()).font(.title2).fontWeight(.medium).lineLimit(
             1
-          ).onTapGesture {
-            viewModel.onRowClicked()
+          )
+          .padding(10)
+          .foregroundStyle(
+            viewModel.busStopETA.company == "KMB" ? .white : .blue
+          )
+          .background(
+            RoundedRectangle(cornerRadius: 10).fill(
+              viewModel.busStopETA.company == "KMB" ? .red : .yellow)
+          )
+          .onTapGesture {
+            viewModel.openDetail()
           }
 
           Spacer()
@@ -45,9 +54,7 @@ struct BookmarkedBusStopETARowView: View {
             }
 
         }
-        VStack(
-          alignment: .leading, spacing: 10
-        ) {
+        Group {
           if viewModel.busRoute != nil {
 
             Text(viewModel.getDestinationDescription()).font(.body)
@@ -58,7 +65,7 @@ struct BookmarkedBusStopETARowView: View {
 
           if viewModel.busStopDetail != nil {
             HStack {
-              Image("location", bundle: .main)
+              Image(systemName: "mappin.circle")
                 .renderingMode(.template)
                 .resizable().scaledToFit()
                 .foregroundStyle((.secondary))
@@ -69,59 +76,66 @@ struct BookmarkedBusStopETARowView: View {
           } else {
             Spacer().frame(height: 30)
           }
+        }.contentShape(Rectangle())
+          .onTapGesture {
+            viewModel.openDetail()
+          }
 
-          switch viewModel.busETAResult {
+        switch viewModel.busETAResult {
 
-          case .success(let busETAList):
-            if let busETAList = busETAList?.filter({
-              switch $0.remainingTime {
-              case .expired:
-                return false
-              default:
-                return true
-              }
-            }) {
-              if let latest = busETAList.first {
-                if pinnedETA == viewModel.busStopETA, busETAList.count > 1 {
-                  Divider().padding(1)
-                }
-                ETARowView(eta: latest, isFetching: $viewModel.isFetchingETA)
-                  .font(.title3)
-                  .padding(1)
-
-              } else {
-                HStack {
-                  if viewModel.isFetchingETA {
-                    ProgressView().padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 2))
-                  } else {
-                    Image(systemName: "clock.badge.questionmark")
-                  }
-                  Text(String(localized: "no_eta_info"))
-                  Spacer()
-                }.foregroundStyle(.gray)
-
-              }
-
+        case .success(let busETAList):
+          if let busETAList = busETAList?.filter({
+            switch $0.remainingTime {
+            case .expired:
+              return false
+            default:
+              return true
+            }
+          }) {
+            if let latest = busETAList.first {
               if pinnedETA == viewModel.busStopETA, busETAList.count > 1 {
-
-                let moreETAs = busETAList[1..<min(3, busETAList.count)]
-
-                ForEach(moreETAs) {
-                  ETARowView(eta: $0, isFetching: $viewModel.isFetchingETA)
-                    .foregroundStyle(.secondary)
-                    .font(.title3)
-                    .padding(1)
-                }
-
+                Divider().padding(1)
               }
+              ETARowView(eta: latest, isFetching: $viewModel.isFetchingETA)
+                .font(.title3)
+                .padding(1)
 
             } else {
               HStack {
-                ProgressView()
+                if viewModel.isFetchingETA {
+                  ProgressView().padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 2))
+                } else {
+                  Image(systemName: "clock.badge.questionmark")
+                }
+                Text(String(localized: "no_eta_info"))
                 Spacer()
-              }
+              }.foregroundStyle(.gray)
+
             }
-          case .failure:
+
+            if pinnedETA == viewModel.busStopETA, busETAList.count > 1 {
+
+              let moreETAs = busETAList[1..<min(3, busETAList.count)]
+
+              ForEach(moreETAs) {
+                ETARowView(eta: $0, isFetching: $viewModel.isFetchingETA)
+                  .foregroundStyle(.secondary)
+                  .font(.title3)
+                  .padding(1)
+              }
+
+            }
+
+          } else {
+            HStack {
+              ProgressView()
+              Spacer()
+            }
+          }
+        case .failure:
+          Button {
+            viewModel.reloadRow()
+          } label: {
             HStack {
 
               if viewModel.isFetchingETA {
@@ -131,14 +145,11 @@ struct BookmarkedBusStopETARowView: View {
               }
               Text(String(localized: "failed_to_fetch_eta_info"))
               Spacer()
-            }.foregroundStyle(.gray)
+            }.foregroundStyle(.yellow.secondary)
+          }.buttonStyle(.plain)
 
-          }
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-          viewModel.onRowClicked()
-        }
+
       }
     )
 

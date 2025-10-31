@@ -183,9 +183,13 @@ struct BusStopETAListView: View {
               HStack {
                 Image(systemName: "magnifyingglass")
                 Text(String(localized: "search_ctb_routes"))
-              }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+              }.padding(10)
             }
-          ).buttonStyle(.bordered).tint(.blue)
+          )
+          .foregroundStyle(.blue)
+          .background(
+            RoundedRectangle(cornerRadius: 10)
+              .fill(.yellow))
 
           Button(
             action: {
@@ -195,9 +199,12 @@ struct BusStopETAListView: View {
               HStack {
                 Image(systemName: "magnifyingglass")
                 Text(String(localized: "search_kmb_routes"))
-              }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+              }.padding(10)
             }
-          ).buttonStyle(.bordered).tint(.red)
+          )
+          .foregroundStyle(.white)
+          .background(
+            RoundedRectangle(cornerRadius: 10).fill(.red))
           Spacer()
         }.padding(20)
 

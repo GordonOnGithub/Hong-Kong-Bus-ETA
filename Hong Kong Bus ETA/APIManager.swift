@@ -74,6 +74,14 @@ enum API {
 
   }
 
+  var cachePolicy: NSURLRequest.CachePolicy {
+    switch self {
+    case .CTBArrivalEstimation, .KMBArrivalEstimation:
+      NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
+    default:
+      NSURLRequest.CachePolicy.reloadRevalidatingCacheData
+    }
+  }
 }
 
 class APIManager: APIManagerType, @unchecked Sendable {
@@ -105,7 +113,7 @@ class APIManager: APIManagerType, @unchecked Sendable {
     let session = URLSession(configuration: .default)
     session.configuration.timeoutIntervalForRequest = 10
     session.configuration.timeoutIntervalForResource = 15
-
+    session.configuration.requestCachePolicy = api.cachePolicy
     var request = URLRequest(url: api.url)
     request.httpMethod = self.getMethod(forAPI: api)
     for key in api.header.keys {

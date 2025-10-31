@@ -47,7 +47,7 @@ struct RoutesTabView: View {
           ).buttonStyle(.borderedProminent).tint(
             .yellow
           )
-          .opacity(viewModel.selectedTab == .ctb ? 1 : 0.6)
+          .opacity(viewModel.selectedTab == .ctb ? 1 : 0.8)
 
           Button(
             action: {
@@ -71,7 +71,7 @@ struct RoutesTabView: View {
           ).buttonStyle(.borderedProminent).tint(
             .red
           )
-          .opacity(viewModel.selectedTab == .kmb ? 1 : 0.6)
+          .opacity(viewModel.selectedTab == .kmb ? 1 : 0.8)
           Spacer()
 
         }

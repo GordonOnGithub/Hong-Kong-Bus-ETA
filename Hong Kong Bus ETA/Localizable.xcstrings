@@ -37,6 +37,9 @@
         }
       }
     },
+    "$%@" : {
+
+    },
     "A an example control that runs a timer." : {
 
     },
@@ -609,6 +612,22 @@
         }
       }
     },
+    "minutes_journey" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minutes journey"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分鐘車程"
+          }
+        }
+      }
+    },
     "minutes_walk" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -654,6 +673,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法連接網絡"
+          }
+        }
+      }
+    },
+    "no_data_available" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data available"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有資料"
           }
         }
       }

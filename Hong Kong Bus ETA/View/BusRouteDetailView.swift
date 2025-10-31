@@ -81,6 +81,36 @@ struct BusRouteDetailView: View {
 
                 }
               }
+
+              if #available(iOS 26.0, *), viewModel.filter.isEmpty {
+                ForEach(list.enumerated(), id: \.offset) { index, element in
+
+                  if index < list.count - 1,
+                    let stopId = element.stopId,
+                    let busStopDetail = viewModel.busStopDetailsDict[stopId],
+                    let latitude = Double(busStopDetail.position?.0 ?? ""),
+                    let longitude = Double(busStopDetail.position?.1 ?? ""),
+                    let nextStopId = list[index + 1].stopId,
+                    let nextBusStopDetail = viewModel.busStopDetailsDict[nextStopId],
+                    let nextLatitude = Double(nextBusStopDetail.position?.0 ?? ""),
+                    let nextLongitude = Double(nextBusStopDetail.position?.1 ?? "")
+                  {
+                    MapPolyline(coordinates: [
+                      CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                      CLLocationCoordinate2D(latitude: nextLatitude, longitude: nextLongitude),
+                    ])
+                    .mapOverlayLevel(level: .aboveLabels)
+                    .stroke(
+                      Color.black,
+                      style: StrokeStyle(
+                        lineWidth: 2, lineCap: .round, lineJoin: .bevel,
+                        miterLimit: 5, dash: [],
+                        dashPhase: 0))
+
+                  }
+
+                }
+              }
             }
 
             UserAnnotation()
@@ -99,25 +129,32 @@ struct BusRouteDetailView: View {
 
         } else {
 
-          if list.isEmpty, !viewModel.filter.isEmpty {
-            Spacer()
+          if list.isEmpty {
+            if !viewModel.filter.isEmpty {
+              Spacer()
 
-            Text(String(localized: "no_matching_bus_stop"))
-              .foregroundStyle(.gray)
-              .multilineTextAlignment(.center)
-              .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            Spacer().frame(height: 20)
-            Button(
-              action: {
-                viewModel.resetFilter()
-              },
-              label: {
-                HStack {
-                  Image(systemName: "eraser")
-                  Text("reset")
-                }
-              })
-            Spacer()
+              Text(String(localized: "no_matching_bus_stop"))
+                .foregroundStyle(.gray)
+                .multilineTextAlignment(.center)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+              Spacer().frame(height: 20)
+              Button(
+                action: {
+                  viewModel.resetFilter()
+                },
+                label: {
+                  HStack {
+                    Image(systemName: "eraser")
+                    Text("reset")
+                  }
+                })
+              Spacer()
+
+            } else {
+              Spacer()
+              Label(String(localized: "no_data_available"), systemImage: "questionmark.circle")
+              Spacer()
+            }
 
           } else {
 
@@ -272,37 +309,46 @@ struct BusRouteDetailView: View {
     }
     .foregroundStyle(.white)
     .background(
-      RoundedRectangle(cornerRadius: 12).fill(.indigo)
+      RoundedRectangle(cornerRadius: 16).fill(.indigo)
     )
   }
 
   var busRouteSummary: some View {
     VStack(alignment: .leading, spacing: 10) {
       HStack {
-        Text(viewModel.route.getFullRouteName()).font(.title2).fontWeight(.medium)
-          .multilineTextAlignment(.leading)
+        HStack {
+          Text(viewModel.route.getFullRouteName()).font(.title2).fontWeight(.medium)
+            .multilineTextAlignment(.leading)
 
-        if viewModel.routeSummary?.serviceMode.contains("N") ?? false {
-          Image(systemName: "moon.stars")
+          if viewModel.routeSummary?.serviceMode.contains("N") ?? false {
+            Image(systemName: "moon.stars")
+          }
         }
-
+        .padding(10)
+        .foregroundStyle(
+          viewModel.route.company?.rawValue == "KMB" ? .white : .blue
+        )
+        .background(
+          RoundedRectangle(cornerRadius: 10).fill(
+            viewModel.route.company?.rawValue == "KMB" ? .red : .yellow))
         Spacer()
       }
       Text(
         destinationName
       ).lineLimit(2).multilineTextAlignment(.leading)
+        .font(.headline)
 
       if let busFare = viewModel.routeSummary {
         HStack {
-          Image(systemName: "dollarsign.circle.fill")
-          Text("\(busFare.fullFare)")
+          Image(systemName: "ticket")
+          Text("$\(busFare.fullFare)")
 
           Spacer()
-          Image(systemName: "point.bottomleft.filled.forward.to.point.topright.scurvepath")
+          Image(systemName: "applewatch.watchface")
 
-          Text("\(busFare.jouneryTime) \(String(localized: "minutes"))")
+          Text("\(busFare.jouneryTime) \(String(localized: "minutes_journey"))")
 
-        }.foregroundStyle(.secondary)
+        }
 
         if let description = busFare.specialType.description {
           HStack {

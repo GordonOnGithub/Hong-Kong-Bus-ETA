@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 @MainActor
 protocol BookmarkedBusStopETARowViewModelDelegate: AnyObject {
@@ -309,21 +310,22 @@ class BookmarkedBusStopETARowViewModel: ObservableObject {
     return String(localized: "to") + (busRoute?.destination() ?? "")
   }
 
-  func onRowClicked() {
+  func reloadRow() {
+    fetchETA()
+  }
 
-    switch busETAResult {
-    case .failure:
+  func openDetail() {
+
+    if let busRoute, let delegate, let company = BusCompany(rawValue: busStopETA.company) {
+
+      delegate.bookmarkedBusStopETARowViewModel(
+        self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company,
+        stopId: busStopETA.stopId, serviceType: busStopETA.serviceType,
+        isInbound: busStopETA.isInbound, detail: self.busStopDetail)
+    } else {
       fetchBusStopDetailIfNeeded()
       fetchETA()
-    default:
-      if let busRoute, let delegate, let company = BusCompany(rawValue: busStopETA.company) {
-
-        delegate.bookmarkedBusStopETARowViewModel(
-          self, didRequestDisplayBusStopDetailForRoute: busStopETA.route, company: company,
-          stopId: busStopETA.stopId, serviceType: busStopETA.serviceType,
-          isInbound: busStopETA.isInbound, detail: self.busStopDetail)
-      }
     }
-
   }
+
 }

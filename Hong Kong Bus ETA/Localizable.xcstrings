@@ -48,12 +48,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arriving Soon"
+            "value" : "Arriving soon"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "即將到達"
           }
         }
@@ -96,7 +96,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Get Other Useful Apps"
+            "value" : "Get other useful apps"
           }
         },
         "zh-Hant" : {
@@ -112,12 +112,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nearest Bus Stop to You"
+            "value" : "Nearest bus stop to you"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "最接近你的巴士站"
           }
         }
@@ -163,7 +163,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Separate fare for weekend and Public Holidays "
+            "value" : "Separate fare for weekend and public holidays "
           }
         },
         "zh-Hant" : {
@@ -195,12 +195,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Donate to Support!"
+            "value" : "Donate to support!"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "捐款支持程式開發！"
           }
         }
@@ -227,12 +227,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "First Added First"
+            "value" : "First added first"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "最早加入"
           }
         }
@@ -276,12 +276,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Estimated Time of Arrival"
+            "value" : "Estimated time of arrival"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "預計到站時間"
           }
         }
@@ -372,7 +372,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About This App"
+            "value" : "About this app"
           }
         },
         "zh-Hant" : {
@@ -388,12 +388,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kowloon Motor Bus"
+            "value" : "Kowloon motor bus"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "九龍巴士"
           }
         }
@@ -404,12 +404,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Large Route Number First"
+            "value" : "Large route number first"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "路線號碼 （大至小）"
           }
         }
@@ -420,12 +420,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Last Update"
+            "value" : "Last update"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "最近更新"
           }
         }
@@ -436,12 +436,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recently Added First"
+            "value" : "Recently added first"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "最近加入"
           }
         }
@@ -518,12 +518,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Look Around"
+            "value" : "Look around"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "環視四周"
           }
         }
@@ -715,7 +715,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No Data"
+            "value" : "No aata"
           }
         },
         "zh-Hant" : {
@@ -812,7 +812,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show on Map App"
+            "value" : "Show on map app"
           }
         },
         "zh-Hant" : {
@@ -877,12 +877,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rate This App"
+            "value" : "Rate this app"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "為應用程式評分"
           }
         }
@@ -909,7 +909,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check Repository"
+            "value" : "Check repository"
           }
         },
         "zh-Hant" : {
@@ -957,12 +957,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Route Details"
+            "value" : "Route details"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "路線詳情"
           }
         }
@@ -973,12 +973,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bus Routes"
+            "value" : "Bus routes"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "巴士路線"
           }
         }
@@ -1070,12 +1070,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Small Route Number First"
+            "value" : "Small route number first"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "路線號碼 （小至大）"
           }
         }

@@ -24,9 +24,16 @@ class ETALiveActivityManager: @unchecked Sendable, ETALiveActivityManagerType {
 
   private(set) var busStopETA: BusStopETA?
 
+  private var dismissLiveActivityTask: Task<Void, Never>?
+
+  private let staleTimeInSecond: TimeInterval = 900
+
   private init() {}
 
   func start(busStopETA: BusStopETA?, destination: String, stop: String, eta: Date?) {
+    dismissLiveActivityTask?.cancel()
+    dismissLiveActivityTask = nil
+
     Task {
 
       await self.etaLiveActivity?.end(
@@ -37,7 +44,9 @@ class ETALiveActivityManager: @unchecked Sendable, ETALiveActivityManagerType {
       guard let busStopETA else { return }
       do {
 
-        let staleDate = eta?.addingTimeInterval(900) ?? Date(timeIntervalSinceNow: 900)
+        let staleDate =
+          eta?.addingTimeInterval(staleTimeInSecond)
+          ?? Date(timeIntervalSinceNow: staleTimeInSecond)
 
         self.etaLiveActivity = try Activity<HongKongBusETALiveActivityAttributes>.request(
           attributes: .init(
@@ -60,17 +69,26 @@ class ETALiveActivityManager: @unchecked Sendable, ETALiveActivityManagerType {
       }
 
       let staleDate =
-        etaList.first?.etaTimestamp?.addingTimeInterval(900) ?? Date(timeIntervalSinceNow: 900)
+        etaList.first?.etaTimestamp?.addingTimeInterval(staleTimeInSecond)
+        ?? Date(timeIntervalSinceNow: staleTimeInSecond)
 
       await etaLiveActivity?.update(
         ActivityContent(state: .init(eta: etaList.first?.etaTimestamp), staleDate: staleDate))
 
+      dismissLiveActivityTask?.cancel()
+      dismissLiveActivityTask = Task {
+
+        try? await Task.sleep(nanoseconds: UInt64(staleTimeInSecond) * 1_000_000_000)
+        guard !Task.isCancelled else { return }
+        self.stop()
+      }
     }
 
   }
 
   func stop() {
-
+    dismissLiveActivityTask?.cancel()
+    dismissLiveActivityTask = nil
     Task {
       await self.etaLiveActivity?.end(
         .init(state: .init(eta: nil), staleDate: Date()), dismissalPolicy: .immediate)

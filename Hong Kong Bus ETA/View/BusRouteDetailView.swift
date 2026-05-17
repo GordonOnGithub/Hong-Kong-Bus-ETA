@@ -226,7 +226,7 @@ struct BusRouteDetailView: View {
     .searchable(
       text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .automatic),
       prompt: Text(String(localized: "search"))
-    ).keyboardType(.alphabet)
+    )
     .background(Color(.systemGroupedBackground))
     .navigationTitle(
       String(localized: "route_details")

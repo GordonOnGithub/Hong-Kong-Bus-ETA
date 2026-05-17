@@ -76,10 +76,7 @@ struct BookmarkedBusStopETARowView: View {
           } else {
             Spacer().frame(height: 30)
           }
-        }.contentShape(Rectangle())
-          .onTapGesture {
-            viewModel.openDetail()
-          }
+        }
 
         switch viewModel.busETAResult {
 
@@ -152,6 +149,10 @@ struct BookmarkedBusStopETARowView: View {
 
       }
     )
+    .contentShape(Rectangle())
+    .onTapGesture {
+      viewModel.openDetail()
+    }
 
   }
 }

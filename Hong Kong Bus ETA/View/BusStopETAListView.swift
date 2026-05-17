@@ -159,9 +159,10 @@ struct BusStopETAListView: View {
                 Text(String(localized: "rate_this_app_reminder"))
                 Spacer()
               }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                .font(.title3)
             }
           ).buttonStyle(.borderedProminent)
-            .tint(.indigo)
+            .tint(.accentColor)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         }
 

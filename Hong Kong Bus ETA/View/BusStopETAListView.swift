@@ -181,10 +181,10 @@ struct BusStopETAListView: View {
               viewModel.onSearchCTBRoutesButtonClicked()
             },
             label: {
-              HStack {
-                Image(systemName: "magnifyingglass")
-                Text(String(localized: "search_ctb_routes"))
-              }.padding(10)
+                Label(String(localized: "search_ctb_routes"), systemImage: "magnifyingglass")
+             .padding(12)
+             .font(.title3)
+
             }
           )
           .foregroundStyle(.blue)
@@ -197,10 +197,9 @@ struct BusStopETAListView: View {
               viewModel.onSearchKMBRoutesButtonClicked()
             },
             label: {
-              HStack {
-                Image(systemName: "magnifyingglass")
-                Text(String(localized: "search_kmb_routes"))
-              }.padding(10)
+                Label(String(localized: "search_kmb_routes"), systemImage: "magnifyingglass")
+             .padding(12)
+             .font(.title3)
             }
           )
           .foregroundStyle(.white)

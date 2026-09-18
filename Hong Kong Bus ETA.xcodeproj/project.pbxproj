@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6623ADE57D8544C8938695F6 /* Pods_Hong_Kong_Bus_ETA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2947EC139AF15ABF890B8 /* Pods_Hong_Kong_Bus_ETA.framework */; };
 		7D3E72762B5D31C4009C57F5 /* HongKongBusETAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E72752B5D31C4009C57F5 /* HongKongBusETAApp.swift */; };
 		7D3E727A2B5D31C4009C57F5 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E72792B5D31C4009C57F5 /* Item.swift */; };
 		7D3E727C2B5D31C6009C57F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E727B2B5D31C6009C57F5 /* Assets.xcassets */; };
@@ -28,6 +27,7 @@
 		7D8CD0602B774EB100C15741 /* MapKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8CD05F2B774EB100C15741 /* MapKit+Extension.swift */; };
 		7D9097B22BCB861200C8D45E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7D9097B12BCB6FC600C8D45E /* PrivacyInfo.xcprivacy */; };
 		7D9097BE2BDCF76400C8D45E /* BusRouteSummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9097BD2BDCF76400C8D45E /* BusRouteSummaryModel.swift */; };
+		7DCA54C9305D6A9E00E9401A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7DCA54C8305D6A9E00E9401A /* Alamofire */; };
 		7DD55D142D983692006844B8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7D6C33B02B78EA0700BA8820 /* Localizable.xcstrings */; };
 		7DDDB7FF2D90179A00366BE7 /* BackgroundETAUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDDB7FE2D90179000366BE7 /* BackgroundETAUpdateService.swift */; };
 		7DDDB8CF2D9181D900366BE7 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DDDB8CE2D9181D900366BE7 /* WidgetKit.framework */; };
@@ -72,6 +72,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7DCA54CD305D6ABC00E9401A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7DDDB8E72D9181DA00366BE7 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -86,7 +96,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		389C2C787A5617E5B1365371 /* Pods-Hong Kong Bus ETA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hong Kong Bus ETA.release.xcconfig"; path = "Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA.release.xcconfig"; sourceTree = "<group>"; };
 		7D3E72722B5D31C4009C57F5 /* Hong Kong Bus ETA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hong Kong Bus ETA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D3E72752B5D31C4009C57F5 /* HongKongBusETAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HongKongBusETAApp.swift; sourceTree = "<group>"; };
 		7D3E72792B5D31C4009C57F5 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -141,7 +150,6 @@
 		7DFB70F52C1D773200077783 /* RoutesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesTabView.swift; sourceTree = "<group>"; };
 		7DFB70F72C1D7C6100077783 /* RoutesTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesTabViewModel.swift; sourceTree = "<group>"; };
 		82C2947EC139AF15ABF890B8 /* Pods_Hong_Kong_Bus_ETA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hong_Kong_Bus_ETA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		90DA5DD5B8865902CBF6FB64 /* Pods-Hong Kong Bus ETA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hong Kong Bus ETA.debug.xcconfig"; path = "Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -170,7 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6623ADE57D8544C8938695F6 /* Pods_Hong_Kong_Bus_ETA.framework in Frameworks */,
+				7DCA54C9305D6A9E00E9401A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +210,6 @@
 				7D3E72742B5D31C4009C57F5 /* Hong Kong Bus ETA */,
 				7DDDB8D22D9181D900366BE7 /* HongKongBusETALiveActivity */,
 				7D3E72732B5D31C4009C57F5 /* Products */,
-				A61F29420E7F2D929E76E33A /* Pods */,
 				797EB6E6828434EF47C57345 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -328,15 +335,6 @@
 			path = SwiftData;
 			sourceTree = "<group>";
 		};
-		A61F29420E7F2D929E76E33A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				90DA5DD5B8865902CBF6FB64 /* Pods-Hong Kong Bus ETA.debug.xcconfig */,
-				389C2C787A5617E5B1365371 /* Pods-Hong Kong Bus ETA.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -344,12 +342,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7D3E72832B5D31C6009C57F5 /* Build configuration list for PBXNativeTarget "Hong Kong Bus ETA" */;
 			buildPhases = (
-				9BF8BA54628BA92F5A858161 /* [CP] Check Pods Manifest.lock */,
 				7D3E726E2B5D31C4009C57F5 /* Sources */,
 				7D3E726F2B5D31C4009C57F5 /* Frameworks */,
 				7D3E72702B5D31C4009C57F5 /* Resources */,
-				B9AD5BC3496554C959CF1CAA /* [CP] Embed Pods Frameworks */,
 				7DDDB8E72D9181DA00366BE7 /* Embed Foundation Extensions */,
+				7DCA54CD305D6ABC00E9401A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -357,6 +354,9 @@
 				7DDDB8E12D9181DA00366BE7 /* PBXTargetDependency */,
 			);
 			name = "Hong Kong Bus ETA";
+			packageProductDependencies = (
+				7DCA54C8305D6A9E00E9401A /* Alamofire */,
+			);
 			productName = "Hong Kong Bus ETA";
 			productReference = 7D3E72722B5D31C4009C57F5 /* Hong Kong Bus ETA.app */;
 			productType = "com.apple.product-type.application";
@@ -411,6 +411,9 @@
 				"zh-Hant",
 			);
 			mainGroup = 7D3E72692B5D31C4009C57F5;
+			packageReferences = (
+				7DCA54C7305D6A8800E9401A /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 7D3E72732B5D31C4009C57F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -443,52 +446,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		9BF8BA54628BA92F5A858161 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hong Kong Bus ETA-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B9AD5BC3496554C959CF1CAA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hong Kong Bus ETA/Pods-Hong Kong Bus ETA-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7D3E726E2B5D31C4009C57F5 /* Sources */ = {
@@ -674,7 +631,6 @@
 		};
 		7D3E72842B5D31C6009C57F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90DA5DD5B8865902CBF6FB64 /* Pods-Hong Kong Bus ETA.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -686,7 +642,9 @@
 				DEVELOPMENT_TEAM = 9Q4R7U9T9F;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
@@ -708,7 +666,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -723,7 +682,6 @@
 		};
 		7D3E72852B5D31C6009C57F5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 389C2C787A5617E5B1365371 /* Pods-Hong Kong Bus ETA.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -735,7 +693,9 @@
 				DEVELOPMENT_TEAM = 9Q4R7U9T9F;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Hong-Kong-Bus-ETA-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Show user's location on bus stops map";
@@ -757,7 +717,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gordonthedeveloper.hkbuseta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -864,6 +825,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7DCA54C7305D6A8800E9401A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.12.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7DCA54C8305D6A9E00E9401A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7DCA54C7305D6A8800E9401A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D3E726A2B5D31C4009C57F5 /* Project object */;
 }

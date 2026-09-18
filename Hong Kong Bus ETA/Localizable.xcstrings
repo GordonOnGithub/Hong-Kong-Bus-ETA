@@ -191,6 +191,7 @@
       }
     },
     "donate_to_support" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

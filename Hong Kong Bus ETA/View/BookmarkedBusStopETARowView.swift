@@ -37,21 +37,25 @@ struct BookmarkedBusStopETARowView: View {
           }
 
           Spacer()
+          if case let Result<[BusETAModel]?, Error>.success(busETAList) = viewModel.busETAResult,
+            busETAList?.isEmpty == false
+          {
 
-          Image(systemName: pinnedETA == viewModel.busStopETA ? "pin.slash" : "pin")
-            .contentTransition(.symbolEffect(.replace))
-            .foregroundStyle(pinnedETA == viewModel.busStopETA ? .red : .blue)
-            .padding(12)
-            .background(Circle().fill(.thickMaterial))
-            .onTapGesture {
-              if pinnedETA == viewModel.busStopETA {
-                pinnedETA = nil
-              } else {
-                pinnedETA = viewModel.busStopETA
+            Image(systemName: pinnedETA == viewModel.busStopETA ? "pin.slash" : "pin")
+              .contentTransition(.symbolEffect(.replace))
+              .foregroundStyle(pinnedETA == viewModel.busStopETA ? .red : .blue)
+              .padding(12)
+              .background(Circle().fill(.thickMaterial))
+              .onTapGesture {
+                if pinnedETA == viewModel.busStopETA {
+                  pinnedETA = nil
+                } else {
+                  pinnedETA = viewModel.busStopETA
+                }
+
+                viewModel.onPinnedETAUpdated(pinnedETA)
               }
-
-              viewModel.onPinnedETAUpdated(pinnedETA)
-            }
+          }
 
         }
         Group {
